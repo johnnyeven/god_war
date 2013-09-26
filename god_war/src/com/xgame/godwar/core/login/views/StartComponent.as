@@ -38,9 +38,6 @@ package com.xgame.godwar.core.login.views
 			_buttonStart.scaleX = 3;
 			_buttonStart.scaleY = 3;
 			_buttonStart.alpha = 0;
-			var centerPoint: Point = UIUtils.componentCenterInStage(_buttonStart);
-			_buttonStart.x = centerPoint.x;
-			_buttonStart.y = centerPoint.y;
 			TweenLite.to(_buttonStart, .5, { transformAroundCenter: { scaleX: 1, scaleY: 1, alpha: 1 }, ease: Strong.easeOut, onComplete: null });
 		}
 		
