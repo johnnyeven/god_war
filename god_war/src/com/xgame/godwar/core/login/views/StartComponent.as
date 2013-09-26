@@ -3,15 +3,16 @@ package com.xgame.godwar.core.login.views
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Strong;
 	import com.greensock.plugins.TransformAroundCenterPlugin;
-	
 	import com.xgame.godwar.common.pool.ResourcePool;
 	import com.xgame.godwar.events.LoginEvent;
 	import com.xgame.godwar.liteui.component.Button;
 	import com.xgame.godwar.liteui.component.CaptionButton;
 	import com.xgame.godwar.liteui.core.Component;
+	import com.xgame.godwar.utils.UIUtils;
 	
 	import flash.display.DisplayObjectContainer;
 	import flash.events.MouseEvent;
+	import flash.geom.Point;
 	
 	public class StartComponent extends Component
 	{
@@ -34,9 +35,12 @@ package com.xgame.godwar.core.login.views
 		
 		public function show(): void
 		{
-			_buttonStart.scaleX = 2;
-			_buttonStart.scaleY = 2;
+			_buttonStart.scaleX = 3;
+			_buttonStart.scaleY = 3;
 			_buttonStart.alpha = 0;
+			var centerPoint: Point = UIUtils.componentCenterInStage(_buttonStart);
+			_buttonStart.x = centerPoint.x;
+			_buttonStart.y = centerPoint.y;
 			TweenLite.to(_buttonStart, .5, { transformAroundCenter: { scaleX: 1, scaleY: 1, alpha: 1 }, ease: Strong.easeOut, onComplete: null });
 		}
 		
