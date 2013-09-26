@@ -1,16 +1,14 @@
 package com.xgame.godwar.core.login.views
 {
-	import flash.display.DisplayObjectContainer;
-	import flash.geom.Point;
-	
-	import parameters.ServerListParameter;
-	
+	import com.xgame.godwar.common.parameters.ServerListParameter;
+	import com.xgame.godwar.common.pool.ResourcePool;
 	import com.xgame.godwar.core.general.proxy.ServerListProxy;
-	
 	import com.xgame.godwar.liteui.component.Button;
 	import com.xgame.godwar.liteui.component.Label;
 	import com.xgame.godwar.liteui.core.Component;
-	import com.xgame.godwar.common.pool.ResourcePool;
+	
+	import flash.display.DisplayObjectContainer;
+	import flash.geom.Point;
 	
 	public class ServerComponent extends Component
 	{

@@ -3,10 +3,9 @@ package com.xgame.godwar.core.login.controllers
 	import com.greensock.events.LoaderEvent;
 	import com.xgame.godwar.common.pool.ResourcePool;
 	import com.xgame.godwar.core.center.ResourceCenter;
+	import com.xgame.godwar.core.login.mediators.ServerMediator;
 	
 	import flash.display.DisplayObject;
-	
-	import mediators.login.ServerMediator;
 	
 	import org.puremvc.as3.interfaces.INotification;
 	import org.puremvc.as3.patterns.command.SimpleCommand;

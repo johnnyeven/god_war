@@ -1,11 +1,12 @@
 package
 {
-	import flash.display.Sprite;
+	import com.xgame.godwar.core.GameManager;
+	
 	import flash.events.Event;
 	import flash.system.Security;
 	
 	[SWF(width="1028", height="600", backgroundColor="0xffffff",frameRate="30")]
-	public class main extends Sprite
+	public class main extends GameManager
 	{
 		public function main()
 		{

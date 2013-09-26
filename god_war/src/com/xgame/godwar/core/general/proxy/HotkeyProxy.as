@@ -7,14 +7,13 @@ package com.xgame.godwar.core.general.proxy
 	import com.xgame.godwar.core.center.CommandCenter;
 	import com.xgame.godwar.core.center.HotkeyCenter;
 	import com.xgame.godwar.core.initialization.LoadInitDataCommand;
+	import com.xgame.godwar.core.login.proxy.RequestRoleProxy;
 	import com.xgame.godwar.utils.Int64;
 	
 	import flash.utils.getDefinitionByName;
 	
 	import org.puremvc.as3.interfaces.IProxy;
 	import org.puremvc.as3.patterns.proxy.Proxy;
-	
-	import proxy.login.RequestRoleProxy;
 	
 	public class HotkeyProxy extends Proxy implements IProxy
 	{

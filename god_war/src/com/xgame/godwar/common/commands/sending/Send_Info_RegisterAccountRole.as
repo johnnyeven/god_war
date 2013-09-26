@@ -1,7 +1,7 @@
 package com.xgame.godwar.common.commands.sending
 {
-	import com.xgame.configuration.SocketContextConfig;
-	import com.xgame.utils.Int64;
+	import com.xgame.godwar.configuration.SocketContextConfig;
+	import com.xgame.godwar.utils.Int64;
 
 	public class Send_Info_RegisterAccountRole extends SendingBase
 	{

@@ -4,16 +4,14 @@ package com.xgame.godwar.core.initialization
 	import com.xgame.godwar.configuration.SocketContextConfig;
 	import com.xgame.godwar.core.center.CommandCenter;
 	import com.xgame.godwar.core.loading.mediators.LoadingIconMediator;
+	import com.xgame.godwar.core.login.controllers.RequestAccountRoleCommand;
+	import com.xgame.godwar.core.login.controllers.RequestBindSessionCommand;
+	import com.xgame.godwar.core.login.mediators.ServerMediator;
 	import com.xgame.godwar.events.net.CommandEvent;
-	
-	import controllers.login.RequestAccountRoleCommand;
-	import controllers.login.RequestBindSessionCommand;
 	
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.events.SecurityErrorEvent;
-	
-	import mediators.login.ServerMediator;
 	
 	import org.puremvc.as3.interfaces.INotification;
 	import org.puremvc.as3.patterns.command.SimpleCommand;

@@ -3,9 +3,8 @@ package com.xgame.godwar.core.initialization
 	import com.xgame.godwar.configuration.SocketContextConfig;
 	import com.xgame.godwar.core.center.CommandCenter;
 	import com.xgame.godwar.core.loading.mediators.LoadingIconMediator;
+	import com.xgame.godwar.core.login.controllers.ShowStartMediatorCommand;
 	import com.xgame.godwar.events.net.CommandEvent;
-	
-	import controllers.login.ShowStartMediatorCommand;
 	
 	import org.puremvc.as3.interfaces.INotification;
 	import org.puremvc.as3.patterns.command.SimpleCommand;
@@ -52,6 +51,8 @@ package com.xgame.godwar.core.initialization
 		{
 			facade.removeCommand(CONNECT_SOCKET_NOTE);
 			facade.sendNotification(LoadingIconMediator.LOADING_HIDE_NOTE);
+			
+			onConnected(event);
 		}
 		
 		private function onSecurityError(event: CommandEvent): void

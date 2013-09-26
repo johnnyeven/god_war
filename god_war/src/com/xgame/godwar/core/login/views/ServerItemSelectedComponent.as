@@ -1,16 +1,14 @@
 package com.xgame.godwar.core.login.views
 {
-	import controllers.init.InitGameSocketCommand;
-	
-	import flash.display.DisplayObjectContainer;
-	import flash.events.MouseEvent;
-	
-	import parameters.ServerListParameter;
-	
+	import com.xgame.godwar.common.parameters.ServerListParameter;
+	import com.xgame.godwar.common.pool.ResourcePool;
+	import com.xgame.godwar.core.initialization.InitGameSocketCommand;
 	import com.xgame.godwar.liteui.component.CaptionButton;
 	import com.xgame.godwar.liteui.component.Label;
 	import com.xgame.godwar.liteui.core.Component;
-	import com.xgame.godwar.common.pool.ResourcePool;
+	
+	import flash.display.DisplayObjectContainer;
+	import flash.events.MouseEvent;
 	
 	public class ServerItemSelectedComponent extends Component
 	{

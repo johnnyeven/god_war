@@ -1,15 +1,14 @@
 package com.xgame.godwar.core.login.views
 {
+	import com.xgame.godwar.common.parameters.ServerListParameter;
+	import com.xgame.godwar.common.pool.ResourcePool;
+	import com.xgame.godwar.liteui.component.Label;
+	import com.xgame.godwar.liteui.core.Component;
+	
 	import flash.display.DisplayObjectContainer;
 	import flash.display.MovieClip;
 	import flash.errors.IllegalOperationError;
 	import flash.events.MouseEvent;
-	
-	import parameters.ServerListParameter;
-	
-	import com.xgame.godwar.liteui.component.Label;
-	import com.xgame.godwar.liteui.core.Component;
-	import com.xgame.godwar.common.pool.ResourcePool;
 	
 	public class ServerItemComponent extends Component
 	{

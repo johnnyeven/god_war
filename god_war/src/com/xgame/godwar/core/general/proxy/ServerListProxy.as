@@ -7,9 +7,9 @@ package com.xgame.godwar.core.general.proxy
 	import com.xgame.godwar.configuration.ConnectorContextConfig;
 	import com.xgame.godwar.core.center.CommandCenter;
 	import com.xgame.godwar.core.loading.mediators.LoadingIconMediator;
+	import com.xgame.godwar.core.login.controllers.ShowStartMediatorCommand;
+	import com.xgame.godwar.core.login.mediators.ServerMediator;
 	import com.xgame.godwar.utils.manager.LanguageManager;
-	
-	import controllers.login.ShowStartMediatorCommand;
 	
 	import org.puremvc.as3.interfaces.IProxy;
 	import org.puremvc.as3.patterns.proxy.Proxy;

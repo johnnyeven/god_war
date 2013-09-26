@@ -3,6 +3,10 @@ package com.xgame.godwar
 	import com.greensock.loading.ImageLoader;
 	import com.greensock.loading.LoaderMax;
 	import com.greensock.loading.SWFLoader;
+	import com.xgame.godwar.core.general.mediators.MainMediator;
+	import com.xgame.godwar.core.initialization.LoadResourcesConfigCommand;
+	import com.xgame.godwar.core.loading.mediators.LoadingIconMediator;
+	import com.xgame.godwar.core.loading.mediators.ProgressBarMediator;
 	
 	import flash.system.ApplicationDomain;
 	import flash.system.LoaderContext;
@@ -33,17 +37,19 @@ package com.xgame.godwar
 			initMediator();
 			initProxy();
 			
-//			facade.sendNotification(LoadResourcesConfigCommand.LOAD_RESOURCE_CONFIG);
+			facade.sendNotification(LoadResourcesConfigCommand.LOAD_RESOURCE_CONFIG);
 		}
 		
 		private function initCommand(): void
 		{
-			
+			facade.registerCommand(LoadResourcesConfigCommand.LOAD_RESOURCE_CONFIG, LoadResourcesConfigCommand);
 		}
 		
 		private function initMediator(): void
 		{
-			
+			facade.registerMediator(new MainMediator(_main));
+			facade.registerMediator(new LoadingIconMediator());
+			facade.registerMediator(new ProgressBarMediator());
 		}
 		
 		private function initProxy(): void

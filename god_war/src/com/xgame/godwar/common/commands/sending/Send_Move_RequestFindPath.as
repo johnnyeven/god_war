@@ -1,6 +1,6 @@
 package com.xgame.godwar.common.commands.sending
 {
-	import com.xgame.configuration.SocketContextConfig;
+	import com.xgame.godwar.configuration.SocketContextConfig;
 
 	public class Send_Move_RequestFindPath extends SendingBase
 	{

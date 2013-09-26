@@ -1,6 +1,6 @@
 package com.xgame.godwar.common.commands.receiving
 {
-	import com.xgame.configuration.SocketContextConfig;
+	import com.xgame.godwar.configuration.SocketContextConfig;
 	
 	import flash.utils.ByteArray;
 
