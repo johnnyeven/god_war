@@ -3,6 +3,8 @@ package com.xgame.godwar
 	import com.greensock.loading.ImageLoader;
 	import com.greensock.loading.LoaderMax;
 	import com.greensock.loading.SWFLoader;
+	import com.greensock.plugins.TransformAroundCenterPlugin;
+	import com.greensock.plugins.TweenPlugin;
 	import com.xgame.godwar.core.general.mediators.MainMediator;
 	import com.xgame.godwar.core.initialization.LoadResourcesConfigCommand;
 	import com.xgame.godwar.core.loading.mediators.LoadingIconMediator;
@@ -23,6 +25,8 @@ package com.xgame.godwar
 		public function ApplicationCommand()
 		{
 			super();
+			
+			TweenPlugin.activate([TransformAroundCenterPlugin]);
 		}
 		
 		override public function execute(notification:INotification):void

@@ -44,31 +44,16 @@ package com.xgame.godwar.core.login.mediators
 			}
 		}
 		
-		public function addBg(): void
-		{
-//			GameManager.instance.addBack(LoginBGComponent.getInstance());
-//			LoginBGComponent.getInstance().show();
-		}
-		
-		public function removeBg(): void
-		{
-//			GameManager.instance.removeBack(LoginBGComponent.getInstance());
-//			LoginBGComponent.getInstance().hide(function(): void
-//			{
-//				GameManager.instance.removeBase(LoginBGComponent.getInstance());
-//			});
-		}
-		
 		private function onLoginStart(evt: LoginEvent): void
 		{
-			component.switchDoorStatus(false);
-			component.openDoor(startHandler);
+//			component.switchDoorStatus(false);
+//			component.openDoor(startHandler);
 		}
 		
 		private function onLoginAccount(evt: LoginEvent): void
 		{
-			component.switchDoorStatus(false);
-			component.openDoor(accountHandler);
+//			component.switchDoorStatus(false);
+//			component.openDoor(accountHandler);
 		}
 		
 		private function startHandler(): void
@@ -91,15 +76,7 @@ package com.xgame.godwar.core.login.mediators
 		override public function show(): void
 		{
 			super.show();
-			component.switchDoorStatus(true);
-			component.closeDoor();
-		}
-		
-		override public function dispose(): void
-		{
-			super.dispose();
-			removeBg();
-//			LoginBGComponent.getInstance().destroy();
+			component.show();
 		}
 	}
 }
