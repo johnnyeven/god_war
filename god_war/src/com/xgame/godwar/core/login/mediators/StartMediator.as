@@ -46,6 +46,7 @@ package com.xgame.godwar.core.login.mediators
 		
 		private function onLoginStart(evt: LoginEvent): void
 		{
+			component.hide(startHandler);
 //			component.switchDoorStatus(false);
 //			component.openDoor(startHandler);
 		}

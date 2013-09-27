@@ -53,6 +53,11 @@ package com.xgame.godwar.core.login.views
 			TweenLite.to(_buttonStart, .5, { transformAroundCenter: { scaleX: 1, scaleY: 1, alpha: 1 }, ease: Strong.easeOut, onComplete: showOtherButton });
 		}
 		
+		public function hide(callback: Function = null): void
+		{
+			TweenLite.to(this, 1, {x: -1028, ease: Strong.easeIn, onComplete: callback});
+		}
+		
 		private function showOtherButton(): void
 		{
 			TweenLite.to(_textAnnouncement, .5, {alpha: 1, x: 0});
