@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<load_loader_progress_ui>正在加载进度条UI</load_loader_progress_ui>
+	<load_font>正在加载字体文件</load_font>
+	<load_main>正在加载主程序</load_main>
+	<load_resource_config>正在加载资源列表</load_resource_config>
+	<load_base_ui>正在加载基础UI</load_base_ui>
+	<load_base_ui_error>加载UI错误，请联系游戏管理员</load_base_ui_error>
+	<load_loagin_ui>正在加载登录UI</load_loagin_ui>
+	<load_loagin_server_config>正在加载登录服务器配置</load_loagin_server_config>
+	<load_scene_ui>正在加载基础场景UI</load_scene_ui>
+	<load_control_panel_ui>正在加载控制面板UI</load_control_panel_ui>
+	<load_map_config>正在加载地图配置</load_map_config>
+	<load_character_ui>正在加载角色UI</load_character_ui>
+	<load_skill_ui>正在加载技能UI</load_skill_ui>
+	<load_skill_logic>正在加载技能逻辑</load_skill_logic>
+	<load_hotkey_config>正在加载热键配置信息</load_hotkey_config>
+	<load_scene>正在载入场景</load_scene>
+	
+	<common_messagebox_ok>确定</common_messagebox_ok>
+	<common_messagebox_cancel>取消</common_messagebox_cancel>
+	
+	<medical_cost_free>免费（自动）</medical_cost_free>
+	<repair_cost_free>无费用</repair_cost_free>
+	<ensure_level_zero>未投保</ensure_level_zero>
+	<ensure_end_time_zero>-</ensure_end_time_zero>
+	<ensure_cost_free>免费（自动）</ensure_cost_free>
+	<ensure_current>当前保险项目</ensure_current>
+</root>
