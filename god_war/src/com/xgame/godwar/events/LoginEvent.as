@@ -6,6 +6,7 @@ package com.xgame.godwar.events
 	{
 		public static const START_EVENT: String = "LoginEvent.startEvent";
 		public static const ACCOUNT_EVENT: String = "LoginEvent.accountEvent";
+		public static const SERVERLIST_BACK_EVENT: String = "LoginEvent.serverlistBackEvent";
 		
 		public function LoginEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
 		{

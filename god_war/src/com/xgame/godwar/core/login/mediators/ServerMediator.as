@@ -1,13 +1,13 @@
 package com.xgame.godwar.core.login.mediators
 {
+	import com.greensock.TweenLite;
+	import com.greensock.easing.Strong;
 	import com.xgame.godwar.common.parameters.ServerListParameter;
 	import com.xgame.godwar.core.general.mediators.BaseMediator;
 	import com.xgame.godwar.core.general.proxy.ServerListProxy;
 	import com.xgame.godwar.core.initialization.LoadServerListCommand;
 	import com.xgame.godwar.core.login.views.ServerComponent;
-	import com.xgame.godwar.enum.PopupEffect;
-	
-	import mx.logging.Log;
+	import com.xgame.godwar.events.LoginEvent;
 	
 	import org.puremvc.as3.interfaces.INotification;
 	
@@ -15,6 +15,7 @@ package com.xgame.godwar.core.login.mediators
 	{
 		public static const NAME: String = "ServerMediator";
 		public static const SHOW_NOTE: String = "ServerMediator.ShowNote";
+		public static const HIDE_NOTE: String = "ServerMediator.HideNote";
 		public static const DISPOSE_NOTE: String = "ServerMediator.DisposeNote";
 		public static const SHOW_SERVER_NOTE: String = "ServerMediator.ShowServerNote";
 		
@@ -22,9 +23,10 @@ package com.xgame.godwar.core.login.mediators
 		{
 			super(NAME, new ServerComponent());
 			component.mediator = this;
-			_isPopUp = true;
-			popUpEffect = PopupEffect.TOP;
-			onShow = onShowCallback;
+			component.x = 1028;
+			onShow = moveIntoScene;
+			
+			component.addEventListener(LoginEvent.SERVERLIST_BACK_EVENT, onServerListBackClick);
 			
 			facade.registerCommand(LoadServerListCommand.LOAD_SERVERLIST_NOTE, LoadServerListCommand);
 			facade.registerProxy(new ServerListProxy());
@@ -35,9 +37,19 @@ package com.xgame.godwar.core.login.mediators
 			return viewComponent as ServerComponent;
 		}
 		
+		private function onServerListBackClick(evt: LoginEvent): void
+		{
+			component.hide(function(): void
+			{
+				dispose();
+				facade.registerMediator(new StartMediator());
+				facade.sendNotification(StartMediator.SHOW_NOTE);
+			});
+		}
+		
 		override public function listNotificationInterests():Array
 		{
-			return [SHOW_NOTE, DISPOSE_NOTE, SHOW_SERVER_NOTE];
+			return [SHOW_NOTE, HIDE_NOTE, DISPOSE_NOTE, SHOW_SERVER_NOTE];
 		}
 		
 		override public function handleNotification(notification:INotification):void
@@ -46,6 +58,9 @@ package com.xgame.godwar.core.login.mediators
 			{
 				case SHOW_NOTE:
 					show();
+					break;
+				case HIDE_NOTE:
+					component.hide(dispose);
 					break;
 				case DISPOSE_NOTE:
 					dispose();
@@ -56,7 +71,12 @@ package com.xgame.godwar.core.login.mediators
 			}
 		}
 		
-		private function onShowCallback(_mediator: BaseMediator): void
+		private function moveIntoScene(_mediator: BaseMediator): void
+		{
+			TweenLite.to(component, 1, {x: 0, ease: Strong.easeOut, onComplete: onShowCallback});
+		}
+		
+		private function onShowCallback(): void
 		{
 			sendNotification(LoadServerListCommand.LOAD_SERVERLIST_NOTE);
 		}

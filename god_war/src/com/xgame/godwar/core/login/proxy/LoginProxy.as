@@ -2,15 +2,12 @@ package com.xgame.godwar.core.login.proxy
 {
 	import com.xgame.godwar.common.commands.CommandList;
 	import com.xgame.godwar.common.commands.receiving.Receive_Info_QuickStart;
-	import com.xgame.godwar.common.commands.receiving.Receive_Info_RequestAccountRole;
 	import com.xgame.godwar.common.commands.sending.Send_Info_QuickStart;
-	import com.xgame.godwar.common.commands.sending.Send_Info_RequestAccountRole;
 	import com.xgame.godwar.configuration.GlobalContextConfig;
 	import com.xgame.godwar.configuration.SocketContextConfig;
 	import com.xgame.godwar.core.center.CommandCenter;
 	import com.xgame.godwar.core.loading.mediators.LoadingIconMediator;
 	import com.xgame.godwar.core.login.controllers.ShowServerMediatorCommand;
-	import com.xgame.godwar.utils.StringUtils;
 	
 	import org.puremvc.as3.interfaces.IProxy;
 	import org.puremvc.as3.patterns.proxy.Proxy;
