@@ -21,7 +21,7 @@ package com.xgame.godwar.core.login.controllers
 		
 		override public function execute(notification:INotification):void
 		{
-			facade.removeCommand(ShowServerMediatorCommand.CREATE_NOTE);
+			facade.removeCommand(CREATE_NOTE);
 			
 			var _mediator: ServerMediator = facade.retrieveMediator(ServerMediator.NAME) as ServerMediator;
 			if (_mediator != null)

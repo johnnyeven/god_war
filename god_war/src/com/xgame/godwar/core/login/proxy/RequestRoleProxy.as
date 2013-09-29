@@ -11,6 +11,7 @@ package com.xgame.godwar.core.login.proxy
 	import com.xgame.godwar.core.center.CommandCenter;
 	import com.xgame.godwar.core.initialization.LoadInitDataCommand;
 	import com.xgame.godwar.core.loading.mediators.LoadingIconMediator;
+	import com.xgame.godwar.core.login.controllers.ShowChooseModeMediatorCommand;
 	import com.xgame.godwar.core.login.controllers.ShowCreateRoleMediatorCommand;
 	import com.xgame.godwar.core.login.mediators.CreateRoleMediator;
 	import com.xgame.godwar.core.login.proxy.LoginProxy;
@@ -29,6 +30,7 @@ package com.xgame.godwar.core.login.proxy
 		{
 			super(NAME, data);
 			
+			facade.registerCommand(ShowChooseModeMediatorCommand.SHOW_NOTE, ShowChooseModeMediatorCommand);
 			facade.registerCommand(LoadInitDataCommand.LOAD_INIT_DATA_NOTE, LoadInitDataCommand);
 			facade.registerCommand(LoadInitDataCommand.LOAD_SCENE, LoadInitDataCommand);
 		}
@@ -97,9 +99,10 @@ package com.xgame.godwar.core.login.proxy
 			
 			setData(protocol);
 			accountId = protocol.accountId;
-			
+			//TODO 显示游戏模式选择界面
 			facade.sendNotification(CreateRoleMediator.DISPOSE_NOTE);
-			facade.sendNotification(LoadInitDataCommand.LOAD_INIT_DATA_NOTE);
+			facade.sendNotification(ShowChooseModeMediatorCommand.SHOW_NOTE);
+//			facade.sendNotification(LoadInitDataCommand.LOAD_INIT_DATA_NOTE);
 		}
 	}
 }

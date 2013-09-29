@@ -21,7 +21,7 @@ package com.xgame.godwar.liteui.core
 		private var _skin: DisplayObjectContainer;
 		private var _changeWatcherList: Array;
 		protected var _filterColor: Number = 0x000000;
-		protected var _filterEnabled: Boolean = true;
+		protected var _filterEnabled: Boolean = false;
 		protected var _skinChildIndex: Dictionary;
 		protected var _skinChildIndexList: Array;
 		protected var _layout: BaseLayout;
