@@ -31,8 +31,6 @@ package com.xgame.godwar.core.login.proxy
 			super(NAME, data);
 			
 			facade.registerCommand(ShowChooseModeMediatorCommand.SHOW_NOTE, ShowChooseModeMediatorCommand);
-			facade.registerCommand(LoadInitDataCommand.LOAD_INIT_DATA_NOTE, LoadInitDataCommand);
-			facade.registerCommand(LoadInitDataCommand.LOAD_SCENE, LoadInitDataCommand);
 		}
 		
 		public function requestAccountRole(): void
@@ -99,10 +97,8 @@ package com.xgame.godwar.core.login.proxy
 			
 			setData(protocol);
 			accountId = protocol.accountId;
-			//TODO 显示游戏模式选择界面
 			facade.sendNotification(CreateRoleMediator.DISPOSE_NOTE);
 			facade.sendNotification(ShowChooseModeMediatorCommand.SHOW_NOTE);
-//			facade.sendNotification(LoadInitDataCommand.LOAD_INIT_DATA_NOTE);
 		}
 	}
 }

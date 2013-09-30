@@ -1,6 +1,9 @@
 package com.xgame.godwar.core.login.views
 {
+	import com.greensock.TweenLite;
+	import com.greensock.easing.Strong;
 	import com.xgame.godwar.common.pool.ResourcePool;
+	import com.xgame.godwar.core.login.mediators.ChooseModeMediator;
 	import com.xgame.godwar.liteui.component.CaptionButton;
 	import com.xgame.godwar.liteui.component.Label;
 	import com.xgame.godwar.liteui.component.Radio;
@@ -43,6 +46,7 @@ package com.xgame.godwar.core.login.views
 			
 			_btnMode1.addEventListener(MouseEvent.CLICK, onBtnMode1Click);
 			_btnMode2.addEventListener(MouseEvent.CLICK, onBtnMode2Click);
+			_btnEnter.addEventListener(MouseEvent.CLICK, onBtnEnterClick);
 		}
 		
 		private function onBtnMode1Click(evt: MouseEvent): void
@@ -57,6 +61,16 @@ package com.xgame.godwar.core.login.views
 			_mode = 2;
 			_text1.visible = false;
 			_text2.visible = true;
+		}
+		
+		private function onBtnEnterClick(evt: MouseEvent): void
+		{
+			ApplicationFacade.getInstance().sendNotification(ChooseModeMediator.HIDE_NOTE);
+		}
+		
+		public function hide(callback: Function = null): void
+		{
+			TweenLite.to(this, .6, {x: -1028, ease: Strong.easeIn, onComplete: callback});
 		}
 	}
 }

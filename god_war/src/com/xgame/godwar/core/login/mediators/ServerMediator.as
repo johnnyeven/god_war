@@ -73,7 +73,7 @@ package com.xgame.godwar.core.login.mediators
 		
 		private function moveIntoScene(_mediator: BaseMediator): void
 		{
-			TweenLite.to(component, 1, {x: 0, ease: Strong.easeOut, onComplete: onShowCallback});
+			TweenLite.to(component, .6, {x: 0, ease: Strong.easeOut, onComplete: onShowCallback});
 		}
 		
 		private function onShowCallback(): void

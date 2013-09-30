@@ -3,6 +3,7 @@ package com.xgame.godwar.core.login.mediators
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Strong;
 	import com.xgame.godwar.core.general.mediators.BaseMediator;
+	import com.xgame.godwar.core.initialization.LoadInitDataCommand;
 	import com.xgame.godwar.core.login.views.ChooseModeComponent;
 	
 	import org.puremvc.as3.interfaces.INotification;
@@ -20,6 +21,9 @@ package com.xgame.godwar.core.login.mediators
 			
 			onShow = moveIntoScene;
 			component.x = 1028;
+			
+			facade.registerCommand(LoadInitDataCommand.LOAD_INIT_DATA_NOTE, LoadInitDataCommand);
+			facade.registerCommand(LoadInitDataCommand.LOAD_SCENE, LoadInitDataCommand);
 		}
 		
 		public function get component(): ChooseModeComponent
@@ -40,7 +44,11 @@ package com.xgame.godwar.core.login.mediators
 					show();
 					break;
 				case HIDE_NOTE:
-					
+					component.hide(function(): void
+					{
+						dispose();
+						facade.sendNotification(LoadInitDataCommand.LOAD_INIT_DATA_NOTE);
+					});
 					break;
 				case DISPOSE_NOTE:
 					dispose();
@@ -50,7 +58,7 @@ package com.xgame.godwar.core.login.mediators
 		
 		private function moveIntoScene(_mediator: BaseMediator): void
 		{
-			TweenLite.to(component, 1, {x: 0, ease: Strong.easeOut});
+			TweenLite.to(component, .6, {x: 0, ease: Strong.easeOut});
 		}
 	}
 }

@@ -55,7 +55,7 @@ package com.xgame.godwar.core.login.views
 		
 		public function hide(callback: Function = null): void
 		{
-			TweenLite.to(this, 1, {x: -1028, ease: Strong.easeIn, onComplete: callback});
+			TweenLite.to(this, .6, {x: -1028, ease: Strong.easeIn, onComplete: callback});
 		}
 		
 		private function showOtherButton(): void
