@@ -58,7 +58,7 @@ package com.xgame.godwar.core.initialization
 			facade.removeCommand(CONNECT_SOCKET_NOTE);
 			
 			facade.sendNotification(LoadingIconMediator.LOADING_HIDE_NOTE);
-			facade.sendNotification(ServerMediator.DISPOSE_NOTE);
+			facade.sendNotification(ServerMediator.HIDE_NOTE);
 			
 			if(!facade.hasCommand(RequestBindSessionCommand.NAME))
 			{
