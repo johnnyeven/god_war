@@ -39,6 +39,7 @@ package com.xgame.godwar.core.login.mediators
 		
 		private function onServerListBackClick(evt: LoginEvent): void
 		{
+			facade.sendNotification(LoginBGMediator.CHANGE_NOTE, 1);
 			component.hide(function(): void
 			{
 				dispose();

@@ -11,31 +11,14 @@ package com.xgame.godwar.common.commands.receiving
 	{
 		public var accountId: Int64;
 		public var nickName: String;
+		public var level: int;
 		public var accountCash: Int64;
-		public var direction: int;
-		public var speed: Number;
-		public var currentHealth: int;
-		public var maxHealth: int;
-		public var currentMana: int;
-		public var maxMana: int;
-		public var currentEnergy: int;
-		public var maxEnergy: int;
-		public var x: Number;
-		public var y: Number;
+		public var rolePicture: String;
 		
 		public function Receive_Info_RegisterAccountRole()
 		{
 			super(SocketContextConfig.REGISTER_ACCOUNT_ROLE);
-			direction = int.MIN_VALUE;
-			speed = Number.MIN_VALUE;
-			currentHealth = int.MIN_VALUE;
-			maxHealth = int.MIN_VALUE;
-			currentMana = int.MIN_VALUE;
-			maxMana = int.MIN_VALUE;
-			currentEnergy = int.MIN_VALUE;
-			maxEnergy = int.MIN_VALUE;
-			x = Number.MIN_VALUE;
-			y = Number.MIN_VALUE;
+			level = int.MIN_VALUE;
 		}
 		
 		override public function fill(data:ByteArray):void
@@ -73,58 +56,16 @@ package com.xgame.godwar.common.commands.receiving
 								nickName = data.readUTFBytes(length);
 								break;
 							}
+							if(StringUtils.empty(rolePicture))
+							{
+								rolePicture = data.readUTFBytes(length);
+								break;
+							}
 							break;
 						case SocketContextConfig.TYPE_INT:
-							if(direction == int.MIN_VALUE)
+							if(level == int.MIN_VALUE)
 							{
-								direction = data.readInt();
-								break;
-							}
-							if(currentHealth == int.MIN_VALUE)
-							{
-								currentHealth = data.readInt();
-								break;
-							}
-							if(maxHealth == int.MIN_VALUE)
-							{
-								maxHealth = data.readInt();
-								break;
-							}
-							if(currentMana == int.MIN_VALUE)
-							{
-								currentMana = data.readInt();
-								break;
-							}
-							if(maxMana == int.MIN_VALUE)
-							{
-								maxMana = data.readInt();
-								break;
-							}
-							if(currentEnergy == int.MIN_VALUE)
-							{
-								currentEnergy = data.readInt();
-								break;
-							}
-							if(maxEnergy == int.MIN_VALUE)
-							{
-								maxEnergy = data.readInt();
-								break;
-							}
-						case SocketContextConfig.TYPE_FLOAT:
-							if(speed == Number.MIN_VALUE)
-							{
-								speed = data.readFloat();
-								break;
-							}
-						case SocketContextConfig.TYPE_DOUBLE:
-							if(x == Number.MIN_VALUE)
-							{
-								x = data.readDouble();
-								break;
-							}
-							if(y == Number.MIN_VALUE)
-							{
-								y = data.readDouble();
+								level = data.readInt();
 								break;
 							}
 					}

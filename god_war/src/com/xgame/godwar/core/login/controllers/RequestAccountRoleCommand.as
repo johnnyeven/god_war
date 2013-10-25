@@ -1,6 +1,5 @@
 package com.xgame.godwar.core.login.controllers
 {
-	import com.xgame.godwar.core.general.proxy.MapProxy;
 	import com.xgame.godwar.core.login.proxy.RequestRoleProxy;
 	
 	import org.puremvc.as3.interfaces.INotification;
@@ -17,8 +16,6 @@ package com.xgame.godwar.core.login.controllers
 		
 		override public function execute(notification:INotification):void
 		{
-			facade.registerProxy(new MapProxy());
-			
 			var _proxy: RequestRoleProxy;
 			if(!facade.hasProxy(RequestRoleProxy.NAME))
 			{

@@ -51,7 +51,7 @@ package com.xgame.godwar.core.initialization
 			facade.sendNotification(ProgressBarMediator.HIDE_PROGRESSBAR_NOTE);
 			
 			facade.sendNotification(LoadingIconMediator.LOADING_SHOW_NOTE);
-			facade.sendNotification(LoadHotkeyConfigCommand.LOAD_HOTKEY_CONFIG_NOTE);
+			facade.sendNotification(LoadInitDataCommand.LOAD_HALL);
 		}
 		
 		private function onProgress(evt: LoaderEvent): void

@@ -1,8 +1,10 @@
 package com.xgame.godwar.core.initialization
 {
-	import com.xgame.godwar.common.commands.receiving.Receive_Base_VerifyMap;
 	import com.xgame.godwar.core.GameManager;
+	import com.xgame.godwar.core.hall.controllers.ShowBattleHallMediatorCommand;
+	import com.xgame.godwar.core.hall.proxy.HallProxy;
 	import com.xgame.godwar.core.loading.mediators.LoadingIconMediator;
+	import com.xgame.godwar.core.loading.mediators.ProgressBarMediator;
 	import com.xgame.godwar.core.scene.Scene;
 	import com.xgame.godwar.events.scene.SceneEvent;
 	import com.xgame.godwar.utils.debug.Debug;
@@ -14,21 +16,15 @@ package com.xgame.godwar.core.initialization
 	import org.puremvc.as3.interfaces.INotification;
 	import org.puremvc.as3.patterns.command.SimpleCommand;
 	
-	import com.xgame.godwar.core.general.proxy.MapProxy;
-	
 	public class LoadInitDataCommand extends SimpleCommand
 	{
 		public static const LOAD_INIT_DATA_NOTE: String = "LoadInitDataCommand.LoadInitDataNote";
-		public static const LOAD_SCENE: String = "LoadInitDataCommand.LoadScene";
+		public static const LOAD_HALL: String = "LoadInitDataCommand.LoadHall";
 		
 		public function LoadInitDataCommand()
 		{
 			super();
-			facade.registerCommand(LoadCharacterResourceCommand.LOAD_RESOURCE, LoadCharacterResourceCommand);
-			facade.registerCommand(LoadSkillResourcesCommand.LOAD_RESOURCES, LoadSkillResourcesCommand);
-			facade.registerCommand(LoadSkillResourcesCommand.LOAD_LOGIC, LoadSkillResourcesCommand);
-			facade.registerCommand(LoadHotkeyConfigCommand.LOAD_HOTKEY_CONFIG_NOTE, LoadHotkeyConfigCommand);
-			facade.registerCommand(StartGameCommand.START_GAME_NOTE, StartGameCommand);
+			facade.registerCommand(ShowBattleHallMediatorCommand.SHOW_NOTE, ShowBattleHallMediatorCommand);
 		}
 		
 		override public function execute(notification:INotification):void
@@ -39,10 +35,11 @@ package com.xgame.godwar.core.initialization
 					facade.removeCommand(LOAD_INIT_DATA_NOTE);
 					facade.sendNotification(LoadCharacterResourceCommand.LOAD_RESOURCE);
 					break;
-				case LOAD_SCENE:
-					facade.removeCommand(LOAD_SCENE);
-					facade.sendNotification(LoadingIconMediator.LOADING_SET_TITLE_NOTE, LanguageManager.getInstance().lang("load_scene"));
-					loadScene();
+				case LOAD_HALL:
+					facade.removeCommand(LOAD_HALL);
+//					facade.sendNotification(ProgressBarMediator.SHOW_PROGRESSBAR_NOTE);
+//					facade.sendNotification(ProgressBarMediator.SET_PROGRESSBAR_TITLE_NOTE, LanguageManager.getInstance().lang("load_scene"));
+					loadHall();
 					loadDebug();
 					break;
 			}
@@ -56,32 +53,23 @@ package com.xgame.godwar.core.initialization
 			GameManager.container.stage.addChild(_debugLayer);
 		}
 		
-		private function loadScene(): void
+		private function loadHall(): void
 		{
-			var _protocol: Receive_Base_VerifyMap;
-			var _proxy: MapProxy = facade.retrieveProxy(MapProxy.NAME) as MapProxy;
+			var _proxy: HallProxy = facade.retrieveProxy(HallProxy.NAME) as HallProxy;
+			var _mode: int = 0;
 			if(_proxy != null)
 			{
-				_protocol = _proxy.getData() as Receive_Base_VerifyMap;
+				_mode = _proxy.mode;
 			}
-			if(_protocol == null)
+			
+			if(_mode == 1) //势力战
 			{
-				Debug.error(this, "没有获取到地图数据");
-				return;
+				
 			}
-			
-			var _gameLayer: Sprite = new Sprite();
-			GameManager.container.stage.addChild(_gameLayer);
-			var _scene: Scene = Scene.initialization(GameManager.container, _gameLayer);
-			_scene.addEventListener(SceneEvent.SCENE_READY, onSceneReady);
-		}
-		
-		private function onSceneReady(evt: SceneEvent): void
-		{
-			var _scene: Scene = evt.currentTarget as Scene;
-			_scene.removeEventListener(SceneEvent.SCENE_READY, onSceneReady);
-			
-			facade.sendNotification(StartGameCommand.START_GAME_NOTE, _scene);
+			else if(_mode == 0) //对战
+			{
+				facade.sendNotification(ShowBattleHallMediatorCommand.SHOW_NOTE);
+			}
 		}
 	}
 }

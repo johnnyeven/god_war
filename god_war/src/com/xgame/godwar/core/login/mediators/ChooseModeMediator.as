@@ -3,6 +3,7 @@ package com.xgame.godwar.core.login.mediators
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Strong;
 	import com.xgame.godwar.core.general.mediators.BaseMediator;
+	import com.xgame.godwar.core.hall.proxy.HallProxy;
 	import com.xgame.godwar.core.initialization.LoadInitDataCommand;
 	import com.xgame.godwar.core.login.views.ChooseModeComponent;
 	
@@ -13,6 +14,7 @@ package com.xgame.godwar.core.login.mediators
 		public static const NAME: String = "ChooseModeMediator";
 		public static const SHOW_NOTE: String = "ChooseModeMediator.showNote";
 		public static const HIDE_NOTE: String = "ChooseModeMediator.hideNote";
+		public static const ENTER_NOTE: String = "ChooseModeMediator.EnterNote";
 		public static const DISPOSE_NOTE: String = "ChooseModeMediator.disposeNote";
 		
 		public function ChooseModeMediator()
@@ -22,8 +24,9 @@ package com.xgame.godwar.core.login.mediators
 			onShow = moveIntoScene;
 			component.x = 1028;
 			
-			facade.registerCommand(LoadInitDataCommand.LOAD_INIT_DATA_NOTE, LoadInitDataCommand);
-			facade.registerCommand(LoadInitDataCommand.LOAD_SCENE, LoadInitDataCommand);
+			facade.registerCommand(LoadInitDataCommand.LOAD_HALL, LoadInitDataCommand);
+			
+			facade.registerProxy(new HallProxy());
 		}
 		
 		public function get component(): ChooseModeComponent
@@ -33,7 +36,7 @@ package com.xgame.godwar.core.login.mediators
 		
 		override public function listNotificationInterests():Array
 		{
-			return [SHOW_NOTE, HIDE_NOTE, DISPOSE_NOTE];
+			return [SHOW_NOTE, HIDE_NOTE, ENTER_NOTE, DISPOSE_NOTE];
 		}
 		
 		override public function handleNotification(notification:INotification):void
@@ -44,10 +47,15 @@ package com.xgame.godwar.core.login.mediators
 					show();
 					break;
 				case HIDE_NOTE:
+					component.hide(notification.getBody() as Function);
+					break;
+				case ENTER_NOTE:
+					var proxy: HallProxy = facade.retrieveProxy(HallProxy.NAME) as HallProxy;
+					proxy.mode = int(notification.getBody());
 					component.hide(function(): void
 					{
 						dispose();
-						facade.sendNotification(LoadInitDataCommand.LOAD_INIT_DATA_NOTE);
+						facade.sendNotification(LoadInitDataCommand.LOAD_HALL);
 					});
 					break;
 				case DISPOSE_NOTE:

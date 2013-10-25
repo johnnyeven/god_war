@@ -33,12 +33,22 @@ package com.xgame.godwar.core.login.views
 			TweenLite.to(this, 1, {alpha: 0, onComplete: callback});
 		}
 		
-		public function change(): void
+		public function change(type: int): void
 		{
-			TweenLite.to(bg1, .5, {alpha: 0, onComplete: function(): void
+			if(type == 2)
 			{
-				TweenLite.to(bg2, .5, {alpha: 1});
-			}});
+				TweenLite.to(bg1, .3, {alpha: 0, onComplete: function(): void
+				{
+					TweenLite.to(bg2, .3, {alpha: 1});
+				}});
+			}
+			else
+			{
+				TweenLite.to(bg2, .3, {alpha: 0, onComplete: function(): void
+				{
+					TweenLite.to(bg1, .3, {alpha: 1});
+				}});
+			}
 		}
 	}
 }

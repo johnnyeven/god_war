@@ -47,7 +47,7 @@ package com.xgame.godwar.core.general.proxy
 				HotkeyCenter.instance.bind(code, classRef);
 				HotkeyCenter.GlobalEnabled = false;
 			}
-			facade.sendNotification(LoadInitDataCommand.LOAD_SCENE);
+			facade.sendNotification(LoadInitDataCommand.LOAD_HALL);
 		}
 	}
 }

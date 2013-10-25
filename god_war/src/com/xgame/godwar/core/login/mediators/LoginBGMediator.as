@@ -40,7 +40,7 @@ package com.xgame.godwar.core.login.mediators
 					hide();
 					break;
 				case CHANGE_NOTE:
-					change();
+					change(int(notification.getBody()));
 					break;
 				case DISPOSE_NOTE:
 					dispose();
@@ -63,9 +63,9 @@ package com.xgame.godwar.core.login.mediators
 			component.hide();
 		}
 		
-		public function change(): void
+		public function change(type: int): void
 		{
-			component.change();
+			component.change(type);
 		}
 	}
 }

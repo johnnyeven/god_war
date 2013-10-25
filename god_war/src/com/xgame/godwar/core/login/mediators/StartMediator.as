@@ -48,12 +48,14 @@ package com.xgame.godwar.core.login.mediators
 		private function onLoginStart(evt: LoginEvent): void
 		{
 			component.hide(startHandler);
+			facade.sendNotification(LoginBGMediator.CHANGE_NOTE, 2);
 //			component.switchDoorStatus(false);
 //			component.openDoor(startHandler);
 		}
 		
 		private function onLoginAccount(evt: LoginEvent): void
 		{
+			facade.sendNotification(LoginBGMediator.CHANGE_NOTE, 2);
 //			component.switchDoorStatus(false);
 //			component.openDoor(accountHandler);
 		}

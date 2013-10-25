@@ -22,7 +22,7 @@ package com.xgame.godwar.core.login.views
 		private var _btnEnter: CaptionButton;
 		private var _text1: Label;
 		private var _text2: Label;
-		private var _mode: int = 1;
+		private var _mode: int = 0;
 		
 		public function ChooseModeComponent()
 		{
@@ -58,14 +58,14 @@ package com.xgame.godwar.core.login.views
 		
 		private function onBtnMode2Click(evt: MouseEvent): void
 		{
-			_mode = 2;
+			_mode = 0;
 			_text1.visible = false;
 			_text2.visible = true;
 		}
 		
 		private function onBtnEnterClick(evt: MouseEvent): void
 		{
-			ApplicationFacade.getInstance().sendNotification(ChooseModeMediator.HIDE_NOTE);
+			ApplicationFacade.getInstance().sendNotification(ChooseModeMediator.ENTER_NOTE, _mode);
 		}
 		
 		public function hide(callback: Function = null): void
