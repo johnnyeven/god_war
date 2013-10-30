@@ -102,11 +102,13 @@ package com.xgame.godwar.common.network.socket
 			{
 				_contentLength = data.readInt();
 			}
-			if(_contentLength > 65534)
+			CONFIG::DebugMode
 			{
-				Debug.error(this, "包过长，抛弃，包长度：" + _contentLength + "，上次协议号：" + _protocolId);
+				if(_contentLength > 65534)
+				{
+					Debug.error(this, "包过长，抛弃，包长度：" + _contentLength + "，上次协议号：" + _protocolId);
+				}
 			}
-//			Debug.info(this, data);
 			if(data.bytesAvailable < _contentLength || _contentLength < 2)
 			{
 				_byteArray1 = new ByteArray();

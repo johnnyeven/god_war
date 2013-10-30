@@ -62,25 +62,37 @@ package com.xgame.godwar.core.center
 		
 		private function onConnected(event: Event): void
 		{
-			Debug.info(this, "服务器已连接");
+			CONFIG::DebugMode
+			{
+				Debug.info(this, "服务器已连接");
+			}
 			dispatchEvent(new CommandEvent(CommandEvent.CONNECTED_EVENT));
 		}
 		
 		private function onIOError(event: IOErrorEvent): void
 		{
-			Debug.error(this, "服务器连接错误");
+			CONFIG::DebugMode
+			{
+				Debug.error(this, "服务器连接错误");
+			}
 			dispatchEvent(new CommandEvent(CommandEvent.IOERROR_EVENT));
 		}
 		
 		private function onSecurityError(event: SecurityErrorEvent): void
 		{
-			Debug.error(this, "服务器安全沙箱冲突");
+			CONFIG::DebugMode
+			{
+				Debug.error(this, "服务器安全沙箱冲突");
+			}
 			dispatchEvent(new CommandEvent(CommandEvent.SECURITYERROR_EVENT));
 		}
 		
 		public function connect(host: String, port: int): void
 		{
-			Debug.info(this, "服务器连接中...(IP=" + host + ", Port=" + port + ")");
+			CONFIG::DebugMode
+			{
+				Debug.info(this, "服务器连接中...(IP=" + host + ", Port=" + port + ")");
+			}
 			_socket.connect(host, port);
 		}
 		
