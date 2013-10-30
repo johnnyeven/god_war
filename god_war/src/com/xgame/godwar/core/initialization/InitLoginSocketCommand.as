@@ -3,6 +3,7 @@ package com.xgame.godwar.core.initialization
 	import com.xgame.godwar.configuration.SocketContextConfig;
 	import com.xgame.godwar.core.center.CommandCenter;
 	import com.xgame.godwar.core.loading.mediators.LoadingIconMediator;
+	import com.xgame.godwar.core.loading.mediators.ProgressBarMediator;
 	import com.xgame.godwar.core.login.controllers.ShowStartMediatorCommand;
 	import com.xgame.godwar.events.net.CommandEvent;
 	

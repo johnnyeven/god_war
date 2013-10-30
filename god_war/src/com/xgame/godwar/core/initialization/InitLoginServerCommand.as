@@ -36,13 +36,13 @@ package com.xgame.godwar.core.initialization
 			{
 				SocketContextConfig.login_ip = _config.server[0].@ip;
 				SocketContextConfig.login_port = parseInt(_config.server[0].@port);
+				
+				facade.removeCommand(LOAD_SERVER_NOTE);
+				facade.registerCommand(InitLoginSocketCommand.CONNECT_SOCKET_NOTE, InitLoginSocketCommand);
+				
+				facade.sendNotification(ProgressBarMediator.HIDE_PROGRESSBAR_NOTE);
+				facade.sendNotification(InitLoginSocketCommand.CONNECT_SOCKET_NOTE);
 			}
-			
-			facade.removeCommand(LOAD_SERVER_NOTE);
-			facade.registerCommand(InitLoginSocketCommand.CONNECT_SOCKET_NOTE, InitLoginSocketCommand);
-			
-			facade.sendNotification(ProgressBarMediator.HIDE_PROGRESSBAR_NOTE);
-			facade.sendNotification(InitLoginSocketCommand.CONNECT_SOCKET_NOTE);
 		}
 		
 		private function onLoadProgress(evt: LoaderEvent): void
