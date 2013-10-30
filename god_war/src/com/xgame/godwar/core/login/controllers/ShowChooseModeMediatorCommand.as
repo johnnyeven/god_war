@@ -1,7 +1,9 @@
 package com.xgame.godwar.core.login.controllers
 {
 	import com.greensock.events.LoaderEvent;
+	import com.greensock.loading.core.LoaderCore;
 	import com.xgame.godwar.core.center.ResourceCenter;
+	import com.xgame.godwar.core.loading.mediators.ProgressBarMediator;
 	import com.xgame.godwar.core.login.mediators.ChooseModeMediator;
 	
 	import org.puremvc.as3.interfaces.INotification;
@@ -27,15 +29,23 @@ package com.xgame.godwar.core.login.controllers
 			}
 			else
 			{
-				ResourceCenter.instance.load("choose_mode_ui", null, onLoadComplete);
+				facade.sendNotification(ProgressBarMediator.SHOW_PROGRESSBAR_NOTE);
+				ResourceCenter.instance.load("choose_mode_ui", null, onLoadComplete, onLoadProgress);
 			}
 		}
 		
 		private function onLoadComplete(evt: LoaderEvent): void
 		{
-			facade.registerMediator(new ChooseModeMediator());
+			facade.sendNotification(ProgressBarMediator.HIDE_PROGRESSBAR_NOTE);
 			
+			facade.registerMediator(new ChooseModeMediator());
 			facade.sendNotification(ChooseModeMediator.SHOW_NOTE);
+		}
+		
+		private function onLoadProgress(evt: LoaderEvent): void
+		{
+			var loader: LoaderCore = evt.currentTarget as LoaderCore;
+			facade.sendNotification(ProgressBarMediator.SET_PROGRESSBAR_PERCENT_NOTE, loader.progress);
 		}
 	}
 }

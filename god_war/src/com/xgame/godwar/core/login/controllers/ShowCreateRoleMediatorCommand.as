@@ -1,7 +1,9 @@
 package com.xgame.godwar.core.login.controllers
 {
 	import com.greensock.events.LoaderEvent;
+	import com.greensock.loading.core.LoaderCore;
 	import com.xgame.godwar.core.center.ResourceCenter;
+	import com.xgame.godwar.core.loading.mediators.ProgressBarMediator;
 	import com.xgame.godwar.core.login.mediators.CreateRoleMediator;
 	
 	import org.puremvc.as3.interfaces.INotification;
@@ -27,15 +29,23 @@ package com.xgame.godwar.core.login.controllers
 			}
 			else
 			{
-				ResourceCenter.instance.load("create_role_ui", null, onResourceLoaded);
+				facade.sendNotification(ProgressBarMediator.SHOW_PROGRESSBAR_NOTE);
+				ResourceCenter.instance.load("create_role_ui", null, onResourceLoaded, onLoadProgress);
 			}
 		}
 		
 		private function onResourceLoaded(evt: LoaderEvent): void
 		{
-			facade.registerMediator(new CreateRoleMediator());
+			facade.sendNotification(ProgressBarMediator.HIDE_PROGRESSBAR_NOTE);
 			
+			facade.registerMediator(new CreateRoleMediator());
 			facade.sendNotification(CreateRoleMediator.SHOW_NOTE);
+		}
+		
+		private function onLoadProgress(evt: LoaderEvent): void
+		{
+			var loader: LoaderCore = evt.currentTarget as LoaderCore;
+			facade.sendNotification(ProgressBarMediator.SET_PROGRESSBAR_PERCENT_NOTE, loader.progress);
 		}
 	}
 }
