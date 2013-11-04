@@ -4,6 +4,7 @@ package com.xgame.godwar.core.hall.controllers
 	import com.greensock.loading.core.LoaderCore;
 	import com.xgame.godwar.core.center.ResourceCenter;
 	import com.xgame.godwar.core.hall.mediators.BattleHallMediator;
+	import com.xgame.godwar.core.hall.mediators.CreateBattleRoomMediator;
 	import com.xgame.godwar.core.loading.mediators.ProgressBarMediator;
 	import com.xgame.godwar.core.login.mediators.CreateRoleMediator;
 	
@@ -32,7 +33,7 @@ package com.xgame.godwar.core.hall.controllers
 			else
 			{
 				facade.sendNotification(ProgressBarMediator.SHOW_PROGRESSBAR_NOTE);
-				ResourceCenter.instance.load("hall1_ui", null, onResourceLoaded, onLoadProgress);
+				ResourceCenter.instance.load("hall1_ui_batch", null, onResourceLoaded, onLoadProgress);
 			}
 		}
 		
@@ -41,6 +42,7 @@ package com.xgame.godwar.core.hall.controllers
 			facade.sendNotification(ProgressBarMediator.HIDE_PROGRESSBAR_NOTE);
 			
 			facade.registerMediator(new BattleHallMediator());
+			facade.registerMediator(new CreateBattleRoomMediator());
 			facade.sendNotification(BattleHallMediator.SHOW_NOTE);
 		}
 		

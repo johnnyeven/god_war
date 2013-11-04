@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-	<SWFLoader name='login_ui' url='assets/swf/ui/login/login_ui.swf' autoPlay= "false" version="1.0.0"/>
-	<SWFLoader name="server_ui" url="assets/swf/ui/login/servers_ui.swf" autoPlay="false" version="1.0.0" />
-	<SWFLoader name="create_role_ui" url="assets/swf/ui/login/create_role_ui.swf" autoPlay="false" version="1.0.0" />
-	<SWFLoader name="choose_mode_ui" url="assets/swf/ui/login/choose_mode_ui.swf" autoPlay="false" version="1.0.0" />
-	<SWFLoader name="hall1_ui" url="assets/swf/ui/hall/hall1_ui.swf" autoPlay="false" version="1.0.0" />
-	<SWFLoader name="create_battle_room_ui" url="assets/swf/ui/hall/create_battle_room_ui.swf" autoPlay="false" version="1.0.0" />
+	<LoaderMax name="login_ui_batch">
+		<SWFLoader name='login_ui' url='assets/swf/ui/login/login_ui.swf' autoPlay= "false" version="1.0.0"/>
+		<SWFLoader name="server_ui" url="assets/swf/ui/login/servers_ui.swf" autoPlay="false" version="1.0.0" />
+		<SWFLoader name="create_role_ui" url="assets/swf/ui/login/create_role_ui.swf" autoPlay="false" version="1.0.0" />
+		<SWFLoader name="choose_mode_ui" url="assets/swf/ui/login/choose_mode_ui.swf" autoPlay="false" version="1.0.0" />
+	</LoaderMax>
+	<LoaderMax name="hall1_ui_batch">
+		<SWFLoader name="hall1_ui" url="assets/swf/ui/hall/hall1_ui.swf" autoPlay="false" version="1.0.0" />
+		<SWFLoader name="create_battle_room_ui" url="assets/swf/ui/hall/create_room_ui.swf" autoPlay="false" version="1.0.0" />
+	</LoaderMax>
 </root>

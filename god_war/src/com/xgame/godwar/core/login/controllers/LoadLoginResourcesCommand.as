@@ -22,7 +22,7 @@ package com.xgame.godwar.core.login.controllers
 		
 		override public function execute(notification:INotification):void
 		{
-			ResourceCenter.instance.load("login_ui", null, onLoadComplete, onLoadProgress, onLoadIOError);
+			ResourceCenter.instance.load("login_ui_batch", null, onLoadComplete, onLoadProgress, onLoadIOError);
 			facade.sendNotification(ProgressBarMediator.SHOW_PROGRESSBAR_NOTE);
 			facade.sendNotification(ProgressBarMediator.SET_PROGRESSBAR_TITLE_NOTE, LanguageManager.getInstance().lang("load_loagin_ui"));
 		}

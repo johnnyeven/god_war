@@ -4,6 +4,7 @@ package com.xgame.godwar.core.hall.mediators
 	import com.greensock.easing.Strong;
 	import com.xgame.godwar.core.general.mediators.BaseMediator;
 	import com.xgame.godwar.core.hall.views.CreateBattleRoomComponent;
+	import com.xgame.godwar.enum.PopupEffect;
 	
 	import org.puremvc.as3.interfaces.IMediator;
 	import org.puremvc.as3.interfaces.INotification;
@@ -19,6 +20,9 @@ package com.xgame.godwar.core.hall.mediators
 		{
 			super(NAME, new CreateBattleRoomComponent());
 			component.mediator = this;
+			_isPopUp = true;
+			mode = true;
+			popUpEffect = PopupEffect.CENTER;
 		}
 		
 		public function get component(): CreateBattleRoomComponent
@@ -46,17 +50,5 @@ package com.xgame.godwar.core.hall.mediators
 					break;
 			}
 		}
-		
-		override public function show():void
-		{
-			super.show();
-			component.scaleX = .5;
-			component.scaleY = .5;
-			component.alpha = 0;
-			
-			TweenLite.to(component, .5, { transformAroundCenter: { scaleX: 1, scaleY: 1, alpha: 1 }, ease: Strong.easeOut });
-		}
-		
-		
 	}
 }
