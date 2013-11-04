@@ -3,6 +3,7 @@ package com.xgame.godwar.core.hall.views
 	import com.xgame.godwar.common.parameters.RoomListItemParameter;
 	import com.xgame.godwar.common.pool.ResourcePool;
 	import com.xgame.godwar.enum.ScrollBarOrientation;
+	import com.xgame.godwar.events.BattleHallEvent;
 	import com.xgame.godwar.liteui.component.Button;
 	import com.xgame.godwar.liteui.component.CaptionButton;
 	import com.xgame.godwar.liteui.component.Container;
@@ -11,11 +12,13 @@ package com.xgame.godwar.core.hall.views
 	import com.xgame.godwar.liteui.layouts.HorizontalTileLayout;
 	
 	import flash.display.DisplayObjectContainer;
+	import flash.events.MouseEvent;
 	
 	public class BattleHallComponent extends Component
 	{
 		private var btnQuick: CaptionButton;
 		private var btnCard: CaptionButton;
+		private var btnCreate: CaptionButton;
 		private var btnClose: Button;
 		private var scrollList: ScrollBar;
 		private var roomListContainer: Container;
@@ -26,6 +29,7 @@ package com.xgame.godwar.core.hall.views
 			
 			btnQuick = getUI(CaptionButton, "btnQuick") as CaptionButton;
 			btnCard = getUI(CaptionButton, "btnCard") as CaptionButton;
+			btnCreate = getUI(CaptionButton, "btnCreate") as CaptionButton;
 			btnClose = getUI(Button, "btnClose") as Button;
 			
 			roomListContainer = new Container();
@@ -42,6 +46,8 @@ package com.xgame.godwar.core.hall.views
 			
 			sortChildIndex();
 			addChild(scrollList);
+			
+			btnCreate.addEventListener(MouseEvent.CLICK, onBtnCreateClick);
 		}
 		
 		public function addRooms(list: Vector.<RoomListItemParameter>): void
@@ -62,6 +68,11 @@ package com.xgame.godwar.core.hall.views
 			roomListContainer.add(item);
 			roomListContainer.layout.update();
 			scrollList.rebuild();
+		}
+		
+		private function onBtnCreateClick(evt: MouseEvent): void
+		{
+			dispatchEvent(new BattleHallEvent(BattleHallEvent.CREATE_ROOM_CLICK));
 		}
 	}
 }

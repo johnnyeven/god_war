@@ -5,6 +5,7 @@
     <classEntry path="com.xgame.godwar.display.BitmapDisplay"/>
     <classEntry path="com.xgame.godwar.liteui.component.Radio"/>
     <classEntry path="com.xgame.godwar.liteui.component.RadioGroup"/>
+    <classEntry path="com.xgame.godwar.liteui.component.Select"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
