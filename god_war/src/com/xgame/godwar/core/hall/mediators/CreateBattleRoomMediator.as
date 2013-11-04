@@ -5,6 +5,7 @@ package com.xgame.godwar.core.hall.mediators
 	import com.xgame.godwar.core.general.mediators.BaseMediator;
 	import com.xgame.godwar.core.hall.views.CreateBattleRoomComponent;
 	import com.xgame.godwar.enum.PopupEffect;
+	import com.xgame.godwar.events.CreateBattleRoomEvent;
 	
 	import org.puremvc.as3.interfaces.IMediator;
 	import org.puremvc.as3.interfaces.INotification;
@@ -23,6 +24,9 @@ package com.xgame.godwar.core.hall.mediators
 			_isPopUp = true;
 			mode = true;
 			popUpEffect = PopupEffect.CENTER;
+			
+			component.addEventListener(CreateBattleRoomEvent.OK_CLICK, onBtnOkClick);
+			component.addEventListener(CreateBattleRoomEvent.CANCEL_CLICK, onBtnCancelClick);
 		}
 		
 		public function get component(): CreateBattleRoomComponent
@@ -49,6 +53,16 @@ package com.xgame.godwar.core.hall.mediators
 					dispose();
 					break;
 			}
+		}
+		
+		private function onBtnOkClick(evt: CreateBattleRoomEvent): void
+		{
+			
+		}
+		
+		private function onBtnCancelClick(evt: CreateBattleRoomEvent): void
+		{
+			dispose();
 		}
 	}
 }

@@ -1,11 +1,13 @@
 package com.xgame.godwar.core.hall.views
 {
 	import com.xgame.godwar.common.pool.ResourcePool;
+	import com.xgame.godwar.events.CreateBattleRoomEvent;
 	import com.xgame.godwar.liteui.component.CaptionButton;
 	import com.xgame.godwar.liteui.component.Label;
 	import com.xgame.godwar.liteui.core.Component;
 	
 	import flash.display.DisplayObjectContainer;
+	import flash.events.MouseEvent;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFieldType;
@@ -44,6 +46,19 @@ package com.xgame.godwar.core.hall.views
 			inputTitle.width = 186;
 			inputTitle.height = 36;
 			addChild(inputTitle);
+			
+			btnCancel.addEventListener(MouseEvent.CLICK, onBtnOkClick);
+			btnCancel.addEventListener(MouseEvent.CLICK, onBtnCancelClick);
+		}
+		
+		private function onBtnOkClick(evt: MouseEvent): void
+		{
+			dispatchEvent(new CreateBattleRoomEvent(CreateBattleRoomEvent.OK_CLICK));
+		}
+		
+		private function onBtnCancelClick(evt: MouseEvent): void
+		{
+			dispatchEvent(new CreateBattleRoomEvent(CreateBattleRoomEvent.CANCEL_CLICK));
 		}
 	}
 }

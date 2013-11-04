@@ -20,8 +20,6 @@ package com.xgame.godwar.core.hall.controllers
 		
 		override public function execute(notification:INotification):void
 		{
-			facade.removeCommand(SHOW_NOTE);
-			
 			var mediator: CreateBattleRoomMediator = facade.retrieveMediator(CreateBattleRoomMediator.NAME) as CreateBattleRoomMediator;
 			if(mediator != null)
 			{
