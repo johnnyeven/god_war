@@ -2,8 +2,14 @@ package com.xgame.godwar.core.hall.mediators
 {
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Strong;
+	import com.xgame.godwar.common.commands.CommandList;
+	import com.xgame.godwar.common.commands.receiving.Receive_Hall_RequestRoom;
+	import com.xgame.godwar.common.commands.sending.Send_Hall_RequestRoom;
+	import com.xgame.godwar.configuration.SocketContextConfig;
+	import com.xgame.godwar.core.center.CommandCenter;
 	import com.xgame.godwar.core.general.mediators.BaseMediator;
 	import com.xgame.godwar.core.hall.views.CreateBattleRoomComponent;
+	import com.xgame.godwar.core.loading.mediators.LoadingIconMediator;
 	import com.xgame.godwar.enum.PopupEffect;
 	import com.xgame.godwar.events.CreateBattleRoomEvent;
 	
@@ -27,6 +33,9 @@ package com.xgame.godwar.core.hall.mediators
 			
 			component.addEventListener(CreateBattleRoomEvent.OK_CLICK, onBtnOkClick);
 			component.addEventListener(CreateBattleRoomEvent.CANCEL_CLICK, onBtnCancelClick);
+			
+			CommandList.instance.bind(SocketContextConfig.HALL_REQUEST_ROOM, Receive_Hall_RequestRoom);
+			CommandCenter.instance.add(SocketContextConfig.HALL_REQUEST_ROOM, onRoomCreated);
 		}
 		
 		public function get component(): CreateBattleRoomComponent
@@ -57,12 +66,27 @@ package com.xgame.godwar.core.hall.mediators
 		
 		private function onBtnOkClick(evt: CreateBattleRoomEvent): void
 		{
-			
+			if(CommandCenter.instance.connected)
+			{
+				var protocol: Send_Hall_RequestRoom = new Send_Hall_RequestRoom();
+				protocol.roomType = 0;
+				protocol.peopleLimit = 4;
+				protocol.title = component.title;
+				
+				CommandCenter.instance.send(protocol);
+				facade.sendNotification(LoadingIconMediator.LOADING_SHOW_NOTE);
+			}
 		}
 		
 		private function onBtnCancelClick(evt: CreateBattleRoomEvent): void
 		{
 			dispose();
+		}
+		
+		private function onRoomCreated(protocol: Receive_Hall_RequestRoom): void
+		{
+			facade.sendNotification(LoadingIconMediator.LOADING_HIDE_NOTE);
+			trace(protocol.roomId);
 		}
 	}
 }

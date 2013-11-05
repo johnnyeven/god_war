@@ -1,6 +1,5 @@
 package com.xgame.godwar.utils.manager
 {
-	import com.xgame.godwar.core.scene.Scene;
 	import com.xgame.godwar.liteui.component.Menu;
 	
 	import flash.display.DisplayObject;

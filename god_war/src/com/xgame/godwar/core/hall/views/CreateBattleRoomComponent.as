@@ -47,7 +47,7 @@ package com.xgame.godwar.core.hall.views
 			inputTitle.height = 36;
 			addChild(inputTitle);
 			
-			btnCancel.addEventListener(MouseEvent.CLICK, onBtnOkClick);
+			btnOk.addEventListener(MouseEvent.CLICK, onBtnOkClick);
 			btnCancel.addEventListener(MouseEvent.CLICK, onBtnCancelClick);
 		}
 		
@@ -60,5 +60,11 @@ package com.xgame.godwar.core.hall.views
 		{
 			dispatchEvent(new CreateBattleRoomEvent(CreateBattleRoomEvent.CANCEL_CLICK));
 		}
+
+		public function get title(): String
+		{
+			return inputTitle.text;
+		}
+
 	}
 }

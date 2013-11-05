@@ -1,7 +1,6 @@
 package com.xgame.godwar.utils
 {
 	import com.xgame.godwar.core.GameManager;
-	import com.xgame.godwar.core.scene.Scene;
 	import com.xgame.godwar.liteui.core.Component;
 	
 	import flash.display.DisplayObject;

@@ -123,6 +123,10 @@ package com.xgame.godwar.core.center
 			protocol.fill();
 			protocol.fillTimestamp();
 			_socket.send(protocol.byteData);
+			CONFIG::DebugMode
+			{
+				Debug.info(this, "数据发送");
+			}
 		}
 		
 		public function dispose(): void

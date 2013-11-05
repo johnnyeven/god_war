@@ -1,7 +1,6 @@
 package com.xgame.godwar.core.center
 {
 	import com.xgame.godwar.core.GameManager;
-	import com.xgame.godwar.core.scene.Scene;
 	
 	import flash.errors.IllegalOperationError;
 	import flash.events.KeyboardEvent;

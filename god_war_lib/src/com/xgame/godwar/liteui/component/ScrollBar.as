@@ -1,20 +1,20 @@
 package com.xgame.godwar.liteui.component
 {
-	import flash.display.DisplayObjectContainer;
-	import flash.display.Sprite;
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-	import flash.geom.Point;
-	
-	import com.xgame.godwar.core.scene.Scene;
-	import com.xgame.godwar.utils.MouseUtils;
-	import com.xgame.godwar.utils.UIUtils;
+	import com.xgame.godwar.core.GameManager;
 	import com.xgame.godwar.enum.ScrollBarOrientation;
 	import com.xgame.godwar.enum.ScrollBarPolicy;
 	import com.xgame.godwar.events.ui.ScrollBarEvent;
 	import com.xgame.godwar.events.ui.ViewEvent;
 	import com.xgame.godwar.liteui.core.Component;
 	import com.xgame.godwar.liteui.core.IViewPort;
+	import com.xgame.godwar.utils.MouseUtils;
+	import com.xgame.godwar.utils.UIUtils;
+	
+	import flash.display.DisplayObjectContainer;
+	import flash.display.Sprite;
+	import flash.events.Event;
+	import flash.events.MouseEvent;
+	import flash.geom.Point;
 	
 	public class ScrollBar extends Component
 	{
@@ -81,8 +81,8 @@ package com.xgame.godwar.liteui.component
 		
 		protected function onBarMouseDown(evt: MouseEvent): void
 		{
-			Scene.instance.stage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
-			Scene.instance.stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+			GameManager.container.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
+			GameManager.container.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
 			_oldBarMouseDownPos = trackMousePosition;
 			_oldBarMousePos = barMousePosition;
 		}
@@ -115,8 +115,8 @@ package com.xgame.godwar.liteui.component
 		
 		protected function onMouseUp(evt: MouseEvent): void
 		{
-			Scene.instance.stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
-			Scene.instance.stage.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+			GameManager.container.removeEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
+			GameManager.container.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
 		}
 		
 		public function get orientation(): String

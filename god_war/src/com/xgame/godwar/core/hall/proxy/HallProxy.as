@@ -2,6 +2,7 @@ package com.xgame.godwar.core.hall.proxy
 {
 	import com.xgame.godwar.common.commands.CommandList;
 	import com.xgame.godwar.common.commands.receiving.Receive_Hall_RequestRoomList;
+	import com.xgame.godwar.common.commands.receiving.Receive_Hall_RoomCreated;
 	import com.xgame.godwar.common.commands.sending.Send_Hall_RequestRoomList;
 	import com.xgame.godwar.common.parameters.RoomListItemParameter;
 	import com.xgame.godwar.configuration.SocketContextConfig;
@@ -22,6 +23,9 @@ package com.xgame.godwar.core.hall.proxy
 		public function HallProxy()
 		{
 			super(NAME, null);
+			
+			CommandList.instance.bind(SocketContextConfig.HALL_ROOM_CREATED, Receive_Hall_RoomCreated);
+			CommandCenter.instance.add(SocketContextConfig.HALL_ROOM_CREATED, onRoomCreated);
 		}
 
 		public function get mode():int
@@ -55,6 +59,18 @@ package com.xgame.godwar.core.hall.proxy
 			if(_mode == 0)
 			{
 				sendNotification(BattleHallMediator.SHOW_ROOM_LIST_NOTE, _roomList);
+			}
+		}
+		
+		private function onRoomCreated(protocol: Receive_Hall_RoomCreated): void
+		{
+			if(protocol.parameter.id != int.MIN_VALUE &&
+			protocol.parameter.peopleCount != int.MIN_VALUE &&
+			protocol.parameter.peopleLimit != int.MIN_VALUE &&
+			protocol.parameter.title != null &&
+			protocol.parameter.ownerName != null)
+			{
+				facade.sendNotification(BattleHallMediator.ADD_ROOM_NOTE, protocol.parameter);
 			}
 		}
 

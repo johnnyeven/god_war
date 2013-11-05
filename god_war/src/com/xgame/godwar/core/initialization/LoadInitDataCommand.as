@@ -5,8 +5,6 @@ package com.xgame.godwar.core.initialization
 	import com.xgame.godwar.core.hall.proxy.HallProxy;
 	import com.xgame.godwar.core.loading.mediators.LoadingIconMediator;
 	import com.xgame.godwar.core.loading.mediators.ProgressBarMediator;
-	import com.xgame.godwar.core.scene.Scene;
-	import com.xgame.godwar.events.scene.SceneEvent;
 	import com.xgame.godwar.utils.debug.Debug;
 	import com.xgame.godwar.utils.debug.Stats;
 	import com.xgame.godwar.utils.manager.LanguageManager;
