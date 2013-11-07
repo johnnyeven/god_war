@@ -68,13 +68,16 @@ package com.xgame.godwar.core.hall.mediators
 		{
 			if(CommandCenter.instance.connected)
 			{
-				var protocol: Send_Hall_RequestRoom = new Send_Hall_RequestRoom();
-				protocol.roomType = 0;
-				protocol.peopleLimit = 4;
-				protocol.title = component.title;
-				
-				CommandCenter.instance.send(protocol);
-				facade.sendNotification(LoadingIconMediator.LOADING_SHOW_NOTE);
+				if(component.count > 0)
+				{
+					var protocol: Send_Hall_RequestRoom = new Send_Hall_RequestRoom();
+					protocol.roomType = 0;
+					protocol.peopleLimit = component.count;
+					protocol.title = component.title;
+					
+					CommandCenter.instance.send(protocol);
+					facade.sendNotification(LoadingIconMediator.LOADING_SHOW_NOTE);
+				}
 			}
 		}
 		

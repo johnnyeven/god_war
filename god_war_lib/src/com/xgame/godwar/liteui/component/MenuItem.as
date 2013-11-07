@@ -30,7 +30,7 @@ package com.xgame.godwar.liteui.component
 		{
 			if(_skin == null)
 			{
-				_skin = ResourcePool.instance.getDisplayObject("ui.menu.itemBG") as DisplayObjectContainer;
+				_skin = ResourcePool.instance.getDisplayObject("com.xgame.godwar.ui.menu.itemBG", null, false) as DisplayObjectContainer;
 			}
 			super(_skin);
 			

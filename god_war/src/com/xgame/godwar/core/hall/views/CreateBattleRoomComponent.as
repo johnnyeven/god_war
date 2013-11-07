@@ -4,6 +4,7 @@ package com.xgame.godwar.core.hall.views
 	import com.xgame.godwar.events.CreateBattleRoomEvent;
 	import com.xgame.godwar.liteui.component.CaptionButton;
 	import com.xgame.godwar.liteui.component.Label;
+	import com.xgame.godwar.liteui.component.Select;
 	import com.xgame.godwar.liteui.core.Component;
 	
 	import flash.display.DisplayObjectContainer;
@@ -20,6 +21,7 @@ package com.xgame.godwar.core.hall.views
 		private var lblTitle: Label;
 		private var lblCount: Label;
 		private var inputTitle: TextField;
+		private var selectCount: Select;
 		
 		public function CreateBattleRoomComponent()
 		{
@@ -41,11 +43,16 @@ package com.xgame.godwar.core.hall.views
 			inputTitle.type = TextFieldType.INPUT;
 			inputTitle.defaultTextFormat = _textFormat;
 			inputTitle.text = "";
-			inputTitle.x = 28;
-			inputTitle.y = 118;
+			inputTitle.x = 35;
+			inputTitle.y = 122;
 			inputTitle.width = 186;
 			inputTitle.height = 36;
 			addChild(inputTitle);
+			
+			selectCount = new Select();
+			selectCount.x = 27
+			selectCount.y = 197;
+			addChild(selectCount);
 			
 			btnOk.addEventListener(MouseEvent.CLICK, onBtnOkClick);
 			btnCancel.addEventListener(MouseEvent.CLICK, onBtnCancelClick);
@@ -64,6 +71,15 @@ package com.xgame.godwar.core.hall.views
 		public function get title(): String
 		{
 			return inputTitle.text;
+		}
+		
+		public function get count(): int
+		{
+			if(selectCount.value != null)
+			{
+				return int(selectCount.value);
+			}
+			return 0;
 		}
 
 	}
