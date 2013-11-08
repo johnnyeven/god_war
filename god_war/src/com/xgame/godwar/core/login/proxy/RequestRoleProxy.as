@@ -3,8 +3,7 @@ package com.xgame.godwar.core.login.proxy
 	import com.greensock.events.LoaderEvent;
 	import com.xgame.godwar.common.commands.CommandList;
 	import com.xgame.godwar.common.commands.receiving.Receive_Info_QuickStart;
-	import com.xgame.godwar.common.commands.receiving.Receive_Info_RegisterAccountRole;
-	import com.xgame.godwar.common.commands.receiving.Receive_Info_RequestAccountRole;
+	import com.xgame.godwar.common.commands.receiving.Receive_Info_AccountRole;
 	import com.xgame.godwar.common.commands.sending.Send_Info_RegisterAccountRole;
 	import com.xgame.godwar.common.commands.sending.Send_Info_RequestAccountRole;
 	import com.xgame.godwar.configuration.SocketContextConfig;
@@ -42,7 +41,7 @@ package com.xgame.godwar.core.login.proxy
 				{
 					sendNotification(LoadingIconMediator.LOADING_SHOW_NOTE);
 					
-					CommandList.instance.bind(SocketContextConfig.REQUEST_ACCOUNT_ROLE, Receive_Info_RequestAccountRole);
+					CommandList.instance.bind(SocketContextConfig.REQUEST_ACCOUNT_ROLE, Receive_Info_AccountRole);
 					CommandCenter.instance.add(SocketContextConfig.REQUEST_ACCOUNT_ROLE, onRequestAccountRole);
 					
 					var data: Send_Info_RequestAccountRole = new Send_Info_RequestAccountRole();
@@ -52,7 +51,7 @@ package com.xgame.godwar.core.login.proxy
 			}
 		}
 		
-		private function onRequestAccountRole(protocol: Receive_Info_RequestAccountRole): void
+		private function onRequestAccountRole(protocol: Receive_Info_AccountRole): void
 		{
 			sendNotification(LoadingIconMediator.LOADING_HIDE_NOTE);
 			
@@ -67,7 +66,7 @@ package com.xgame.godwar.core.login.proxy
 			else
 			{
 				facade.sendNotification(CreateRoleMediator.DISPOSE_NOTE);
-				facade.sendNotification(LoadInitDataCommand.LOAD_INIT_DATA_NOTE);
+				facade.sendNotification(ShowChooseModeMediatorCommand.SHOW_NOTE);
 			}
 		}
 		
@@ -80,7 +79,7 @@ package com.xgame.godwar.core.login.proxy
 				{
 					sendNotification(LoadingIconMediator.LOADING_SHOW_NOTE);
 					
-					CommandList.instance.bind(SocketContextConfig.REGISTER_ACCOUNT_ROLE, Receive_Info_RegisterAccountRole);
+					CommandList.instance.bind(SocketContextConfig.REGISTER_ACCOUNT_ROLE, Receive_Info_AccountRole);
 					CommandCenter.instance.add(SocketContextConfig.REGISTER_ACCOUNT_ROLE, onRegisterAccountRole);
 					
 					var data: Send_Info_RegisterAccountRole = new Send_Info_RegisterAccountRole();
@@ -91,7 +90,7 @@ package com.xgame.godwar.core.login.proxy
 			}
 		}
 		
-		private function onRegisterAccountRole(protocol: Receive_Info_RegisterAccountRole): void
+		private function onRegisterAccountRole(protocol: Receive_Info_AccountRole): void
 		{
 			sendNotification(LoadingIconMediator.LOADING_HIDE_NOTE);
 			

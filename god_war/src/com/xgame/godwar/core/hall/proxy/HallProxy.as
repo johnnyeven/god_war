@@ -27,12 +27,12 @@ package com.xgame.godwar.core.hall.proxy
 			CommandList.instance.bind(SocketContextConfig.HALL_ROOM_CREATED, Receive_Hall_RoomCreated);
 			CommandCenter.instance.add(SocketContextConfig.HALL_ROOM_CREATED, onRoomCreated);
 		}
-
+		
 		public function get mode():int
 		{
 			return _mode;
 		}
-
+		
 		public function set mode(value:int):void
 		{
 			_mode = value;

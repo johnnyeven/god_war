@@ -48,12 +48,10 @@ package com.xgame.godwar.common.commands.receiving
 							if (StringUtils.empty(accountName))
 							{
 								accountName = bytes.readUTFBytes(length);
-								break;
 							}
-							if (StringUtils.empty(accountPass))
+							else if (StringUtils.empty(accountPass))
 							{
 								accountPass = bytes.readUTFBytes(length);
-								break;
 							}
 							break;
 					}
