@@ -1,9 +1,6 @@
 package com.xgame.godwar.core.login.mediators
 {
-	import com.xgame.godwar.core.GameManager;
 	import com.xgame.godwar.core.general.mediators.BaseMediator;
-	import com.xgame.godwar.core.general.mediators.MainMediator;
-	import com.xgame.godwar.core.login.controllers.ShowServerMediatorCommand;
 	import com.xgame.godwar.core.login.proxy.LoginProxy;
 	import com.xgame.godwar.core.login.views.StartComponent;
 	import com.xgame.godwar.events.LoginEvent;
