@@ -2,7 +2,7 @@ package com.xgame.godwar.core.login.proxy
 {
 	import com.xgame.godwar.common.commands.CommandList;
 	import com.xgame.godwar.common.commands.receiving.Receive_BindSession;
-	import com.xgame.godwar.common.commands.receiving.Receive_Info_QuickStart;
+	import com.xgame.godwar.common.commands.receiving.Receive_Info_Account;
 	import com.xgame.godwar.common.commands.sending.Send_Info_BindSession;
 	import com.xgame.godwar.configuration.SocketContextConfig;
 	import com.xgame.godwar.core.center.CommandCenter;
@@ -27,7 +27,7 @@ package com.xgame.godwar.core.login.proxy
 			var _proxy: LoginProxy = facade.retrieveProxy(LoginProxy.NAME) as LoginProxy;
 			if(_proxy != null)
 			{
-				var _protocol: Receive_Info_QuickStart = _proxy.getData() as Receive_Info_QuickStart;
+				var _protocol: Receive_Info_Account = _proxy.getData() as Receive_Info_Account;
 				if(_protocol != null)
 				{
 					if(CommandCenter.instance.connected)

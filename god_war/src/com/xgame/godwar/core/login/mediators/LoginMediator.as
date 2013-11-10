@@ -3,6 +3,7 @@ package com.xgame.godwar.core.login.mediators
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Strong;
 	import com.xgame.godwar.core.general.mediators.BaseMediator;
+	import com.xgame.godwar.core.login.proxy.LoginProxy;
 	import com.xgame.godwar.core.login.views.LoginComponent;
 	import com.xgame.godwar.events.LoginEvent;
 	
@@ -60,7 +61,8 @@ package com.xgame.godwar.core.login.mediators
 		
 		private function onLoginClick(evt: LoginEvent): void
 		{
-			
+			var _loginProxy: LoginProxy = facade.retrieveProxy(LoginProxy.NAME) as LoginProxy;
+			_loginProxy.login(component.userName, component.userPass);
 		}
 		
 		private function onBackClick(evt: LoginEvent): void

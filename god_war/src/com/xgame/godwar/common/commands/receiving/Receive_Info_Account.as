@@ -1,6 +1,5 @@
 package com.xgame.godwar.common.commands.receiving
 {
-	import com.adobe.utils.IntUtil;
 	import com.xgame.godwar.configuration.SocketContextConfig;
 	import com.xgame.godwar.utils.Int64;
 	import com.xgame.godwar.utils.StringUtils;
@@ -11,13 +10,14 @@ package com.xgame.godwar.common.commands.receiving
 	 * ...
 	 * @author john
 	 */
-	public class Receive_Info_QuickStart extends ReceivingBase 
+	public class Receive_Info_Account extends ReceivingBase 
 	{
+		public var flag: int = int.MIN_VALUE;
 		public var GUID: Int64;
 		public var accountName: String;
 		public var accountPass: String;
 		
-		public function Receive_Info_QuickStart() 
+		public function Receive_Info_Account() 
 		{
 			super(SocketContextConfig.QUICK_START);
 		}
@@ -54,6 +54,9 @@ package com.xgame.godwar.common.commands.receiving
 								accountPass = bytes.readUTFBytes(length);
 							}
 							break;
+						case SocketContextConfig.TYPE_INT:
+							flag = bytes.readInt();
+							break;
 					}
 				}
 			}
@@ -61,7 +64,7 @@ package com.xgame.godwar.common.commands.receiving
 		
 		override public function get protocolName():String
 		{
-			return "Receive_Info_QuickStart";
+			return "Receive_Info_Account";
 		}
 	}
 

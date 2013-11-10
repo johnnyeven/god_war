@@ -76,5 +76,15 @@ package com.xgame.godwar.core.login.views
 		{
 			dispatchEvent(new LoginEvent(LoginEvent.LOGIN_BACK_EVENT));
 		}
+		
+		public function get userName(): String
+		{
+			return iptAccount.text;
+		}
+		
+		public function get userPass(): String
+		{
+			return iptPassword.text;
+		}
 	}
 }

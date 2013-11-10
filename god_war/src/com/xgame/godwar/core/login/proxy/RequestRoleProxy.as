@@ -2,7 +2,7 @@ package com.xgame.godwar.core.login.proxy
 {
 	import com.greensock.events.LoaderEvent;
 	import com.xgame.godwar.common.commands.CommandList;
-	import com.xgame.godwar.common.commands.receiving.Receive_Info_QuickStart;
+	import com.xgame.godwar.common.commands.receiving.Receive_Info_Account;
 	import com.xgame.godwar.common.commands.receiving.Receive_Info_AccountRole;
 	import com.xgame.godwar.common.commands.sending.Send_Info_RegisterAccountRole;
 	import com.xgame.godwar.common.commands.sending.Send_Info_RequestAccountRole;
@@ -36,7 +36,7 @@ package com.xgame.godwar.core.login.proxy
 		{
 			if(CommandCenter.instance.connected)
 			{
-				var protocol: Receive_Info_QuickStart = facade.retrieveProxy(LoginProxy.NAME).getData() as Receive_Info_QuickStart;
+				var protocol: Receive_Info_Account = facade.retrieveProxy(LoginProxy.NAME).getData() as Receive_Info_Account;
 				if(protocol != null || protocol.GUID != null)
 				{
 					sendNotification(LoadingIconMediator.LOADING_SHOW_NOTE);
@@ -74,7 +74,7 @@ package com.xgame.godwar.core.login.proxy
 		{
 			if(CommandCenter.instance.connected)
 			{
-				var protocol: Receive_Info_QuickStart = facade.retrieveProxy(LoginProxy.NAME).getData() as Receive_Info_QuickStart;
+				var protocol: Receive_Info_Account = facade.retrieveProxy(LoginProxy.NAME).getData() as Receive_Info_Account;
 				if(protocol != null || protocol.GUID != null)
 				{
 					sendNotification(LoadingIconMediator.LOADING_SHOW_NOTE);
