@@ -3,7 +3,7 @@ package com.xgame.godwar.core.initialization
 	import com.xgame.godwar.configuration.SocketContextConfig;
 	import com.xgame.godwar.core.center.CommandCenter;
 	import com.xgame.godwar.core.loading.mediators.LoadingIconMediator;
-	import com.xgame.godwar.core.loading.mediators.ProgressBarMediator;
+	import com.xgame.godwar.core.login.controllers.ShowLoginMediatorCommand;
 	import com.xgame.godwar.core.login.controllers.ShowStartMediatorCommand;
 	import com.xgame.godwar.events.net.CommandEvent;
 	
@@ -45,6 +45,7 @@ package com.xgame.godwar.core.initialization
 			
 			facade.sendNotification(LoadingIconMediator.LOADING_HIDE_NOTE);
 			facade.registerCommand(ShowStartMediatorCommand.CREATE_LOGIN_VIEW_NOTE, ShowStartMediatorCommand);
+			facade.registerCommand(ShowLoginMediatorCommand.SHOW_NOTE, ShowLoginMediatorCommand);
 			facade.sendNotification(ShowStartMediatorCommand.CREATE_LOGIN_VIEW_NOTE);
 		}
 		

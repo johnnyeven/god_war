@@ -1,6 +1,7 @@
 package com.xgame.godwar.core.login.mediators
 {
 	import com.xgame.godwar.core.general.mediators.BaseMediator;
+	import com.xgame.godwar.core.login.controllers.ShowLoginMediatorCommand;
 	import com.xgame.godwar.core.login.proxy.LoginProxy;
 	import com.xgame.godwar.core.login.views.StartComponent;
 	import com.xgame.godwar.events.LoginEvent;
@@ -9,7 +10,7 @@ package com.xgame.godwar.core.login.mediators
 	
 	public class StartMediator extends BaseMediator
 	{
-		public static const NAME: String = "LoginMediator";
+		public static const NAME: String = "StartMediator";
 		
 		public static const SHOW_NOTE: String = "Show" + NAME;
 		public static const DESTROY_NOTE: String = "Destroy" + NAME;
@@ -46,15 +47,12 @@ package com.xgame.godwar.core.login.mediators
 		{
 			component.hide(startHandler);
 			facade.sendNotification(LoginBGMediator.CHANGE_NOTE, 2);
-//			component.switchDoorStatus(false);
-//			component.openDoor(startHandler);
 		}
 		
 		private function onLoginAccount(evt: LoginEvent): void
 		{
+			component.hide(accountHandler);
 			facade.sendNotification(LoginBGMediator.CHANGE_NOTE, 2);
-//			component.switchDoorStatus(false);
-//			component.openDoor(accountHandler);
 		}
 		
 		private function startHandler(): void
@@ -66,7 +64,8 @@ package com.xgame.godwar.core.login.mediators
 		
 		private function accountHandler(): void
 		{
-			
+			facade.sendNotification(ShowLoginMediatorCommand.SHOW_NOTE);
+			dispose();
 		}
 		
 		public function get component(): StartComponent

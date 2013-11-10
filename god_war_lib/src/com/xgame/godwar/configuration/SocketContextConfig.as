@@ -48,6 +48,8 @@ package com.xgame.godwar.configuration
 		public static const ORDER_CONFIRM: int = 2;
 		//INFO
 		public static const QUICK_START: int = ACTION_QUICK_START << 8 | CONTROLLER_INFO;
+		public static const INFO_LOGIN: int = ACTION_LOGIN << 8 | CONTROLLER_INFO;
+		public static const INFO_LOGOUT: int = ACTION_LOGOUT << 8 | CONTROLLER_INFO;
 		public static const REQUEST_ACCOUNT_ROLE: int = ACTION_REQUEST_CHARACTER << 8 | CONTROLLER_INFO;
 		public static const REGISTER_ACCOUNT_ROLE: int = ACTION_REGISTER_CHARACTER << 8 | CONTROLLER_INFO;
 		public static const INFO_BIND_SESSION: int = ACTION_BIND_SESSION << 8 | CONTROLLER_INFO;
