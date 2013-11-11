@@ -2,6 +2,7 @@ package com.xgame.godwar.core.login.mediators
 {
 	import com.xgame.godwar.core.general.mediators.BaseMediator;
 	import com.xgame.godwar.core.login.controllers.ShowLoginMediatorCommand;
+	import com.xgame.godwar.core.login.controllers.ShowRegisterMediatorCommand;
 	import com.xgame.godwar.core.login.proxy.LoginProxy;
 	import com.xgame.godwar.core.login.views.StartComponent;
 	import com.xgame.godwar.events.LoginEvent;
@@ -19,10 +20,14 @@ package com.xgame.godwar.core.login.mediators
 		{
 			super(NAME, new StartComponent());
 			
-			facade.registerProxy(new LoginProxy());
+			if(!facade.hasProxy(LoginProxy.NAME))
+			{
+				facade.registerProxy(new LoginProxy());
+			}
 			
 			component.addEventListener(LoginEvent.START_EVENT, onLoginStart);
 			component.addEventListener(LoginEvent.ACCOUNT_EVENT, onLoginAccount);
+			component.addEventListener(LoginEvent.REGISTER_EVENT, onLoginRegister);
 		}
 		
 		override public function listNotificationInterests():Array
@@ -55,6 +60,12 @@ package com.xgame.godwar.core.login.mediators
 			facade.sendNotification(LoginBGMediator.CHANGE_NOTE, 2);
 		}
 		
+		private function onLoginRegister(evt: LoginEvent): void
+		{
+			component.hide(registerHandler);
+			facade.sendNotification(LoginBGMediator.CHANGE_NOTE, 2);
+		}
+		
 		private function startHandler(): void
 		{
 			var _loginProxy: LoginProxy = facade.retrieveProxy(LoginProxy.NAME) as LoginProxy;
@@ -65,6 +76,12 @@ package com.xgame.godwar.core.login.mediators
 		private function accountHandler(): void
 		{
 			facade.sendNotification(ShowLoginMediatorCommand.SHOW_NOTE);
+			dispose();
+		}
+		
+		private function registerHandler(): void
+		{
+			facade.sendNotification(ShowRegisterMediatorCommand.SHOW_NOTE);
 			dispose();
 		}
 		

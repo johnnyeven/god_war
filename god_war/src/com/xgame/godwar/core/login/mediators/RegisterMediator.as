@@ -4,30 +4,30 @@ package com.xgame.godwar.core.login.mediators
 	import com.greensock.easing.Strong;
 	import com.xgame.godwar.core.general.mediators.BaseMediator;
 	import com.xgame.godwar.core.login.proxy.LoginProxy;
-	import com.xgame.godwar.core.login.views.LoginComponent;
+	import com.xgame.godwar.core.login.views.RegisterComponent;
 	import com.xgame.godwar.events.LoginEvent;
 	
 	import org.puremvc.as3.interfaces.INotification;
 	
-	public class LoginMediator extends BaseMediator
+	public class RegisterMediator extends BaseMediator
 	{
-		public static const NAME: String = "LoginMediator";
+		public static const NAME: String = "RegisterMediator";
 		
 		public static const SHOW_NOTE: String = "Show" + NAME;
 		public static const DESTROY_NOTE: String = "Destroy" + NAME;
 		
-		public function LoginMediator()
+		public function RegisterMediator()
 		{
-			super(NAME, new LoginComponent());
+			super(NAME, new RegisterComponent());
 			
 			component.x = 1028;
-			component.addEventListener(LoginEvent.LOGIN_CLICK_EVENT, onLoginClick);
-			component.addEventListener(LoginEvent.LOGIN_BACK_EVENT, onBackClick);
+			component.addEventListener(LoginEvent.REGISTER_CLICK_EVENT, onLoginClick);
+			component.addEventListener(LoginEvent.REGISTER_BACK_EVENT, onBackClick);
 		}
 		
-		public function get component(): LoginComponent
+		public function get component(): RegisterComponent
 		{
-			return viewComponent as LoginComponent;
+			return viewComponent as RegisterComponent;
 		}
 		
 		override public function listNotificationInterests():Array
@@ -64,7 +64,7 @@ package com.xgame.godwar.core.login.mediators
 			hide(function(): void
 			{
 				var _loginProxy: LoginProxy = facade.retrieveProxy(LoginProxy.NAME) as LoginProxy;
-				_loginProxy.login(component.userName, component.userPass);
+				_loginProxy.register(component.userName, component.userPass);
 				
 				dispose();
 			});

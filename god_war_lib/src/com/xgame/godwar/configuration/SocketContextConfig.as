@@ -23,6 +23,7 @@ package com.xgame.godwar.configuration
 		public static const ACTION_LOGIN: int = 0;
 		public static const ACTION_LOGOUT: int = 1;
 		public static const ACTION_QUICK_START: int = 2;
+		public static const ACTION_REGISTER: int = 3;
 		public static const ACTION_REQUEST_CHARACTER: int = 4;
 		public static const ACTION_REGISTER_CHARACTER: int = 5;
 		public static const ACTION_BIND_SESSION: int = 7;
@@ -50,6 +51,7 @@ package com.xgame.godwar.configuration
 		public static const QUICK_START: int = ACTION_QUICK_START << 8 | CONTROLLER_INFO;
 		public static const INFO_LOGIN: int = ACTION_LOGIN << 8 | CONTROLLER_INFO;
 		public static const INFO_LOGOUT: int = ACTION_LOGOUT << 8 | CONTROLLER_INFO;
+		public static const INFO_REGISTER: int = ACTION_REGISTER << 8 | CONTROLLER_INFO;
 		public static const REQUEST_ACCOUNT_ROLE: int = ACTION_REQUEST_CHARACTER << 8 | CONTROLLER_INFO;
 		public static const REGISTER_ACCOUNT_ROLE: int = ACTION_REGISTER_CHARACTER << 8 | CONTROLLER_INFO;
 		public static const INFO_BIND_SESSION: int = ACTION_BIND_SESSION << 8 | CONTROLLER_INFO;

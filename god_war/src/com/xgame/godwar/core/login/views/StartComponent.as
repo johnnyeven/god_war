@@ -79,7 +79,7 @@ package com.xgame.godwar.core.login.views
 		
 		private function onButtonRegisterClick(evt: MouseEvent): void
 		{
-			var _evt: LoginEvent = new LoginEvent(LoginEvent.ACCOUNT_EVENT);
+			var _evt: LoginEvent = new LoginEvent(LoginEvent.REGISTER_EVENT);
 			dispatchEvent(_evt);
 		}
 	}
