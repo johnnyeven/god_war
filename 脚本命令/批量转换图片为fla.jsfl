@@ -16,6 +16,9 @@ function publishFile(fileList)
 	for(var i in fileList)
 	{
 		var fileName = fileList[i];
+		if(fileName.toLowerCase().substr(fileName.length - 4) != ".png") {
+			continue;
+		}
 				
 		var filePath = path + "/" + fileName;
 		var doc = fl.createDocument();
