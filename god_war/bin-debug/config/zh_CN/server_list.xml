@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
 	<server id="1001" name="守望者" ip="johnnyeven.3322.org" port="9050" recommand="true" hot="false"></server>
-	<server id="1002" name="守望者1" ip="johnnyeven.3322.org" port="9050" recommand="false" hot="true"></server>
-	<server id="1003" name="守望者2" ip="johnnyeven.3322.org" port="9050" recommand="false" hot="true"></server>
-	<server id="1004" name="守望者3" ip="johnnyeven.3322.org" port="9050" recommand="true" hot="false"></server>
-	<server id="1005" name="守望者4" ip="johnnyeven.3322.org" port="9050" recommand="false" hot="true"></server>
 </root>
