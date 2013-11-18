@@ -5,6 +5,7 @@ package com.xgame.godwar.events
 	public class BattleHallEvent extends Event
 	{
 		public static const CREATE_ROOM_CLICK: String = "BattleHallEvent.CreateRoomClick";
+		public static const CARD_CONFIG_CLICK: String = "BattleHallEvent.CardConfigClick";
 		
 		public function BattleHallEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
 		{

@@ -48,6 +48,7 @@ package com.xgame.godwar.core.hall.views
 			addChild(scrollList);
 			
 			btnCreate.addEventListener(MouseEvent.CLICK, onBtnCreateClick);
+			btnCard.addEventListener(MouseEvent.CLICK, onBtnCardClick);
 		}
 		
 		public function addRooms(list: Vector.<RoomListItemParameter>): void
@@ -73,6 +74,11 @@ package com.xgame.godwar.core.hall.views
 		private function onBtnCreateClick(evt: MouseEvent): void
 		{
 			dispatchEvent(new BattleHallEvent(BattleHallEvent.CREATE_ROOM_CLICK));
+		}
+		
+		private function onBtnCardClick(evt: MouseEvent): void
+		{
+			dispatchEvent(new BattleHallEvent(BattleHallEvent.CARD_CONFIG_CLICK));
 		}
 	}
 }

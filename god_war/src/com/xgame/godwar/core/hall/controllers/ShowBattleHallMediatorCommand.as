@@ -6,7 +6,7 @@ package com.xgame.godwar.core.hall.controllers
 	import com.xgame.godwar.core.hall.mediators.BattleHallMediator;
 	import com.xgame.godwar.core.hall.mediators.CreateBattleRoomMediator;
 	import com.xgame.godwar.core.loading.mediators.ProgressBarMediator;
-	import com.xgame.godwar.core.login.mediators.CreateRoleMediator;
+	import com.xgame.godwar.core.setting.controllers.ShowCardConfigMediatorCommand;
 	
 	import org.puremvc.as3.interfaces.INotification;
 	import org.puremvc.as3.patterns.command.SimpleCommand;
@@ -24,6 +24,7 @@ package com.xgame.godwar.core.hall.controllers
 		{
 			facade.removeCommand(SHOW_NOTE);
 			facade.registerCommand(ShowCreateBattleHallMediatorCommand.SHOW_NOTE, ShowCreateBattleHallMediatorCommand);
+			facade.registerCommand(ShowCardConfigMediatorCommand.SHOW_NOTE, ShowCardConfigMediatorCommand);
 			
 			var mediator: BattleHallMediator = facade.retrieveMediator(BattleHallMediator.NAME) as BattleHallMediator;
 			if(mediator != null)

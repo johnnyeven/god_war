@@ -8,6 +8,7 @@ package com.xgame.godwar.core.hall.mediators
 	import com.xgame.godwar.core.hall.proxy.HallProxy;
 	import com.xgame.godwar.core.hall.views.BattleHallComponent;
 	import com.xgame.godwar.core.hall.views.BattleRoomListItemComponent;
+	import com.xgame.godwar.core.setting.controllers.ShowCardConfigMediatorCommand;
 	import com.xgame.godwar.events.BattleHallEvent;
 	
 	import org.puremvc.as3.interfaces.IMediator;
@@ -28,6 +29,7 @@ package com.xgame.godwar.core.hall.mediators
 			component.mediator = this;
 			
 			component.addEventListener(BattleHallEvent.CREATE_ROOM_CLICK, showCreateRoom);
+			component.addEventListener(BattleHallEvent.CARD_CONFIG_CLICK, showCardConfig);
 		}
 		
 		public function get component(): BattleHallComponent
@@ -94,6 +96,11 @@ package com.xgame.godwar.core.hall.mediators
 		private function showCreateRoom(evt: BattleHallEvent): void
 		{
 			facade.sendNotification(ShowCreateBattleHallMediatorCommand.SHOW_NOTE, ShowCreateBattleHallMediatorCommand);
+		}
+		
+		private function showCardConfig(evt: BattleHallEvent): void
+		{
+			facade.sendNotification(ShowCardConfigMediatorCommand.SHOW_NOTE, ShowCardConfigMediatorCommand);
 		}
 	}
 }
