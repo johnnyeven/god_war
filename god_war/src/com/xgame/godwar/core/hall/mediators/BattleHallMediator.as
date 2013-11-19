@@ -10,6 +10,7 @@ package com.xgame.godwar.core.hall.mediators
 	import com.xgame.godwar.core.hall.views.BattleRoomListItemComponent;
 	import com.xgame.godwar.core.setting.controllers.ShowCardConfigMediatorCommand;
 	import com.xgame.godwar.events.BattleHallEvent;
+	import com.xgame.godwar.utils.manager.PopUpManager;
 	
 	import org.puremvc.as3.interfaces.IMediator;
 	import org.puremvc.as3.interfaces.INotification;
@@ -72,6 +73,11 @@ package com.xgame.godwar.core.hall.mediators
 			TweenLite.to(component, .5, { y: 0, ease: Strong.easeOut, onComplete: showRoomList });
 		}
 		
+		public function hide(callback: Function = null): void
+		{
+			TweenLite.to(component, .5, { y: -600, ease: Strong.easeIn, onComplete: callback });
+		}
+		
 		private function showRoomList(): void
 		{
 			var _proxy: HallProxy = facade.retrieveProxy(HallProxy.NAME) as HallProxy;
@@ -101,6 +107,11 @@ package com.xgame.godwar.core.hall.mediators
 		private function showCardConfig(evt: BattleHallEvent): void
 		{
 			facade.sendNotification(ShowCardConfigMediatorCommand.SHOW_NOTE, ShowCardConfigMediatorCommand);
+//			hide(function(): void
+//			{
+//				dispose();
+//				facade.sendNotification(ShowCardConfigMediatorCommand.SHOW_NOTE, ShowCardConfigMediatorCommand);
+//			});
 		}
 	}
 }

@@ -80,7 +80,7 @@ package com.xgame.godwar.utils.manager
 		public static function addModeTransparency(blur: uint): Sprite
 		{
 			var _transparency: Sprite = new Sprite();
-			_transparency.graphics.beginFill(0x000000, .5);
+			_transparency.graphics.beginFill(0x000000, .7);
 			_transparency.graphics.drawRect(0, 0, GameManager.container.stageWidth, GameManager.container.stageHeight);
 			_transparency.graphics.endFill();
 			GameManager.instance.addPopUp(_transparency);

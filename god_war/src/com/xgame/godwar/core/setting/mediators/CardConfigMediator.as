@@ -2,6 +2,8 @@ package com.xgame.godwar.core.setting.mediators
 {
 	import com.xgame.godwar.core.general.mediators.BaseMediator;
 	import com.xgame.godwar.core.setting.views.CardConfigComponent;
+	import com.xgame.godwar.enum.PopupEffect;
+	import com.xgame.godwar.events.CardConfigEvent;
 	
 	import org.puremvc.as3.interfaces.INotification;
 	
@@ -15,6 +17,12 @@ package com.xgame.godwar.core.setting.mediators
 		public function CardConfigMediator()
 		{
 			super(NAME, new CardConfigComponent());
+			component.mediator = this;
+			_isPopUp = true;
+			mode = true;
+			popUpEffect = PopupEffect.NONE;
+			
+			component.addEventListener(CardConfigEvent.BACK_CLICK, onBtnBackClick);
 		}
 		
 		public function get component(): CardConfigComponent
@@ -42,6 +50,14 @@ package com.xgame.godwar.core.setting.mediators
 					dispose();
 					break;
 			}
+		}
+		
+		private function onBtnBackClick(evt: CardConfigEvent): void
+		{
+			component.hide(function(): void
+			{
+				dispose();
+			});
 		}
 	}
 }

@@ -74,6 +74,9 @@ package com.xgame.godwar.core.general.mediators
 						case PopupEffect.CENTER:
 							TweenLite.to(comp, .5, {transformAroundCenter: {scaleX: .9, scaleY: .9, alpha: 0}, ease: Strong.easeIn, onComplete: onTweenDestroy});
 							break;
+						case PopupEffect.NONE:
+							onTweenDestroy();
+							break;
 					}
 				}
 				else
