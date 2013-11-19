@@ -40,14 +40,14 @@ package com.xgame.godwar.core.setting.views
 			btnBack.addEventListener(MouseEvent.CLICK, onBtnBackClick);
 		}
 		
-		public function show(): void
+		public function show(callback: Function = null): void
 		{
 			TweenLite.to(groupList, .5, {y: 0, ease: Strong.easeOut});
 			TweenLite.to(btnSave, .5, {x: 12, ease: Strong.easeOut, delay: .3});
 			TweenLite.to(btnBack, .5, {x: 12, ease: Strong.easeOut, delay: .6});
 			TweenLite.to(cardList, .5, {x: 554, ease: Strong.easeOut, delay: .9});
 			TweenLite.to(cardCurrentList, .5, {x: 554, ease: Strong.easeOut, delay: .9});
-			TweenLite.to(cardCurrentList, .5, {x: 190, ease: Strong.easeOut, delay: 1.2});
+			TweenLite.to(cardCurrentList, .5, {x: 190, ease: Strong.easeOut, delay: 1.2, onComplete: callback});
 		}
 		
 		public function hide(callback: Function = null): void

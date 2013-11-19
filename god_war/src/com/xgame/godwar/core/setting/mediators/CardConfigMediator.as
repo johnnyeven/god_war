@@ -41,7 +41,7 @@ package com.xgame.godwar.core.setting.mediators
 			{
 				case SHOW_NOTE:
 					show();
-					component.show();
+					component.show(requestCardGroup);
 					break;
 				case HIDE_NOTE:
 					dispose();
@@ -58,6 +58,11 @@ package com.xgame.godwar.core.setting.mediators
 			{
 				dispose();
 			});
+		}
+		
+		private function requestCardGroup(): void
+		{
+			
 		}
 	}
 }

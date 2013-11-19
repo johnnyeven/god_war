@@ -32,10 +32,11 @@ package com.xgame.godwar.configuration
 		public static const ACTION_SHOW_ROOMLIST: int = 1;
 		public static const ACTION_ROOM_CREATED: int = 2;
 		public static const ACTION_REQUEST_ENTER_ROOM: int = 3;
+		public static const ACTION_REQUEST_CARD_GROUP: int = 4;
 		//BATTLE ROOM
 		public static const ACTION_INIT_ROOM_DATA: int = 0;
-		public static const ACTION_PLAYER_ENTER_ROOM: int = 4;
-		public static const ACTION_PLAYER_SELETED_HERO: int = 5;
+		public static const ACTION_PLAYER_ENTER_ROOM_NOTICE: int = 1;
+		public static const ACTION_PLAYER_SELETED_HERO: int = 2;
 		
 		public static const TYPE_INT: int = 0;
 		public static const TYPE_LONG: int = 1;
@@ -60,9 +61,10 @@ package com.xgame.godwar.configuration
 		public static const HALL_SHOW_ROOM_LIST: int = ACTION_SHOW_ROOMLIST << 8 | CONTROLLER_HALL;
 		public static const HALL_ROOM_CREATED: int = ACTION_ROOM_CREATED << 8 | CONTROLLER_HALL;
 		public static const HALL_REQUEST_ENTER_ROOM: int = ACTION_REQUEST_ENTER_ROOM << 8 | CONTROLLER_HALL;
+		public static const HALL_REQUEST_CARD_GROUP: int = ACTION_REQUEST_CARD_GROUP << 8 | CONTROLLER_HALL;
 		//BATTLE ROOM
 		public static const BATTLEROOM_INIT_ROOM: int = ACTION_INIT_ROOM_DATA << 8 | CONTROLLER_BATTLEROOM;
-		public static const BATTLEROOM_PLAYER_ENTER_ROOM: int = ACTION_PLAYER_ENTER_ROOM << 8 | CONTROLLER_BATTLEROOM;
+		public static const BATTLEROOM_PLAYER_ENTER_ROOM: int = ACTION_PLAYER_ENTER_ROOM_NOTICE << 8 | CONTROLLER_BATTLEROOM;
 		public static const BATTLEROOM_PLAYER_SELECTED_HERO: int = ACTION_PLAYER_SELETED_HERO << 8 | CONTROLLER_BATTLEROOM;
 		
 		public function SocketContextConfig() 
