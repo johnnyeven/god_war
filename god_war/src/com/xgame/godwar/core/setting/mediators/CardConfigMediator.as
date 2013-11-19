@@ -13,6 +13,7 @@ package com.xgame.godwar.core.setting.mediators
 		public static const SHOW_NOTE: String = NAME + ".ShowNote";
 		public static const HIDE_NOTE: String = NAME + ".HideNote";
 		public static const DISPOSE_NOTE: String = NAME + ".DisposeNote";
+		public static const SHOW_CARD_GROUP_NOTE: String = NAME + ".ShowCardGroupNote";
 		
 		public function CardConfigMediator()
 		{
@@ -32,7 +33,7 @@ package com.xgame.godwar.core.setting.mediators
 		
 		override public function listNotificationInterests():Array
 		{
-			return [SHOW_NOTE, HIDE_NOTE, DISPOSE_NOTE];
+			return [SHOW_NOTE, HIDE_NOTE, DISPOSE_NOTE, SHOW_CARD_GROUP_NOTE];
 		}
 		
 		override public function handleNotification(notification:INotification):void
@@ -48,6 +49,9 @@ package com.xgame.godwar.core.setting.mediators
 					break;
 				case DISPOSE_NOTE:
 					dispose();
+					break;
+				case SHOW_CARD_GROUP_NOTE:
+					
 					break;
 			}
 		}
