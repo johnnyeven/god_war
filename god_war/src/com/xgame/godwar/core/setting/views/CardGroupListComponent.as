@@ -2,15 +2,11 @@ package com.xgame.godwar.core.setting.views
 {
 	import com.xgame.godwar.common.parameters.CardGroupParameter;
 	import com.xgame.godwar.common.pool.ResourcePool;
-	import com.xgame.godwar.enum.ScrollBarOrientation;
 	import com.xgame.godwar.liteui.component.Button;
-	import com.xgame.godwar.liteui.component.Container;
 	import com.xgame.godwar.liteui.component.Label;
 	import com.xgame.godwar.liteui.component.List;
 	import com.xgame.godwar.liteui.component.ListItem;
-	import com.xgame.godwar.liteui.component.ScrollBar;
 	import com.xgame.godwar.liteui.core.Component;
-	import com.xgame.godwar.liteui.layouts.HorizontalTileLayout;
 	
 	import flash.display.DisplayObjectContainer;
 	

@@ -16,6 +16,8 @@ package com.xgame.godwar.liteui.component
 		{
 			super(_skin);
 			
+			list = new Vector.<ListItem>();
+			
 			scrollList = getUI(ScrollBar, "scrollList") as ScrollBar;
 			container = getUI(Container, "container") as Container;
 			
