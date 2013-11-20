@@ -1,6 +1,8 @@
 package com.xgame.godwar.core.setting.mediators
 {
+	import com.xgame.godwar.common.parameters.CardGroupParameter;
 	import com.xgame.godwar.core.general.mediators.BaseMediator;
+	import com.xgame.godwar.core.setting.proxy.CardGroupProxy;
 	import com.xgame.godwar.core.setting.views.CardConfigComponent;
 	import com.xgame.godwar.enum.PopupEffect;
 	import com.xgame.godwar.events.CardConfigEvent;
@@ -24,6 +26,11 @@ package com.xgame.godwar.core.setting.mediators
 			popUpEffect = PopupEffect.NONE;
 			
 			component.addEventListener(CardConfigEvent.BACK_CLICK, onBtnBackClick);
+			
+			if(!facade.hasProxy(CardGroupProxy.NAME))
+			{
+				facade.registerProxy(new CardGroupProxy());
+			}
 		}
 		
 		public function get component(): CardConfigComponent
@@ -51,7 +58,7 @@ package com.xgame.godwar.core.setting.mediators
 					dispose();
 					break;
 				case SHOW_CARD_GROUP_NOTE:
-					
+					addCardGroup(notification.getBody() as Vector.<CardGroupParameter>);
 					break;
 			}
 		}
@@ -66,7 +73,18 @@ package com.xgame.godwar.core.setting.mediators
 		
 		private function requestCardGroup(): void
 		{
-			
+			var proxy: CardGroupProxy = facade.retrieveProxy(CardGroupProxy.NAME) as CardGroupProxy;
+			proxy.requestCardGroup();
+		}
+		
+		private function addCardGroup(list: Vector.<CardGroupParameter>): void
+		{
+			var parameter: CardGroupParameter;
+			for(var i: int = 0; i < list.length; i++)
+			{
+				parameter = list[i];
+				component.groupList.addGroup(parameter);
+			}
 		}
 	}
 }

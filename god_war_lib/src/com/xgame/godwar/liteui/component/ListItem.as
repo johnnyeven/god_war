@@ -8,7 +8,8 @@ package com.xgame.godwar.liteui.component
 	
 	public class ListItem extends Component
 	{
-		private var title: Label;
+		private var _title: Label;
+		private var _value: Object;
 		private var normal: MovieClip;
 		private var highlight: MovieClip;
 		private var selected: MovieClip;
@@ -18,7 +19,7 @@ package com.xgame.godwar.liteui.component
 		{
 			super(_skin);
 			
-			title = getUI(Label, "title") as Label;
+			_title = getUI(Label, "title") as Label;
 			normal = getSkin("normal") as MovieClip;
 			highlight = getSkin("highlight") as MovieClip;
 			selected = getSkin("selected") as MovieClip;
@@ -75,7 +76,32 @@ package com.xgame.godwar.liteui.component
 			{
 				setMouseDownSkin();
 			}
+			else
+			{
+				setMouseNormalSkin();
+			}
 		}
+
+		public function get value():Object
+		{
+			return _value;
+		}
+
+		public function set value(value:Object):void
+		{
+			_value = value;
+		}
+
+		public function get title():String
+		{
+			return _title.text;
+		}
+
+		public function set title(value:String):void
+		{
+			_title.text = value;
+		}
+
 
 	}
 }

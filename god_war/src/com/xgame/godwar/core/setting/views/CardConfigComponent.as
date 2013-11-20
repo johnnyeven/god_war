@@ -15,9 +15,9 @@ package com.xgame.godwar.core.setting.views
 	{
 		private var btnSave: Button;
 		private var btnBack: Button;
-		private var groupList: CardGroupListComponent;
-		private var cardList: CardListComponent;
-		private var cardCurrentList: CardCurrentComponent;
+		private var _groupList: CardGroupListComponent;
+		private var _cardList: CardListComponent;
+		private var _cardCurrentList: CardCurrentComponent;
 		
 		public function CardConfigComponent()
 		{
@@ -25,44 +25,60 @@ package com.xgame.godwar.core.setting.views
 			
 			btnSave = getUI(Button, "btnSave") as Button;
 			btnBack = getUI(Button, "btnBack") as Button;
-			groupList = getUI(CardGroupListComponent, "groupList") as CardGroupListComponent;
-			cardList = getUI(CardListComponent, "mainList") as CardListComponent;
-			cardCurrentList = getUI(CardCurrentComponent, "subList") as CardCurrentComponent;
+			_groupList = getUI(CardGroupListComponent, "groupList") as CardGroupListComponent;
+			_cardList = getUI(CardListComponent, "mainList") as CardListComponent;
+			_cardCurrentList = getUI(CardCurrentComponent, "subList") as CardCurrentComponent;
 			
 			sortChildIndex();
 			
 			btnSave.x = -btnSave.width;
 			btnBack.x = -btnBack.width;
-			groupList.y = -groupList.height;
-			cardList.x = GameManager.container.stageWidth;
-			cardCurrentList.x = GameManager.container.stageWidth;
+			_groupList.y = -_groupList.height;
+			_cardList.x = GameManager.container.stageWidth;
+			_cardCurrentList.x = GameManager.container.stageWidth;
 			
 			btnBack.addEventListener(MouseEvent.CLICK, onBtnBackClick);
 		}
 		
 		public function show(callback: Function = null): void
 		{
-			TweenLite.to(groupList, .5, {y: 0, ease: Strong.easeOut});
+			TweenLite.to(_groupList, .5, {y: 0, ease: Strong.easeOut});
 			TweenLite.to(btnSave, .5, {x: 12, ease: Strong.easeOut, delay: .3});
 			TweenLite.to(btnBack, .5, {x: 12, ease: Strong.easeOut, delay: .6});
-			TweenLite.to(cardList, .5, {x: 554, ease: Strong.easeOut, delay: .9});
-			TweenLite.to(cardCurrentList, .5, {x: 554, ease: Strong.easeOut, delay: .9});
-			TweenLite.to(cardCurrentList, .5, {x: 190, ease: Strong.easeOut, delay: 1.2, onComplete: callback});
+			TweenLite.to(_cardList, .5, {x: 554, ease: Strong.easeOut, delay: .9});
+			TweenLite.to(_cardCurrentList, .5, {x: 554, ease: Strong.easeOut, delay: .9});
+			TweenLite.to(_cardCurrentList, .5, {x: 190, ease: Strong.easeOut, delay: 1.2, onComplete: callback});
 		}
 		
 		public function hide(callback: Function = null): void
 		{
-			TweenLite.to(cardCurrentList, .5, {x: 554, ease: Strong.easeIn});
-			TweenLite.to(cardCurrentList, .5, {x: GameManager.container.stageWidth, ease: Strong.easeIn, delay: .3});
-			TweenLite.to(cardList, .5, {x: GameManager.container.stageWidth, ease: Strong.easeIn, delay: .3});
+			TweenLite.to(_cardCurrentList, .5, {x: 554, ease: Strong.easeIn});
+			TweenLite.to(_cardCurrentList, .5, {x: GameManager.container.stageWidth, ease: Strong.easeIn, delay: .3});
+			TweenLite.to(_cardList, .5, {x: GameManager.container.stageWidth, ease: Strong.easeIn, delay: .3});
 			TweenLite.to(btnBack, .5, {x: -btnBack.width, ease: Strong.easeIn, delay: .6});
 			TweenLite.to(btnSave, .5, {x: -btnSave.width, ease: Strong.easeIn, delay: .9});
-			TweenLite.to(groupList, .5, {y: -groupList.height, ease: Strong.easeIn, delay: 1.2, onComplete: callback});
+			TweenLite.to(_groupList, .5, {y: -_groupList.height, ease: Strong.easeIn, delay: 1.2, onComplete: callback});
 		}
 		
 		private function onBtnBackClick(evt: MouseEvent): void
 		{
 			dispatchEvent(new CardConfigEvent(CardConfigEvent.BACK_CLICK));
 		}
+
+		public function get groupList():CardGroupListComponent
+		{
+			return _groupList;
+		}
+
+		public function get cardList():CardListComponent
+		{
+			return _cardList;
+		}
+
+		public function get cardCurrentList():CardCurrentComponent
+		{
+			return _cardCurrentList;
+		}
+
 	}
 }
