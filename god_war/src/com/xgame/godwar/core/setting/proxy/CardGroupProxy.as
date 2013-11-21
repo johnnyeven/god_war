@@ -19,8 +19,8 @@ package com.xgame.godwar.core.setting.proxy
 		{
 			super(NAME, null);
 			
-			CommandList.instance.bind(SocketContextConfig.HALL_REQUEST_CARD_GROUP, Receive_Hall_RequestCardGroup);
-			CommandCenter.instance.add(SocketContextConfig.HALL_REQUEST_CARD_GROUP, onRequestCardGroup);
+			CommandList.instance.bind(SocketContextConfig.INFO_REQUEST_CARD_GROUP, Receive_Hall_RequestCardGroup);
+			CommandCenter.instance.add(SocketContextConfig.INFO_REQUEST_CARD_GROUP, onRequestCardGroup);
 		}
 		
 		public function requestCardGroup(): void

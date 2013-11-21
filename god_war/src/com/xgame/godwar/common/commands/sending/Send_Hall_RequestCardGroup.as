@@ -6,7 +6,7 @@ package com.xgame.godwar.common.commands.sending
 	{
 		public function Send_Hall_RequestCardGroup()
 		{
-			super(SocketContextConfig.HALL_REQUEST_CARD_GROUP);
+			super(SocketContextConfig.INFO_REQUEST_CARD_GROUP);
 		}
 	}
 }

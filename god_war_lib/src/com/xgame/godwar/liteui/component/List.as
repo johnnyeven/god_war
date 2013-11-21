@@ -5,12 +5,14 @@ package com.xgame.godwar.liteui.component
 	import com.xgame.godwar.liteui.layouts.HorizontalTileLayout;
 	
 	import flash.display.DisplayObjectContainer;
+	import flash.events.MouseEvent;
 	
 	public class List extends Component
 	{
 		private var scrollList: ScrollBar;
 		private var container: Container;
 		private var list: Vector.<ListItem>;
+		private var _value: Object;
 		
 		public function List(_skin:DisplayObjectContainer=null)
 		{
@@ -34,6 +36,7 @@ package com.xgame.godwar.liteui.component
 			{
 				return;
 			}
+			item.addEventListener(MouseEvent.CLICK, onItemClick);
 			list.push(item);
 			container.add(item);
 			container.layout.update();
@@ -45,11 +48,29 @@ package com.xgame.godwar.liteui.component
 			var index: int = list.indexOf(item);
 			if(index >= 0)
 			{
+				item.removeEventListener(MouseEvent.CLICK, onItemClick);
 				list.splice(index, 1);
 				container.remove(item);
 				container.layout.update();
 				scrollList.rebuild();
 			}
 		}
+		
+		private function onItemClick(evt: MouseEvent): void
+		{
+			for(var i: int = 0; i < list.length; i++)
+			{
+				list[i].status = false;
+			}
+			var item: ListItem = evt.currentTarget as ListItem;
+			item.status = true;
+			_value = item.value;
+		}
+
+		public function get value():Object
+		{
+			return _value;
+		}
+
 	}
 }

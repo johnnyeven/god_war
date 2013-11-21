@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<card>
+		<id>HuWei</id>
+		<name>护卫</name>
+		<attack>45</attack>
+		<def>85</def>
+		<mdef>48</mdef>
+		<health>300</health>
+		<level>1</level>
+		<race>1</race>
+	</card>
+</root>

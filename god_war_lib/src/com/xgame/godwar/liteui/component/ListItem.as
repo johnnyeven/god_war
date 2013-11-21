@@ -30,13 +30,19 @@ package com.xgame.godwar.liteui.component
 		override protected function onMouseOver(evt:MouseEvent):void
 		{
 			super.onMouseOver(evt);
-			setMouseOverSkin();
+			if(!_status)
+			{
+				setMouseOverSkin();
+			}
 		}
 		
 		override protected function onMouseOut(evt:MouseEvent):void
 		{
 			super.onMouseOut(evt);
-			setMouseNormalSkin();
+			if(!_status)
+			{
+				setMouseNormalSkin();
+			}
 		}
 		
 		protected function hideAllStatu(): void

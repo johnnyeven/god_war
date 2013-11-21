@@ -27,12 +27,13 @@ package com.xgame.godwar.configuration
 		public static const ACTION_REQUEST_CHARACTER: int = 4;
 		public static const ACTION_REGISTER_CHARACTER: int = 5;
 		public static const ACTION_BIND_SESSION: int = 7;
+		public static const ACTION_REQUEST_CARD_GROUP: int = 8;
+		public static const ACTION_REQUEST_CARD_LIST: int = 9;
 		//HALL
 		public static const ACTION_REQUEST_ROOM: int = 0;
 		public static const ACTION_SHOW_ROOMLIST: int = 1;
 		public static const ACTION_ROOM_CREATED: int = 2;
 		public static const ACTION_REQUEST_ENTER_ROOM: int = 3;
-		public static const ACTION_REQUEST_CARD_GROUP: int = 4;
 		//BATTLE ROOM
 		public static const ACTION_INIT_ROOM_DATA: int = 0;
 		public static const ACTION_PLAYER_ENTER_ROOM_NOTICE: int = 1;
@@ -56,12 +57,13 @@ package com.xgame.godwar.configuration
 		public static const REQUEST_ACCOUNT_ROLE: int = ACTION_REQUEST_CHARACTER << 8 | CONTROLLER_INFO;
 		public static const REGISTER_ACCOUNT_ROLE: int = ACTION_REGISTER_CHARACTER << 8 | CONTROLLER_INFO;
 		public static const INFO_BIND_SESSION: int = ACTION_BIND_SESSION << 8 | CONTROLLER_INFO;
+		public static const INFO_REQUEST_CARD_GROUP: int = ACTION_REQUEST_CARD_GROUP << 8 | CONTROLLER_INFO;
+		public static const INFO_REQUEST_CARD_LIST: int = ACTION_REQUEST_CARD_LIST << 8 | CONTROLLER_INFO;
 		//HALL
 		public static const HALL_REQUEST_ROOM: int = ACTION_REQUEST_ROOM << 8 | CONTROLLER_HALL;
 		public static const HALL_SHOW_ROOM_LIST: int = ACTION_SHOW_ROOMLIST << 8 | CONTROLLER_HALL;
 		public static const HALL_ROOM_CREATED: int = ACTION_ROOM_CREATED << 8 | CONTROLLER_HALL;
 		public static const HALL_REQUEST_ENTER_ROOM: int = ACTION_REQUEST_ENTER_ROOM << 8 | CONTROLLER_HALL;
-		public static const HALL_REQUEST_CARD_GROUP: int = ACTION_REQUEST_CARD_GROUP << 8 | CONTROLLER_HALL;
 		//BATTLE ROOM
 		public static const BATTLEROOM_INIT_ROOM: int = ACTION_INIT_ROOM_DATA << 8 | CONTROLLER_BATTLEROOM;
 		public static const BATTLEROOM_PLAYER_ENTER_ROOM: int = ACTION_PLAYER_ENTER_ROOM_NOTICE << 8 | CONTROLLER_BATTLEROOM;

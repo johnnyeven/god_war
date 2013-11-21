@@ -8,6 +8,7 @@
     <classEntry path="com.xgame.godwar.liteui.component.Select"/>
     <classEntry path="com.xgame.godwar.liteui.component.List"/>
     <classEntry path="com.xgame.godwar.liteui.component.ListItem"/>
+    <classEntry path="com.xgame.godwar.common.pool.CardParameterPool"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

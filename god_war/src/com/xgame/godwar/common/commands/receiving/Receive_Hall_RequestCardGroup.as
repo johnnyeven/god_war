@@ -12,7 +12,7 @@ package com.xgame.godwar.common.commands.receiving
 		
 		public function Receive_Hall_RequestCardGroup()
 		{
-			super(SocketContextConfig.HALL_REQUEST_CARD_GROUP);
+			super(SocketContextConfig.INFO_REQUEST_CARD_GROUP);
 			list = new Vector.<CardGroupParameter>();
 		}
 		
