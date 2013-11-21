@@ -1,5 +1,7 @@
 package com.xgame.godwar.common.object
 {
+	import com.xgame.godwar.common.parameters.card.SoulCardParameter;
+
 	public class RoleCard extends Card
 	{
 		private var _attack: int;
@@ -11,6 +13,19 @@ package com.xgame.godwar.common.object
 		public function RoleCard(id:String=null)
 		{
 			super(id);
+		}
+		
+		override protected function loadCardInfo():void
+		{
+			var _param: SoulCardParameter = _parameter as SoulCardParameter;
+			if(_param != null)
+			{
+				_attack = _param.attack;
+				_def = _param.def;
+				_mdef = _param.mdef;
+				_health = _param.health;
+				_healthMax = _param.health;
+			}
 		}
 	}
 }

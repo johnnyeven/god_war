@@ -2,6 +2,7 @@
 <root>
 	<card>
 		<id>HuWei</id>
+		<resource_id>holy_1_huwei_small</resource_id>
 		<name>护卫</name>
 		<attack>45</attack>
 		<def>85</def>
