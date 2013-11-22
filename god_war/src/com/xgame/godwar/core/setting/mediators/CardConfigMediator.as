@@ -1,5 +1,6 @@
 package com.xgame.godwar.core.setting.mediators
 {
+	import com.xgame.godwar.common.object.SoulCard;
 	import com.xgame.godwar.common.parameters.CardGroupParameter;
 	import com.xgame.godwar.core.general.mediators.BaseMediator;
 	import com.xgame.godwar.core.setting.proxy.CardGroupProxy;
@@ -16,6 +17,8 @@ package com.xgame.godwar.core.setting.mediators
 		public static const HIDE_NOTE: String = NAME + ".HideNote";
 		public static const DISPOSE_NOTE: String = NAME + ".DisposeNote";
 		public static const SHOW_CARD_GROUP_NOTE: String = NAME + ".ShowCardGroupNote";
+		public static const SHOW_CARD_LIST_NOTE: String = NAME + ".ShowCardListNote";
+		public static const SHOW_CARD_CURRENT_NOTE: String = NAME + ".ShowCardCurrentNote";
 		
 		public function CardConfigMediator()
 		{
@@ -40,7 +43,8 @@ package com.xgame.godwar.core.setting.mediators
 		
 		override public function listNotificationInterests():Array
 		{
-			return [SHOW_NOTE, HIDE_NOTE, DISPOSE_NOTE, SHOW_CARD_GROUP_NOTE];
+			return [SHOW_NOTE, HIDE_NOTE, DISPOSE_NOTE, SHOW_CARD_GROUP_NOTE,
+				SHOW_CARD_LIST_NOTE, SHOW_CARD_CURRENT_NOTE];
 		}
 		
 		override public function handleNotification(notification:INotification):void
@@ -49,7 +53,7 @@ package com.xgame.godwar.core.setting.mediators
 			{
 				case SHOW_NOTE:
 					show();
-					component.show(requestCardGroup);
+					component.show(requestCard);
 					break;
 				case HIDE_NOTE:
 					dispose();
@@ -59,6 +63,8 @@ package com.xgame.godwar.core.setting.mediators
 					break;
 				case SHOW_CARD_GROUP_NOTE:
 					addCardGroup(notification.getBody() as Vector.<CardGroupParameter>);
+				case SHOW_CARD_LIST_NOTE:
+					addCardList();
 					break;
 			}
 		}
@@ -71,7 +77,7 @@ package com.xgame.godwar.core.setting.mediators
 			});
 		}
 		
-		private function requestCardGroup(): void
+		private function requestCard(): void
 		{
 			var proxy: CardGroupProxy = facade.retrieveProxy(CardGroupProxy.NAME) as CardGroupProxy;
 			proxy.requestCardGroup();
@@ -85,6 +91,12 @@ package com.xgame.godwar.core.setting.mediators
 				parameter = list[i];
 				component.groupList.addGroup(parameter);
 			}
+		}
+		
+		private function addCardList(): void
+		{
+			var card: SoulCard = new SoulCard("HuWei");
+			component.cardList.addChild(card);
 		}
 	}
 }

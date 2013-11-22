@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   width="600" height="480" backgroundColor="#EBEBEB">
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.as3xls.xls.Cell;
+			import com.as3xls.xls.ExcelFile;
+			import com.as3xls.xls.Sheet;
+			protected function button1_clickHandler(event:MouseEvent):void
+			{
+				var _file: File = new File();
+				_file.addEventListener(Event.SELECT, onSoulInputDirSelected);
+				var xlsFilter: FileFilter = new FileFilter("Excel文档", "*.xls;*.xlsx");
+				_file.browseForOpen("选择配置文件", [xlsFilter]);
+			}
+			
+			private function onSoulInputDirSelected(evt: Event): void
+			{
+				iptSoulCardConfig.text = (evt.target as File).nativePath;
+			}
+			
+			protected function button2_clickHandler(event:MouseEvent):void
+			{
+				var _file: File = new File();
+				_file.addEventListener(Event.SELECT, onSoulOutputDirSelected);
+				_file.browseForSave("选择配置文件保存的位置");
+			}
+			
+			private function onSoulOutputDirSelected(evt: Event): void
+			{
+				iptSoulOutputConfig.text = (evt.target as File).nativePath;
+			}
+			
+			protected function button3_clickHandler(event:MouseEvent):void
+			{
+				var file: File = new File(iptSoulCardConfig.text);
+				//读取文件
+				var stream: FileStream = new FileStream();
+				stream.open(file, FileMode.READ);
+				var ba: ByteArray = new ByteArray();
+				stream.readBytes(ba);
+				stream.close();
+				
+				var xls:ExcelFile = new ExcelFile();
+				xls.loadFromByteArray(ba);
+				var sheet:Sheet = xls.sheets[0];
+				var rownow:int = sheet.rows;
+				
+				//插入新的行
+				var cell: Cell = sheet.getCell(4, 1);
+				trace(cell.value);
+//				sheet.setCell(rownow,0,"新的数据");
+//				
+//				//写文件
+//				var nba:ByteArray = xls.saveToByteArray();
+//				var nstream:FileStream = new FileStream();
+//				nstream.open(file,FileMode.WRITE);
+//				nstream.writeBytes(nba);
+//				nstream.close();
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<mx:ViewStack id="viewstack1" left="0" right="0" top="31" bottom="0">
+		<s:NavigatorContent width="100%" height="100%" label="生成配置">
+			<s:Button x="491" y="387" width="99" height="31" label="开始生成"
+					  click="button3_clickHandler(event)"/>
+			<s:Label x="22" y="26" text="英灵卡牌配置"/>
+			<s:TextInput id="iptSoulCardConfig" x="103" y="21" width="372" editable="false"/>
+			<s:Button x="491" y="21" label="浏览" click="button1_clickHandler(event)"/>
+			<s:Button x="491" y="224" label="浏览" click="button2_clickHandler(event)"/>
+			<s:Button x="491" y="255" label="浏览"/>
+			<s:Button x="491" y="52" label="浏览"/>
+			<s:Label x="22" y="57" text="英雄卡牌配置"/>
+			<s:TextInput id="iptHeroCardConfig" x="103" y="51" width="372" editable="false"/>
+			<mx:HRule x="8" y="202" width="582" height="1"/>
+			<s:Label x="22" y="228" text="英灵卡牌配置输出"/>
+			<s:Label x="22" y="260" text="英雄卡牌配置输出"/>
+			<s:TextInput id="iptSoulOutputConfig" x="133" y="223" width="342"/>
+			<s:TextInput id="iptHeroOutputConfig" x="133" y="254" width="342"/>
+		</s:NavigatorContent>
+	</mx:ViewStack>
+	<s:TabBar left="5" top="5" dataProvider="{viewstack1}"/>
+</s:WindowedApplication>

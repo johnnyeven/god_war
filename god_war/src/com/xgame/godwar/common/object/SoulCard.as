@@ -7,13 +7,14 @@ package com.xgame.godwar.common.object
 		private var _level: int;
 		private var _race: int;
 		
-		public function SoulCard(id:String=null)
+		public function SoulCard(id:String=null, displayMode: int = 0)
 		{
-			super(id);
+			super(id, displayMode);
 		}
 		
 		override protected function loadCardInfo():void
 		{
+			super.loadCardInfo();
 			var _param: SoulCardParameter = _parameter as SoulCardParameter;
 			if(_param != null)
 			{

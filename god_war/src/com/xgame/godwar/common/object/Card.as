@@ -27,7 +27,7 @@ package com.xgame.godwar.common.object
 		
 		public static const DISPLAY_MODE: Array = ["Small", "Medium", "Big"];
 		
-		public function Card(id: String = null, displayMode: int = CardDisplayModeEnum.SMALL)
+		public function Card(id: String = null, displayMode: int = 0)
 		{
 			_displayMode = displayMode;
 			_cardResourceBuffer = new Bitmap(null, "auto", true);

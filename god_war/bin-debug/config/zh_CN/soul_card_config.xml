@@ -1,14 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
 	<card>
-		<id>HuWei</id>
-		<resource_id>holy_1_huwei_small</resource_id>
-		<name>护卫</name>
-		<attack>45</attack>
-		<def>85</def>
-		<mdef>48</mdef>
+		<id>DuYeQinShiZhe</id>
+		<resource_id>chaos_1_duyeqinshizhe</resource_id>
+		<name>毒液侵蚀者</name>
+		<attack>55</attack>
+		<def>65</def>
+		<mdef>76</mdef>
+		<health>295</health>
+		<level>1</level>
+		<race>3</race>
+	</card>
+	<card>
+		<id>GeBuLin</id>
+		<resource_id>chaos_1_gebulin</resource_id>
+		<name>哥布林</name>
+		<attack>60</attack>
+		<def>70</def>
+		<mdef>55</mdef>
+		<health>240</health>
+		<level>1</level>
+		<race>3</race>
+	</card>
+	<card>
+		<id>JuDuZhiZhu</id>
+		<resource_id>chaos_1_juduzhizhu</resource_id>
+		<name>剧毒蜘蛛</name>
+		<attack>57</attack>
+		<def>65</def>
+		<mdef>70</mdef>
 		<health>300</health>
 		<level>1</level>
-		<race>1</race>
+		<race>3</race>
+	</card>
+	<card>
+		<id>LangRen</id>
+		<resource_id>chaos_1_langren</resource_id>
+		<name>狼人</name>
+		<attack>51</attack>
+		<def>80</def>
+		<mdef>75</mdef>
+		<health>300</health>
+		<level>1</level>
+		<race>3</race>
+	</card>
+	<card>
+		<id>YouLong</id>
+		<resource_id>chaos_1_youlong</resource_id>
+		<name>幼龙</name>
+		<attack>65</attack>
+		<def>60</def>
+		<mdef>88</mdef>
+		<health>270</health>
+		<level>1</level>
+		<race>3</race>
+	</card>
+
+	<card>
+		<id>BanShouRen</id>
+		<resource_id>chaos_2_banshouren</resource_id>
+		<name>半兽人</name>
+		<attack>76</attack>
+		<def>112</def>
+		<mdef>75</mdef>
+		<health>520</health>
+		<level>2</level>
+		<race>3</race>
+	</card>
+	<card>
+		<id>GouTouRenWuShi</id>
+		<resource_id>chaos_2_goutourenwushi</resource_id>
+		<name>狗头人巫师</name>
+		<attack>89</attack>
+		<def>80</def>
+		<mdef>100</mdef>
+		<health>549</health>
+		<level>2</level>
+		<race>3</race>
 	</card>
 </root>

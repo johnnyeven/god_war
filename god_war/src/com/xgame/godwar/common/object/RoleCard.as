@@ -10,13 +10,14 @@ package com.xgame.godwar.common.object
 		private var _health: int;
 		private var _healthMax: int;
 		
-		public function RoleCard(id:String=null)
+		public function RoleCard(id:String=null, displayMode: int = 0)
 		{
-			super(id);
+			super(id, displayMode);
 		}
 		
 		override protected function loadCardInfo():void
 		{
+			super.loadCardInfo();
 			var _param: SoulCardParameter = _parameter as SoulCardParameter;
 			if(_param != null)
 			{
