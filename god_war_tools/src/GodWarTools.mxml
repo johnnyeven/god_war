@@ -49,29 +49,71 @@
 				
 				var xls:ExcelFile = new ExcelFile();
 				xls.loadFromByteArray(ba);
-				var sheet:Sheet = xls.sheets[0];
-				var rownow:int = sheet.rows;
+				var sheet:Sheet;
+				var rownow:int;
 				
 				var classId: String;
 				var resourceId: String;
+				var name: String;
 				var level: int;
 				var attack: int;
 				var def: int;
 				var mdef: int;
 				var health: int;
+				var race: int;
 				
-				for(var i: int = 4; i<rownow; i++)
+				var xmlConfig: String = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n";
+				for(var j: int = 0; j<xls.sheets.length; j++)
 				{
-					classId = sheet.getCell(i, 1).value;
-					resourceId = sheet.getCell(i, 2).value;
-					level = sheet.getCell(i, 5).value;
-					attack = sheet.getCell(i, 8).value;
-					def = sheet.getCell(i, 9).value;
-					mdef = sheet.getCell(i, 10).value;
-					health = sheet.getCell(i, 11).value;
-					
-					trace(classId + ", " + resourceId + ", " + level + ", " + attack + ", " + def + ", " + mdef + ", " + health);
+					sheet = xls.sheets[j];
+					rownow = sheet.rows;
+					switch(sheet.name)
+					{
+						case "神圣":
+							race = 0;
+							break;
+						case "炼狱":
+							race = 1;
+							break;
+						case "自然":
+							race = 2;
+							break;
+						case "混乱":
+							race = 3;
+							break;
+					}
+					for(var i: int = 4; i<rownow; i++)
+					{
+						classId = sheet.getCell(i, 1).value;
+						resourceId = sheet.getCell(i, 2).value;
+						name = sheet.getCell(i, 3).value;
+						level = sheet.getCell(i, 5).value;
+						attack = sheet.getCell(i, 8).value;
+						def = sheet.getCell(i, 9).value;
+						mdef = sheet.getCell(i, 10).value;
+						health = sheet.getCell(i, 11).value;
+						
+						xmlConfig += "	<card>\n";
+						xmlConfig += "		<id>" + classId + "</id>\n";
+						xmlConfig += "		<resource_id>" + resourceId + "</resource_id>\n";
+						xmlConfig += "		<name>" + name + "</name>\n";
+						xmlConfig += "		<attack>" + attack + "</attack>\n";
+						xmlConfig += "		<def>" + def + "</def>\n";
+						xmlConfig += "		<mdef>" + mdef + "</mdef>\n";
+						xmlConfig += "		<health>" + health + "</health>\n";
+						xmlConfig += "		<level>" + level + "</level>\n";
+						xmlConfig += "		<race>" + race + "</race>\n";
+						xmlConfig += "	</card>\n";
+					}
 				}
+				xmlConfig += "</root>";
+				
+				//写入配置文件
+				var _config: XML = XML(xmlConfig);
+				file = new File(iptSoulOutputConfig.text);
+				stream.open(file, FileMode.WRITE);
+				stream.writeUTFBytes(_config);
+				stream.close();
 			}
 			
 		]]>
