@@ -52,17 +52,26 @@
 				var sheet:Sheet = xls.sheets[0];
 				var rownow:int = sheet.rows;
 				
-				//插入新的行
-				var cell: Cell = sheet.getCell(4, 1);
-				trace(cell.value);
-//				sheet.setCell(rownow,0,"新的数据");
-//				
-//				//写文件
-//				var nba:ByteArray = xls.saveToByteArray();
-//				var nstream:FileStream = new FileStream();
-//				nstream.open(file,FileMode.WRITE);
-//				nstream.writeBytes(nba);
-//				nstream.close();
+				var classId: String;
+				var resourceId: String;
+				var level: int;
+				var attack: int;
+				var def: int;
+				var mdef: int;
+				var health: int;
+				
+				for(var i: int = 4; i<rownow; i++)
+				{
+					classId = sheet.getCell(i, 1).value;
+					resourceId = sheet.getCell(i, 2).value;
+					level = sheet.getCell(i, 5).value;
+					attack = sheet.getCell(i, 8).value;
+					def = sheet.getCell(i, 9).value;
+					mdef = sheet.getCell(i, 10).value;
+					health = sheet.getCell(i, 11).value;
+					
+					trace(classId + ", " + resourceId + ", " + level + ", " + attack + ", " + def + ", " + mdef + ", " + health);
+				}
 			}
 			
 		]]>
