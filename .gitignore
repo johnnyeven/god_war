@@ -9,3 +9,5 @@ bin-release/
 # should NOT be excluded as they contain compiler settings and other important
 # information for Eclipse / Flash Builder.
 /god_war/.actionScriptProperties
+/god_war_lib/.actionScriptProperties
+/god_war_tools/.actionScriptProperties

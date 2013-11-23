@@ -24,6 +24,16 @@ package com.xgame.godwar.core.general.proxy
 			_loader.load();
 		}
 		
+		public function requestMySoulCardList(): void
+		{
+			
+		}
+		
+		private function onRequestMySoulCardList(): void
+		{
+			
+		}
+		
 		private function onGetConfig(evt: LoaderEvent): void
 		{
 			var _config: XML = (evt.currentTarget as XMLLoader).content;
