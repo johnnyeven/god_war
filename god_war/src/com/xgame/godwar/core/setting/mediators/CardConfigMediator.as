@@ -3,6 +3,7 @@ package com.xgame.godwar.core.setting.mediators
 	import com.xgame.godwar.common.object.SoulCard;
 	import com.xgame.godwar.common.parameters.CardGroupParameter;
 	import com.xgame.godwar.core.general.mediators.BaseMediator;
+	import com.xgame.godwar.core.general.proxy.SoulCardProxy;
 	import com.xgame.godwar.core.setting.proxy.CardGroupProxy;
 	import com.xgame.godwar.core.setting.views.CardConfigComponent;
 	import com.xgame.godwar.enum.PopupEffect;
@@ -81,6 +82,8 @@ package com.xgame.godwar.core.setting.mediators
 		{
 			var proxy: CardGroupProxy = facade.retrieveProxy(CardGroupProxy.NAME) as CardGroupProxy;
 			proxy.requestCardGroup();
+			
+			addCardList();
 		}
 		
 		private function addCardGroup(list: Vector.<CardGroupParameter>): void
@@ -95,8 +98,16 @@ package com.xgame.godwar.core.setting.mediators
 		
 		private function addCardList(): void
 		{
-			var card: SoulCard = new SoulCard("HuWei");
-			component.cardList.addChild(card);
+			var proxy: SoulCardProxy = facade.retrieveProxy(SoulCardProxy.NAME) as SoulCardProxy;
+			var list: Array = proxy.getData() as Array;
+			
+			if(list != null && list.length > 0)
+			{
+				for(var i: String in list)
+				{
+					component.cardList.addCard(list[i]);
+				}
+			}
 		}
 	}
 }

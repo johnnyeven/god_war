@@ -5,6 +5,7 @@ package com.xgame.godwar.core.general.proxy
 	import com.xgame.godwar.common.commands.CommandList;
 	import com.xgame.godwar.common.commands.receiving.Receive_Info_RequestCardList;
 	import com.xgame.godwar.common.commands.sending.Send_Info_RequestCardList;
+	import com.xgame.godwar.common.object.SoulCard;
 	import com.xgame.godwar.common.parameters.card.SoulCardParameter;
 	import com.xgame.godwar.common.pool.CardParameterPool;
 	import com.xgame.godwar.configuration.SocketContextConfig;
@@ -41,7 +42,17 @@ package com.xgame.godwar.core.general.proxy
 		
 		private function onRequestMySoulCardList(protocol: Receive_Info_RequestCardList): void
 		{
+			var tmp: Array = protocol.cardList.split(',');
+			var list: Array = new Array();
 			
+			var card: SoulCard;
+			for(var i: String in tmp)
+			{
+				card = new SoulCard(tmp[i]);
+				list.push(card);
+			}
+			
+			setData(list);
 		}
 		
 		private function onGetConfig(evt: LoaderEvent): void
@@ -62,6 +73,11 @@ package com.xgame.godwar.core.general.proxy
 				parameter.level = _config.card[i].level;
 				parameter.race = _config.card[i].race;
 				CardParameterPool.instance.add(parameter.id, parameter);
+			}
+			
+			if(getData() == null)
+			{
+				requestMySoulCardList();
 			}
 		}
 	}

@@ -5,11 +5,11 @@ package com.xgame.godwar.core.initialization
 	import org.puremvc.as3.interfaces.INotification;
 	import org.puremvc.as3.patterns.command.SimpleCommand;
 	
-	public class LoadSoulCardConfigCommand extends SimpleCommand
+	public class LoadSoulCardCommand extends SimpleCommand
 	{
-		public static const LOAD_NOTE: String = "LoadSoulCardConfigCommand";
+		public static const LOAD_NOTE: String = "LoadSoulCardCommand";
 		
-		public function LoadSoulCardConfigCommand()
+		public function LoadSoulCardCommand()
 		{
 			super();
 			facade.registerProxy(new SoulCardProxy());

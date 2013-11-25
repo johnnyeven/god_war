@@ -1,5 +1,6 @@
 package com.xgame.godwar.core.setting.views
 {
+	import com.xgame.godwar.common.object.Card;
 	import com.xgame.godwar.common.parameters.CardGroupParameter;
 	import com.xgame.godwar.common.pool.ResourcePool;
 	import com.xgame.godwar.enum.ScrollBarOrientation;
@@ -59,9 +60,11 @@ package com.xgame.godwar.core.setting.views
 			addChild(selectRace);
 		}
 		
-		public function showCardGroupList(parameter: Vector.<CardGroupParameter>): void
+		public function addCard(c: Card): void
 		{
-			
+			cardListContainer.add(c);
+			cardListContainer.layout.update();
+			scrollList.rebuild();
 		}
 	}
 }

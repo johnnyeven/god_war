@@ -28,5 +28,32 @@ package com.xgame.godwar.common.object
 				_healthMax = _param.health;
 			}
 		}
+
+		public function get attack():int
+		{
+			return _attack;
+		}
+
+		public function get def():int
+		{
+			return _def;
+		}
+
+		public function get mdef():int
+		{
+			return _mdef;
+		}
+
+		public function get health():int
+		{
+			return _health;
+		}
+
+		public function get healthMax():int
+		{
+			return _healthMax;
+		}
+
+
 	}
 }

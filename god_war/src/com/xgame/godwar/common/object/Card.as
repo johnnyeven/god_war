@@ -85,5 +85,17 @@ package com.xgame.godwar.common.object
 			_cardResourceBuffer.bitmapData = ResourcePool.instance.getBitmapData("assets.resource.card." + _id + "_" + DISPLAY_MODE[_displayMode]);
 			fixSize();
 		}
+
+		public function get displayMode():int
+		{
+			return _displayMode;
+		}
+
+		public function set displayMode(value:int):void
+		{
+			_displayMode = value;
+			fixSize();
+		}
+
 	}
 }

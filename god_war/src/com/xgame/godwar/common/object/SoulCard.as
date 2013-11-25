@@ -22,5 +22,16 @@ package com.xgame.godwar.common.object
 				_race = _param.race;
 			}
 		}
+
+		public function get level():int
+		{
+			return _level;
+		}
+
+		public function get race():int
+		{
+			return _race;
+		}
+
 	}
 }
