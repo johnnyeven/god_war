@@ -1,5 +1,7 @@
 package com.xgame.godwar.common.object
 {
+	import com.greensock.TweenLite;
+	import com.greensock.easing.Strong;
 	import com.greensock.events.LoaderEvent;
 	import com.xgame.godwar.common.parameters.card.CardParameter;
 	import com.xgame.godwar.common.pool.CardParameterPool;
@@ -10,6 +12,7 @@ package com.xgame.godwar.common.object
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.Sprite;
+	import flash.events.MouseEvent;
 
 	public class Card extends Sprite
 	{
@@ -48,6 +51,19 @@ package com.xgame.godwar.common.object
 				loadCardInfo();
 				loadCardResource();
 			}
+			
+			addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
+			addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);
+		}
+		
+		protected function onMouseOver(evt: MouseEvent): void
+		{
+			TweenLite.to(this, .3, { transformAroundCenter: { scaleX: 1.1, scaleY: 1.1 }, ease: Strong.easeOut });
+		}
+		
+		protected function onMouseOut(evt: MouseEvent): void
+		{
+			TweenLite.to(this, .3, { transformAroundCenter: { scaleX: 1, scaleY: 1 }, ease: Strong.easeOut });
 		}
 		
 		protected function loadCardInfo(): void

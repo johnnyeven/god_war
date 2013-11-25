@@ -1,6 +1,7 @@
 package com.xgame.godwar.liteui.component
 {
 	import com.xgame.godwar.enum.ScrollBarOrientation;
+	import com.xgame.godwar.events.ui.ListEvent;
 	import com.xgame.godwar.liteui.core.Component;
 	import com.xgame.godwar.liteui.layouts.HorizontalTileLayout;
 	
@@ -65,6 +66,12 @@ package com.xgame.godwar.liteui.component
 			var item: ListItem = evt.currentTarget as ListItem;
 			item.status = true;
 			_value = item.value;
+			
+			evt.stopImmediatePropagation();
+			
+			var event: ListEvent = new ListEvent(ListEvent.ITEM_CLICK);
+			event.item = item;
+			dispatchEvent(event);
 		}
 
 		public function get value():Object

@@ -9,6 +9,7 @@ package com.xgame.godwar.core.setting.views
 	import com.xgame.godwar.liteui.core.Component;
 	
 	import flash.display.DisplayObjectContainer;
+	import flash.events.MouseEvent;
 	
 	public class CardGroupListComponent extends Component
 	{
@@ -26,7 +27,7 @@ package com.xgame.godwar.core.setting.views
 			btnAddGroup = getUI(Button, "btnAddGroup") as Button;
 			btnDeleteGroup = getUI(Button, "btnDeleteGroup") as Button;
 			
-			
+			lstGroup.addEventListener(MouseEvent.CLICK, onListClick);
 		}
 		
 		public function addGroup(item: CardGroupParameter): void
@@ -35,6 +36,11 @@ package com.xgame.godwar.core.setting.views
 			i.title = item.groupName;
 			i.value = item.groupId;
 			lstGroup.add(i);
+		}
+		
+		private function onListClick(evt: MouseEvent): void
+		{
+			trace(evt.currentTarget);
 		}
 	}
 }
