@@ -1,6 +1,7 @@
 package com.xgame.godwar.core.setting.mediators
 {
 	import com.xgame.godwar.common.commands.receiving.Receive_Hall_RequestCardGroup;
+	import com.xgame.godwar.common.object.Card;
 	import com.xgame.godwar.common.object.SoulCard;
 	import com.xgame.godwar.common.parameters.CardGroupParameter;
 	import com.xgame.godwar.core.general.mediators.BaseMediator;
@@ -10,6 +11,10 @@ package com.xgame.godwar.core.setting.mediators
 	import com.xgame.godwar.enum.PopupEffect;
 	import com.xgame.godwar.events.CardConfigEvent;
 	import com.xgame.godwar.liteui.component.ListItem;
+	import com.xgame.godwar.utils.UIUtils;
+	
+	import flash.events.MouseEvent;
+	import flash.utils.Dictionary;
 	
 	import org.puremvc.as3.interfaces.INotification;
 	
@@ -22,6 +27,8 @@ package com.xgame.godwar.core.setting.mediators
 		public static const SHOW_CARD_GROUP_NOTE: String = NAME + ".ShowCardGroupNote";
 		public static const SHOW_CARD_LIST_NOTE: String = NAME + ".ShowCardListNote";
 		public static const SHOW_CARD_CURRENT_NOTE: String = NAME + ".ShowCardCurrentNote";
+		
+		public var currentGroupId: int;
 		
 		public function CardConfigMediator()
 		{
@@ -85,6 +92,7 @@ package com.xgame.godwar.core.setting.mediators
 		{
 			var listItem: ListItem = evt.value as ListItem;
 			evt.stopImmediatePropagation();
+			currentGroupId = int(listItem.value);
 			if(listItem != null)
 			{
 				var proxy: CardGroupProxy = facade.retrieveProxy(CardGroupProxy.NAME) as CardGroupProxy;
@@ -99,11 +107,26 @@ package com.xgame.godwar.core.setting.mediators
 					}
 				}
 				
+				var soulCardProxy: SoulCardProxy = facade.retrieveProxy(SoulCardProxy.NAME) as SoulCardProxy;
+				var soulCardIndex: Dictionary = soulCardProxy.soulCardIndex;
+				var soulCardList: Array = soulCardProxy.getData() as Array;
+				var j: String;
+				for(j in soulCardList)
+				{
+					soulCardList[j].enabled = true;
+				}
+				component.cardCurrentList.emptyCards();
 				if(parameter != null)
 				{
-					for(var j: String in parameter.cardList)
+					var myCard: Card;
+					for(j in parameter.cardList)
 					{
 						component.cardCurrentList.addCard(parameter.cardList[j]);
+						if(soulCardIndex.hasOwnProperty(parameter.cardList[j].id))
+						{
+							myCard = soulCardList[soulCardIndex[parameter.cardList[j].id]];
+							myCard.enabled = false;
+						}
 					}
 				}
 			}
@@ -139,13 +162,39 @@ package com.xgame.godwar.core.setting.mediators
 		{
 			var proxy: SoulCardProxy = facade.retrieveProxy(SoulCardProxy.NAME) as SoulCardProxy;
 			var list: Array = proxy.getData() as Array;
-			
+			var card: Card;
 			if(list != null && list.length > 0)
 			{
 				for(var i: String in list)
 				{
-					component.cardList.addCard(list[i]);
+					card = list[i];
+					card.addEventListener(MouseEvent.CLICK, onCardListClick);
+					component.cardList.addCard(card);
 				}
+			}
+		}
+		
+		private function onCardListClick(evt: MouseEvent): void
+		{
+			var card: Card = evt.currentTarget as Card;
+			if(card.enabled)
+			{
+				card.enabled = false;
+				var clone: Card = card.clone();
+				component.cardCurrentList.addCard(clone);
+				
+				var proxy: CardGroupProxy = facade.retrieveProxy(CardGroupProxy.NAME) as CardGroupProxy;
+				var protocol: Receive_Hall_RequestCardGroup = proxy.getData() as Receive_Hall_RequestCardGroup;
+				var parameter: CardGroupParameter;
+				for(var i: int = 0; i < protocol.list.length; i++)
+				{
+					parameter = protocol.list[i];
+					if(currentGroupId == parameter.groupId)
+					{
+						break;
+					}
+				}
+				parameter.cardList.push(clone);
 			}
 		}
 	}

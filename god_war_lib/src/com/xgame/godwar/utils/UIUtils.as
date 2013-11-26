@@ -5,6 +5,7 @@ package com.xgame.godwar.utils
 	
 	import flash.display.DisplayObject;
 	import flash.display.Stage;
+	import flash.geom.ColorTransform;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 
@@ -86,6 +87,33 @@ package com.xgame.godwar.utils
 			var y: Number = (_stage.stageHeight - _rect.height * comp.scaleY) / 2;
 			
 			return new Point(x, y);
+		}
+		
+		public static function setBrightness(obj:DisplayObject, value:Number): void
+		{
+			var colorTransformer:ColorTransform = obj.transform.colorTransform
+			var backup_filters:* = obj.filters
+			if (value >= 0)
+			{
+				colorTransformer.blueMultiplier = 1 - value
+				colorTransformer.redMultiplier = 1 - value
+				colorTransformer.greenMultiplier = 1 - value
+				colorTransformer.redOffset = 255 * value
+				colorTransformer.greenOffset = 255 * value
+				colorTransformer.blueOffset = 255 * value
+			}
+			else
+			{
+				value = Math.abs(value)
+				colorTransformer.blueMultiplier = 1 - value
+				colorTransformer.redMultiplier = 1 - value
+				colorTransformer.greenMultiplier = 1 - value
+				colorTransformer.redOffset = 0
+				colorTransformer.greenOffset = 0
+				colorTransformer.blueOffset = 0
+			}
+			obj.transform.colorTransform = colorTransformer
+			obj.filters = backup_filters
 		}
 	}
 }

@@ -48,5 +48,12 @@ package com.xgame.godwar.core.setting.views
 			cardListContainer.layout.update();
 			scrollList.rebuild();
 		}
+		
+		public function emptyCards(): void
+		{
+			cardListContainer.removeAll();
+			cardListContainer.layout.update();
+			scrollList.rebuild();
+		}
 	}
 }

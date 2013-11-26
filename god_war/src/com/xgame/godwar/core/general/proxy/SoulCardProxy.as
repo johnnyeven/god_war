@@ -12,12 +12,15 @@ package com.xgame.godwar.core.general.proxy
 	import com.xgame.godwar.core.center.CommandCenter;
 	import com.xgame.godwar.utils.manager.LanguageManager;
 	
+	import flash.utils.Dictionary;
+	
 	import org.puremvc.as3.interfaces.IProxy;
 	import org.puremvc.as3.patterns.proxy.Proxy;
 	
 	public class SoulCardProxy extends Proxy implements IProxy
 	{
 		public static const NAME: String = "SoulCardProxy";
+		public var soulCardIndex: Dictionary;
 		
 		public function SoulCardProxy()
 		{
@@ -42,6 +45,7 @@ package com.xgame.godwar.core.general.proxy
 		
 		private function onRequestMySoulCardList(protocol: Receive_Info_RequestCardList): void
 		{
+			soulCardIndex = new Dictionary();
 			var tmp: Array = protocol.cardList.split(',');
 			var list: Array = new Array();
 			
@@ -50,6 +54,7 @@ package com.xgame.godwar.core.general.proxy
 			{
 				card = new SoulCard(tmp[i]);
 				list.push(card);
+				soulCardIndex[tmp[i]] = list.length-1;
 			}
 			
 			setData(list);

@@ -32,6 +32,10 @@ package com.xgame.godwar.common.object
 		{
 			return _race;
 		}
-
+		
+		override public function clone():Card
+		{
+			return new SoulCard(id, displayMode);
+		}
 	}
 }

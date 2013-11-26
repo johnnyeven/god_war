@@ -54,6 +54,9 @@ package com.xgame.godwar.common.object
 			return _healthMax;
 		}
 
-
+		override public function clone():Card
+		{
+			return new RoleCard(id, displayMode);
+		}
 	}
 }

@@ -8,6 +8,7 @@ package com.xgame.godwar.common.object
 	import com.xgame.godwar.common.pool.ResourcePool;
 	import com.xgame.godwar.core.center.ResourceCenter;
 	import com.xgame.godwar.enum.CardDisplayModeEnum;
+	import com.xgame.godwar.utils.UIUtils;
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
@@ -19,6 +20,7 @@ package com.xgame.godwar.common.object
 		private var _id: String;
 		private var _resourceId: String;
 		private var _name: String;
+		private var _enabled: Boolean = true;
 		
 		private var _cardResourceBuffer: Bitmap;
 		private var _displayMode: int;
@@ -58,12 +60,18 @@ package com.xgame.godwar.common.object
 		
 		protected function onMouseOver(evt: MouseEvent): void
 		{
-			TweenLite.to(this, .3, { transformAroundCenter: { scaleX: 1.1, scaleY: 1.1 }, ease: Strong.easeOut });
+			if(_enabled)
+			{
+				TweenLite.to(this, .3, { transformAroundCenter: { scaleX: 1.1, scaleY: 1.1 }, ease: Strong.easeOut });
+			}
 		}
 		
 		protected function onMouseOut(evt: MouseEvent): void
 		{
-			TweenLite.to(this, .3, { transformAroundCenter: { scaleX: 1, scaleY: 1 }, ease: Strong.easeOut });
+			if(_enabled)
+			{
+				TweenLite.to(this, .3, { transformAroundCenter: { scaleX: 1, scaleY: 1 }, ease: Strong.easeOut });
+			}
 		}
 		
 		protected function loadCardInfo(): void
@@ -112,5 +120,46 @@ package com.xgame.godwar.common.object
 			fixSize();
 		}
 
+		public function get id():String
+		{
+			return _id;
+		}
+
+		public function set id(value:String):void
+		{
+			_id = value;
+		}
+
+		public function get cardName():String
+		{
+			return _name;
+		}
+
+		public function get enabled():Boolean
+		{
+			return _enabled;
+		}
+
+		public function set enabled(value:Boolean):void
+		{
+			_enabled = value;
+			mouseEnabled = value;
+			tabEnabled = value;
+			
+			if(value)
+			{
+				UIUtils.setBrightness(this, 0);
+			}
+			else
+			{
+				TweenLite.to(this, .3, { transformAroundCenter: { scaleX: 1, scaleY: 1 }, ease: Strong.easeOut });
+				UIUtils.setBrightness(this, -0.7);
+			}
+		}
+
+		public function clone(): Card
+		{
+			return new Card(_id, _displayMode);
+		}
 	}
 }
