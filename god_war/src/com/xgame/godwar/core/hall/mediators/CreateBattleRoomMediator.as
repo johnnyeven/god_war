@@ -83,7 +83,7 @@ package com.xgame.godwar.core.hall.mediators
 		
 		private function onBtnCancelClick(evt: CreateBattleRoomEvent): void
 		{
-			dispose();
+			remove();
 		}
 		
 		private function onRoomCreated(protocol: Receive_Hall_RequestRoom): void

@@ -40,6 +40,16 @@ package com.xgame.godwar.core.setting.views
 			lstGroup.add(i);
 		}
 		
+		public function removeGroup(): void
+		{
+			
+		}
+		
+		public function removeAll(): void
+		{
+			lstGroup.removeAll();
+		}
+		
 		private function onListClick(evt: ListEvent): void
 		{
 			var event: CardConfigEvent = new CardConfigEvent(CardConfigEvent.GROUP_CLICK, true);

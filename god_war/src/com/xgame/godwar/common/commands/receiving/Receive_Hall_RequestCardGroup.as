@@ -42,7 +42,7 @@ package com.xgame.godwar.common.commands.receiving
 							{
 								parameter.groupName = data.readUTFBytes(length);
 							}
-							else if(parameter.cardList == null)
+							else if(!parameter.cardListReady)
 							{
 								parameter.cards = data.readUTFBytes(length);
 							}

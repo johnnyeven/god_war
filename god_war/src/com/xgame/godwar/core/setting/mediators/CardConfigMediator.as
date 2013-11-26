@@ -84,7 +84,7 @@ package com.xgame.godwar.core.setting.mediators
 		{
 			component.hide(function(): void
 			{
-				dispose();
+				remove();
 			});
 		}
 		
@@ -151,6 +151,7 @@ package com.xgame.godwar.core.setting.mediators
 		private function addCardGroup(list: Vector.<CardGroupParameter>): void
 		{
 			var parameter: CardGroupParameter;
+			component.groupList.removeAll();
 			for(var i: int = 0; i < list.length; i++)
 			{
 				parameter = list[i];
@@ -194,7 +195,10 @@ package com.xgame.godwar.core.setting.mediators
 						break;
 					}
 				}
-				parameter.cardList.push(clone);
+				if(parameter != null)
+				{
+					parameter.cardList.push(clone);
+				}
 			}
 		}
 	}

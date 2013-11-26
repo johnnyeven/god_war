@@ -8,7 +8,7 @@ package com.xgame.godwar.common.parameters
 	{
 		public var groupId: int = int.MIN_VALUE;
 		public var groupName: String = null;
-		public var cardList: Array;
+		public var cardList: Array = new Array();
 		public var cardListReady: Boolean = false;
 		public static const CARD_TYPE: Array = [SoulCard, HeroCard];
 		
@@ -19,10 +19,8 @@ package com.xgame.godwar.common.parameters
 		
 		public function set cards(value: String): void
 		{
-			if(!StringUtils.empty(value) && cardList == null)
+			if(!cardListReady && !StringUtils.empty(value))
 			{
-				cardList = new Array();
-				
 				var array: Array = value.split(",");
 				var tmp: Array;
 				var cardClass: Class;

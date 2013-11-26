@@ -57,6 +57,13 @@ package com.xgame.godwar.liteui.component
 			}
 		}
 		
+		public function removeAll(): void
+		{
+			container.removeAll();
+			container.layout.update();
+			scrollList.rebuild();
+		}
+		
 		private function onItemClick(evt: MouseEvent): void
 		{
 			for(var i: int = 0; i < list.length; i++)

@@ -51,6 +51,37 @@ package com.xgame.godwar.core.general.mediators
 			addComponent();
 		}
 		
+		public function remove(): void
+		{
+			if(viewComponent != null)
+			{
+				if(_isPopUp)
+				{
+					switch(popUpEffect)
+					{
+						case PopupEffect.TOP:
+							TweenLite.to(comp, .5, {y: -comp.height, ease: Strong.easeIn, onComplete: onTweenRemove});
+							break;
+						case PopupEffect.LEFT:
+							TweenLite.to(comp, .5, {y: -comp.width, ease: Strong.easeIn, onComplete: onTweenRemove});
+							break;
+						case PopupEffect.BOTTOM:
+							TweenLite.to(comp, .5, {y: GameManager.container.stageHeight, ease: Strong.easeIn, onComplete: onTweenRemove});
+							break;
+						case PopupEffect.RIGHT:
+							TweenLite.to(comp, .5, {x: GameManager.container.stageWidth, ease: Strong.easeIn, onComplete: onTweenRemove});
+							break;
+						case PopupEffect.CENTER:
+							TweenLite.to(comp, .5, {transformAroundCenter: {scaleX: .9, scaleY: .9, alpha: 0}, ease: Strong.easeIn, onComplete: onTweenRemove});
+							break;
+						case PopupEffect.NONE:
+							onTweenRemove();
+							break;
+					}
+				}
+			}
+		}
+		
 		public function dispose(): void
 		{
 			if(viewComponent != null)
@@ -170,6 +201,11 @@ package com.xgame.godwar.core.general.mediators
 				onShow(this);
 			}
 			onShow = null;
+		}
+		
+		public function onTweenRemove(): void
+		{
+			PopUpManager.removePopUp(comp);
 		}
 		
 		public function onTweenDestroy(): void
