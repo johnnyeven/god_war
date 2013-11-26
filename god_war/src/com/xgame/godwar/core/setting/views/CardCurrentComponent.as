@@ -1,5 +1,6 @@
 package com.xgame.godwar.core.setting.views
 {
+	import com.xgame.godwar.common.object.Card;
 	import com.xgame.godwar.common.pool.ResourcePool;
 	import com.xgame.godwar.enum.ScrollBarOrientation;
 	import com.xgame.godwar.liteui.component.Button;
@@ -39,6 +40,13 @@ package com.xgame.godwar.core.setting.views
 			
 			sortChildIndex();
 			addChild(scrollList);
+		}
+		
+		public function addCard(c: Card): void
+		{
+			cardListContainer.add(c);
+			cardListContainer.layout.update();
+			scrollList.rebuild();
 		}
 	}
 }

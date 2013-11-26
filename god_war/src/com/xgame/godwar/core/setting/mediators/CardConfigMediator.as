@@ -1,5 +1,6 @@
 package com.xgame.godwar.core.setting.mediators
 {
+	import com.xgame.godwar.common.commands.receiving.Receive_Hall_RequestCardGroup;
 	import com.xgame.godwar.common.object.SoulCard;
 	import com.xgame.godwar.common.parameters.CardGroupParameter;
 	import com.xgame.godwar.core.general.mediators.BaseMediator;
@@ -8,6 +9,7 @@ package com.xgame.godwar.core.setting.mediators
 	import com.xgame.godwar.core.setting.views.CardConfigComponent;
 	import com.xgame.godwar.enum.PopupEffect;
 	import com.xgame.godwar.events.CardConfigEvent;
+	import com.xgame.godwar.liteui.component.ListItem;
 	
 	import org.puremvc.as3.interfaces.INotification;
 	
@@ -30,6 +32,7 @@ package com.xgame.godwar.core.setting.mediators
 			popUpEffect = PopupEffect.NONE;
 			
 			component.addEventListener(CardConfigEvent.BACK_CLICK, onBtnBackClick);
+			component.addEventListener(CardConfigEvent.GROUP_CLICK, onGroupClick);
 			
 			if(!facade.hasProxy(CardGroupProxy.NAME))
 			{
@@ -78,10 +81,46 @@ package com.xgame.godwar.core.setting.mediators
 			});
 		}
 		
+		private function onGroupClick(evt: CardConfigEvent): void
+		{
+			var listItem: ListItem = evt.value as ListItem;
+			evt.stopImmediatePropagation();
+			if(listItem != null)
+			{
+				var proxy: CardGroupProxy = facade.retrieveProxy(CardGroupProxy.NAME) as CardGroupProxy;
+				var protocol: Receive_Hall_RequestCardGroup = proxy.getData() as Receive_Hall_RequestCardGroup;
+				var parameter: CardGroupParameter;
+				for(var i: int = 0; i < protocol.list.length; i++)
+				{
+					parameter = protocol.list[i];
+					if(listItem.value == parameter.groupId)
+					{
+						break;
+					}
+				}
+				
+				if(parameter != null)
+				{
+					for(var j: String in parameter.cardList)
+					{
+						component.cardCurrentList.addCard(parameter.cardList[j]);
+					}
+				}
+			}
+		}
+		
 		private function requestCard(): void
 		{
 			var proxy: CardGroupProxy = facade.retrieveProxy(CardGroupProxy.NAME) as CardGroupProxy;
-			proxy.requestCardGroup();
+			if(proxy.getData() != null)
+			{
+				var protocol: Receive_Hall_RequestCardGroup = proxy.getData() as Receive_Hall_RequestCardGroup;
+				addCardGroup(protocol.list);
+			}
+			else
+			{
+				proxy.requestCardGroup();
+			}
 			
 			addCardList();
 		}

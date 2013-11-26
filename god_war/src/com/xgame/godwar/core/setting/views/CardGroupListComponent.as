@@ -2,6 +2,8 @@ package com.xgame.godwar.core.setting.views
 {
 	import com.xgame.godwar.common.parameters.CardGroupParameter;
 	import com.xgame.godwar.common.pool.ResourcePool;
+	import com.xgame.godwar.events.CardConfigEvent;
+	import com.xgame.godwar.events.ui.ListEvent;
 	import com.xgame.godwar.liteui.component.Button;
 	import com.xgame.godwar.liteui.component.Label;
 	import com.xgame.godwar.liteui.component.List;
@@ -27,7 +29,7 @@ package com.xgame.godwar.core.setting.views
 			btnAddGroup = getUI(Button, "btnAddGroup") as Button;
 			btnDeleteGroup = getUI(Button, "btnDeleteGroup") as Button;
 			
-			lstGroup.addEventListener(MouseEvent.CLICK, onListClick);
+			lstGroup.addEventListener(ListEvent.ITEM_CLICK, onListClick)
 		}
 		
 		public function addGroup(item: CardGroupParameter): void
@@ -38,9 +40,11 @@ package com.xgame.godwar.core.setting.views
 			lstGroup.add(i);
 		}
 		
-		private function onListClick(evt: MouseEvent): void
+		private function onListClick(evt: ListEvent): void
 		{
-			trace(evt.currentTarget);
+			var event: CardConfigEvent = new CardConfigEvent(CardConfigEvent.GROUP_CLICK, true);
+			event.value = evt.item;
+			dispatchEvent(event);
 		}
 	}
 }

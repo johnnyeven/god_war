@@ -78,10 +78,9 @@ package com.xgame.godwar.common.object
 			if(bd == null)
 			{
 				bd = ResourcePool.instance.getBitmapData("assets.resource.card.UnknowCard_Small");
-				_cardResourceBuffer.bitmapData = bd;
-				
 				ResourceCenter.instance.load(_resourceId, null, onCardResourceLoadComplete);
 			}
+			_cardResourceBuffer.bitmapData = bd;
 			fixSize();
 		}
 		
