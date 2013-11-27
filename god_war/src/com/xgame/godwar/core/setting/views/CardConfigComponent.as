@@ -53,6 +53,9 @@ package com.xgame.godwar.core.setting.views
 		
 		public function hide(callback: Function = null): void
 		{
+			_cardCurrentList.emptyCards();
+			_groupList.removeAll();
+			
 			TweenLite.to(_cardCurrentList, .5, {x: 554, ease: Strong.easeIn});
 			TweenLite.to(_cardCurrentList, .5, {x: GameManager.container.stageWidth, ease: Strong.easeIn, delay: .3});
 			TweenLite.to(_cardList, .5, {x: GameManager.container.stageWidth, ease: Strong.easeIn, delay: .3});

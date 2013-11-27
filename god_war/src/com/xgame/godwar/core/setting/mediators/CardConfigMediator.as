@@ -82,6 +82,13 @@ package com.xgame.godwar.core.setting.mediators
 		
 		private function onBtnBackClick(evt: CardConfigEvent): void
 		{
+			var soulCardProxy: SoulCardProxy = facade.retrieveProxy(SoulCardProxy.NAME) as SoulCardProxy;
+			var soulCardList: Array = soulCardProxy.getData() as Array;
+			for(var j: String in soulCardList)
+			{
+				soulCardList[j].enabled = true;
+			}
+			
 			component.hide(function(): void
 			{
 				remove();
@@ -119,12 +126,15 @@ package com.xgame.godwar.core.setting.mediators
 				if(parameter != null)
 				{
 					var myCard: Card;
+					var card: Card;
 					for(j in parameter.cardList)
 					{
-						component.cardCurrentList.addCard(parameter.cardList[j]);
-						if(soulCardIndex.hasOwnProperty(parameter.cardList[j].id))
+						card = parameter.cardList[j] as Card;
+						card.addEventListener(MouseEvent.CLICK, onCurrentCardListClick);
+						component.cardCurrentList.addCard(card);
+						if(soulCardIndex.hasOwnProperty(card.id))
 						{
-							myCard = soulCardList[soulCardIndex[parameter.cardList[j].id]];
+							myCard = soulCardList[soulCardIndex[card.id]];
 							myCard.enabled = false;
 						}
 					}
@@ -184,6 +194,8 @@ package com.xgame.godwar.core.setting.mediators
 				var clone: Card = card.clone();
 				component.cardCurrentList.addCard(clone);
 				
+				clone.addEventListener(MouseEvent.CLICK, onCurrentCardListClick);
+				
 				var proxy: CardGroupProxy = facade.retrieveProxy(CardGroupProxy.NAME) as CardGroupProxy;
 				var protocol: Receive_Hall_RequestCardGroup = proxy.getData() as Receive_Hall_RequestCardGroup;
 				var parameter: CardGroupParameter;
@@ -200,6 +212,45 @@ package com.xgame.godwar.core.setting.mediators
 					parameter.cardList.push(clone);
 				}
 			}
+		}
+		
+		private function onCurrentCardListClick(evt: MouseEvent): void
+		{
+			var card: Card = evt.currentTarget as Card;
+			
+			var soulCardProxy: SoulCardProxy = facade.retrieveProxy(SoulCardProxy.NAME) as SoulCardProxy;
+			var soulCardIndex: Dictionary = soulCardProxy.soulCardIndex;
+			var soulCardList: Array = soulCardProxy.getData() as Array;
+			
+			if(soulCardIndex.hasOwnProperty(card.id))
+			{
+				var myCard: Card = soulCardList[soulCardIndex[card.id]];
+				myCard.enabled = true;
+			}
+			
+			var proxy: CardGroupProxy = facade.retrieveProxy(CardGroupProxy.NAME) as CardGroupProxy;
+			var protocol: Receive_Hall_RequestCardGroup = proxy.getData() as Receive_Hall_RequestCardGroup;
+			var parameter: CardGroupParameter;
+			for(var i: int = 0; i < protocol.list.length; i++)
+			{
+				parameter = protocol.list[i];
+				if(currentGroupId == parameter.groupId)
+				{
+					break;
+				}
+			}
+			if(parameter != null)
+			{
+				var index: int = parameter.cardList.indexOf(card);
+				if(index > 0)
+				{
+					parameter.cardList.splice(index, 1);
+				}
+			}
+			
+			component.cardCurrentList.removeCard(card);
+			card.dispose();
+			card = null;
 		}
 	}
 }

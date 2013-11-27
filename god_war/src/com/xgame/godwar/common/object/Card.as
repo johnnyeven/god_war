@@ -15,7 +15,7 @@ package com.xgame.godwar.common.object
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
 
-	public class Card extends Sprite
+	public class Card extends SpriteEx
 	{
 		private var _id: String;
 		private var _resourceId: String;
@@ -160,6 +160,29 @@ package com.xgame.godwar.common.object
 		public function clone(): Card
 		{
 			return new Card(_id, _displayMode);
+		}
+		
+		public function dispose(): void
+		{
+			while(_baseLayer.numChildren > 0)
+			{
+				_baseLayer.removeChildAt(0);
+			}
+			while(_effectLayer.numChildren > 0)
+			{
+				_effectLayer.removeChildAt(0);
+			}
+			while(_infoLayer.numChildren > 0)
+			{
+				_infoLayer.removeChildAt(0);
+			}
+			_baseLayer = null;
+			_effectLayer = null;
+			_infoLayer = null;
+			_cardResourceBuffer.bitmapData = null;
+			_cardResourceBuffer = null;
+			
+			removeEventListeners();
 		}
 	}
 }
