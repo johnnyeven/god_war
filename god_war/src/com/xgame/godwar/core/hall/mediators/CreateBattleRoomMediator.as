@@ -1,7 +1,5 @@
 package com.xgame.godwar.core.hall.mediators
 {
-	import com.greensock.TweenLite;
-	import com.greensock.easing.Strong;
 	import com.xgame.godwar.common.commands.CommandList;
 	import com.xgame.godwar.common.commands.receiving.Receive_Hall_RequestRoom;
 	import com.xgame.godwar.common.commands.sending.Send_Hall_RequestRoom;

@@ -38,7 +38,6 @@ package com.xgame.godwar.core.setting.views
 			_cardCurrentList.x = GameManager.container.stageWidth;
 			
 			btnBack.addEventListener(MouseEvent.CLICK, onBtnBackClick);
-//			_groupList.addEventListener(CardConfigEvent.GROUP_CLICK, onGroupClick);
 		}
 		
 		public function show(callback: Function = null): void
@@ -68,11 +67,6 @@ package com.xgame.godwar.core.setting.views
 		{
 			dispatchEvent(new CardConfigEvent(CardConfigEvent.BACK_CLICK));
 		}
-		
-//		private function onGroupClick(evt: CardConfigEvent): void
-//		{
-//			dispatchEvent(evt);
-//		}
 
 		public function get groupList():CardGroupListComponent
 		{

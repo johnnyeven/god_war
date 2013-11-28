@@ -19,6 +19,7 @@ package com.xgame.godwar.core.setting.views
 		private var lstGroup: List;
 		private var btnAddGroup: Button;
 		private var btnDeleteGroup: Button;
+		private var currentGroupId: int;
 		
 		public function CardGroupListComponent(_skin: DisplayObjectContainer = null)
 		{
@@ -29,7 +30,9 @@ package com.xgame.godwar.core.setting.views
 			btnAddGroup = getUI(Button, "btnAddGroup") as Button;
 			btnDeleteGroup = getUI(Button, "btnDeleteGroup") as Button;
 			
-			lstGroup.addEventListener(ListEvent.ITEM_CLICK, onListClick)
+			lstGroup.addEventListener(ListEvent.ITEM_CLICK, onListClick);
+			btnAddGroup.addEventListener(MouseEvent.CLICK, onBtnAddGroupClick);
+			btnDeleteGroup.addEventListener(MouseEvent.CLICK, onBtnDeleteGroupClick);
 		}
 		
 		public function addGroup(item: CardGroupParameter): void
@@ -54,6 +57,20 @@ package com.xgame.godwar.core.setting.views
 		{
 			var event: CardConfigEvent = new CardConfigEvent(CardConfigEvent.GROUP_CLICK, true);
 			event.value = evt.item;
+			currentGroupId = int(evt.item.value);
+			dispatchEvent(event);
+		}
+		
+		private function onBtnAddGroupClick(evt: MouseEvent): void
+		{
+			var event: CardConfigEvent = new CardConfigEvent(CardConfigEvent.CREATE_GROUP_CLICK, true);
+			dispatchEvent(event);
+		}
+		
+		private function onBtnDeleteGroupClick(evt: MouseEvent): void
+		{
+			var event: CardConfigEvent = new CardConfigEvent(CardConfigEvent.DELETE_GROUP_CLICK, true);
+			event.value = currentGroupId;
 			dispatchEvent(event);
 		}
 	}

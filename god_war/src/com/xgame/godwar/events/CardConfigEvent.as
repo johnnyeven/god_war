@@ -6,6 +6,10 @@ package com.xgame.godwar.events
 	{
 		public static const BACK_CLICK: String = "CardConfigEvent.BackClick";
 		public static const GROUP_CLICK: String = "CardConfigEvent.GroupClick";
+		public static const CREATE_GROUP_CLICK: String = "CardConfigEvent.CreateGroupClick";
+		public static const DELETE_GROUP_CLICK: String = "CardConfigEvent.DeleteGroupClick";
+		public static const CREATE_GROUP_OK_CLICK: String = "CardConfigEvent.CreateGroupOkClick";
+		public static const CREATE_GROUP_CANCEL_CLICK: String = "CardConfigEvent.CreateGroupCancelClick";
 		
 		public var value: Object;
 		

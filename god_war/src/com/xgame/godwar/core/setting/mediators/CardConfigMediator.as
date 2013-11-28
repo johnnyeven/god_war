@@ -11,7 +11,6 @@ package com.xgame.godwar.core.setting.mediators
 	import com.xgame.godwar.enum.PopupEffect;
 	import com.xgame.godwar.events.CardConfigEvent;
 	import com.xgame.godwar.liteui.component.ListItem;
-	import com.xgame.godwar.utils.UIUtils;
 	
 	import flash.events.MouseEvent;
 	import flash.utils.Dictionary;
@@ -40,7 +39,13 @@ package com.xgame.godwar.core.setting.mediators
 			
 			component.addEventListener(CardConfigEvent.BACK_CLICK, onBtnBackClick);
 			component.addEventListener(CardConfigEvent.GROUP_CLICK, onGroupClick);
+			component.addEventListener(CardConfigEvent.CREATE_GROUP_CLICK, onCreateGroupClick);
+			component.addEventListener(CardConfigEvent.DELETE_GROUP_CLICK, onDeleteGroupClick);
 			
+			if(!facade.hasMediator(CreateGroupMediator.NAME))
+			{
+				facade.registerMediator(new CreateGroupMediator());
+			}
 			if(!facade.hasProxy(CardGroupProxy.NAME))
 			{
 				facade.registerProxy(new CardGroupProxy());
@@ -251,6 +256,18 @@ package com.xgame.godwar.core.setting.mediators
 			component.cardCurrentList.removeCard(card);
 			card.dispose();
 			card = null;
+		}
+		
+		private function onCreateGroupClick(evt: CardConfigEvent): void
+		{
+			evt.stopImmediatePropagation();
+			
+			facade.sendNotification(CreateGroupMediator.SHOW_NOTE);
+		}
+		
+		private function onDeleteGroupClick(evt: CardConfigEvent): void
+		{
+			evt.stopImmediatePropagation();
 		}
 	}
 }
