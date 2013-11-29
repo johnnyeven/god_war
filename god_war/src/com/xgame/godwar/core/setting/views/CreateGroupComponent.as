@@ -70,5 +70,10 @@ package com.xgame.godwar.core.setting.views
 			
 			dispatchEvent(new CardConfigEvent(CardConfigEvent.CREATE_GROUP_CANCEL_CLICK));
 		}
+		
+		public function get groupName(): String
+		{
+			return iptName.text;
+		}
 	}
 }
