@@ -43,9 +43,17 @@ package com.xgame.godwar.core.setting.views
 			lstGroup.add(i);
 		}
 		
-		public function removeGroup(): void
+		public function removeGroupId(groupId: int): void
 		{
-			
+			var i:int;
+			for(i in lstGroup.list)
+			{
+				if(int(lstGroup.list[i].value) == groupId)
+				{
+					lstGroup.remove(lstGroup.list[i]);
+					break;
+				}
+			}
 		}
 		
 		public function removeAll(): void

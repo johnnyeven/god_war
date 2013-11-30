@@ -10,6 +10,8 @@ package com.xgame.godwar.events
 		public static const DELETE_GROUP_CLICK: String = "CardConfigEvent.DeleteGroupClick";
 		public static const CREATE_GROUP_OK_CLICK: String = "CardConfigEvent.CreateGroupOkClick";
 		public static const CREATE_GROUP_CANCEL_CLICK: String = "CardConfigEvent.CreateGroupCancelClick";
+		public static const DELETE_GROUP_OK_CLICK: String = "CardConfigEvent.DeleteGroupOkClick";
+		public static const DELETE_GROUP_CANCEL_CLICK: String = "CardConfigEvent.DeleteGroupCancelClick";
 		
 		public var value: Object;
 		

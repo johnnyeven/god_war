@@ -184,5 +184,10 @@ package com.xgame.godwar.common.object
 			
 			removeEventListeners();
 		}
+		
+		override public function toString():String
+		{
+			return "CardId=" + _id;
+		}
 	}
 }

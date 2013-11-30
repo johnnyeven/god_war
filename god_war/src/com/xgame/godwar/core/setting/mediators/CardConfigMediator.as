@@ -2,7 +2,6 @@ package com.xgame.godwar.core.setting.mediators
 {
 	import com.xgame.godwar.common.commands.receiving.Receive_Hall_RequestCardGroup;
 	import com.xgame.godwar.common.object.Card;
-	import com.xgame.godwar.common.object.SoulCard;
 	import com.xgame.godwar.common.parameters.CardGroupParameter;
 	import com.xgame.godwar.core.general.mediators.BaseMediator;
 	import com.xgame.godwar.core.general.proxy.SoulCardProxy;
@@ -25,6 +24,7 @@ package com.xgame.godwar.core.setting.mediators
 		public static const DISPOSE_NOTE: String = NAME + ".DisposeNote";
 		public static const SHOW_CARD_GROUP_NOTE: String = NAME + ".ShowCardGroupNote";
 		public static const ADD_CARD_GROUP_NOTE: String = NAME + ".AddCardGroupNote";
+		public static const REMOVE_CARD_GROUP_NOTE: String = NAME + ".RemoveCardGroupNote";
 		public static const SHOW_CARD_LIST_NOTE: String = NAME + ".ShowCardListNote";
 		public static const SHOW_CARD_CURRENT_NOTE: String = NAME + ".ShowCardCurrentNote";
 		
@@ -47,6 +47,10 @@ package com.xgame.godwar.core.setting.mediators
 			{
 				facade.registerMediator(new CreateGroupMediator());
 			}
+			if(!facade.hasMediator(DeleteGroupMediator.NAME))
+			{
+				facade.registerMediator(new DeleteGroupMediator());
+			}
 			if(!facade.hasProxy(CardGroupProxy.NAME))
 			{
 				facade.registerProxy(new CardGroupProxy());
@@ -61,7 +65,8 @@ package com.xgame.godwar.core.setting.mediators
 		override public function listNotificationInterests():Array
 		{
 			return [SHOW_NOTE, HIDE_NOTE, DISPOSE_NOTE, SHOW_CARD_GROUP_NOTE,
-				ADD_CARD_GROUP_NOTE, SHOW_CARD_LIST_NOTE, SHOW_CARD_CURRENT_NOTE];
+				ADD_CARD_GROUP_NOTE, REMOVE_CARD_GROUP_NOTE, SHOW_CARD_LIST_NOTE,
+				SHOW_CARD_CURRENT_NOTE];
 		}
 		
 		override public function handleNotification(notification:INotification):void
@@ -83,6 +88,9 @@ package com.xgame.godwar.core.setting.mediators
 					break;
 				case ADD_CARD_GROUP_NOTE:
 					addCardGroup(notification.getBody() as CardGroupParameter);
+					break;
+				case REMOVE_CARD_GROUP_NOTE:
+					removeCardGroup(int(notification.getBody()));
 					break;
 				case SHOW_CARD_LIST_NOTE:
 					addCardList();
@@ -140,7 +148,10 @@ package com.xgame.godwar.core.setting.mediators
 					for(j in parameter.cardList)
 					{
 						card = parameter.cardList[j] as Card;
-						card.addEventListener(MouseEvent.CLICK, onCurrentCardListClick);
+						if(!card.hasEventListener(MouseEvent.CLICK))
+						{
+							card.addEventListener(MouseEvent.CLICK, onCurrentCardListClick);
+						}
 						component.cardCurrentList.addCard(card);
 						if(soulCardIndex.hasOwnProperty(card.id))
 						{
@@ -182,6 +193,27 @@ package com.xgame.godwar.core.setting.mediators
 		private function addCardGroup(parameter: CardGroupParameter): void
 		{
 			component.groupList.addGroup(parameter);
+			
+			var proxy: CardGroupProxy = facade.retrieveProxy(CardGroupProxy.NAME) as CardGroupProxy;
+			var protocol: Receive_Hall_RequestCardGroup = proxy.getData() as Receive_Hall_RequestCardGroup;
+			protocol.list.push(parameter);
+		}
+		
+		private function removeCardGroup(groupId: int): void
+		{
+			component.groupList.removeGroupId(groupId);
+			
+			var proxy: CardGroupProxy = facade.retrieveProxy(CardGroupProxy.NAME) as CardGroupProxy;
+			var protocol: Receive_Hall_RequestCardGroup = proxy.getData() as Receive_Hall_RequestCardGroup;
+			
+			var i: int;
+			for(i = 0; i<protocol.list.length; i++)
+			{
+				if(protocol.list[i].groupId == groupId)
+				{
+					protocol.list.splice(i, 1);
+				}
+			}
 		}
 		
 		private function addCardList(): void
@@ -194,7 +226,10 @@ package com.xgame.godwar.core.setting.mediators
 				for(var i: String in list)
 				{
 					card = list[i];
-					card.addEventListener(MouseEvent.CLICK, onCardListClick);
+					if(!card.hasEventListener(MouseEvent.CLICK))
+					{
+						card.addEventListener(MouseEvent.CLICK, onCardListClick);
+					}
 					component.cardList.addCard(card);
 				}
 			}
@@ -257,7 +292,7 @@ package com.xgame.godwar.core.setting.mediators
 			if(parameter != null)
 			{
 				var index: int = parameter.cardList.indexOf(card);
-				if(index > 0)
+				if(index >= 0)
 				{
 					parameter.cardList.splice(index, 1);
 				}
@@ -278,6 +313,11 @@ package com.xgame.godwar.core.setting.mediators
 		private function onDeleteGroupClick(evt: CardConfigEvent): void
 		{
 			evt.stopImmediatePropagation();
+			
+			if(currentGroupId > 0)
+			{
+				facade.sendNotification(DeleteGroupMediator.SHOW_NOTE, currentGroupId);
+			}
 		}
 	}
 }
