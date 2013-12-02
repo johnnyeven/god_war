@@ -1,41 +1,40 @@
 package com.xgame.godwar.liteui.component
 {
+	import com.xgame.godwar.common.pool.ResourcePool;
+	import com.xgame.godwar.events.ui.MessageBoxEvent;
+	import com.xgame.godwar.liteui.core.Component;
+	import com.xgame.godwar.utils.StringUtils;
+	import com.xgame.godwar.utils.UIUtils;
+	import com.xgame.godwar.utils.manager.LanguageManager;
+	import com.xgame.godwar.utils.manager.PopUpManager;
+	
+	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.text.TextFormatAlign;
 	import flash.utils.getDefinitionByName;
 	
-	import com.xgame.godwar.utils.StringUtils;
-	import com.xgame.godwar.utils.UIUtils;
-	import com.xgame.godwar.utils.manager.PopUpManager;
-	import com.xgame.godwar.utils.manager.LanguageManager;
-	import com.xgame.godwar.liteui.core.Component;
-	
 	public class MessageBox extends Component
 	{
 		protected var _labelCaption: Label;
 		protected var _labelContent: Label;
 		protected var _okButton: CaptionButton;
-		protected var _noButton: CaptionButton;
-		protected var _closeButton: Button;
+		protected var _cancelButton: CaptionButton;
 		private var _buttonType: uint;
-		private var _onButtonPress: Function;
 		public static var defaultSkinName: String;
 		public static const BUTTON_OK: uint = 1;
 		public static const BUTTON_CANCEL: uint = 2;
 		
-		public function MessageBox(_skin:DisplayObjectContainer=null, _callback: Function = null)
+		public function MessageBox(_skin:DisplayObjectContainer=null)
 		{
-			super(_skin);
-			_onButtonPress = _callback;
-			_labelCaption = getUI(Label, "labelCaption") as Label;
-			_labelContent = getUI(Label, "labelContent") as Label;
-			_okButton = getUI(CaptionButton, "okButton") as CaptionButton;
-			_noButton = getUI(CaptionButton, "noButton") as CaptionButton;
-			_closeButton = getUI(Button, "closeButton") as Button;
+			super(_skin ? _skin : ResourcePool.instance.getDisplayObject("assets.ui.MessageBox", null, false) as DisplayObjectContainer);
+			_labelCaption = getUI(Label, "title") as Label;
+			_labelContent = getUI(Label, "lblContent") as Label;
+			_okButton = getUI(CaptionButton, "btnOk") as CaptionButton;
+			_cancelButton = getUI(CaptionButton, "btnCancel") as CaptionButton;
 			_okButton.caption = LanguageManager.getInstance().lang("common_messagebox_ok");
-			_noButton.caption = LanguageManager.getInstance().lang("common_messagebox_cancel");
+			_cancelButton.caption = LanguageManager.getInstance().lang("common_messagebox_cancel");
 			sortChildIndex();
 			
 			_labelCaption.wordWrap = false;
@@ -44,8 +43,7 @@ package com.xgame.godwar.liteui.component
 			_labelContent.align = TextFormatAlign.LEFT;
 			
 			_okButton.addEventListener(MouseEvent.CLICK, onOkButtonClick);
-			_noButton.addEventListener(MouseEvent.CLICK, onNoButtonClick);
-			_closeButton.addEventListener(MouseEvent.CLICK, onCloseButtonClick);
+			_cancelButton.addEventListener(MouseEvent.CLICK, onCancelButtonClick);
 			
 			initButton();
 		}
@@ -56,11 +54,11 @@ package com.xgame.godwar.liteui.component
 			_labelCaption.dispose();
 			_labelContent.dispose();
 			_okButton.dispose();
-			_noButton.dispose();
+			_cancelButton.dispose();
 			_labelCaption = null;
 			_labelContent = null;
 			_okButton = null;
-			_noButton = null;
+			_cancelButton = null;
 		}
 		
 		private function initButton(): void
@@ -75,11 +73,11 @@ package com.xgame.godwar.liteui.component
 			}
 			if(_buttonType & BUTTON_CANCEL)
 			{
-				_noButton.visible = true;
+				_cancelButton.visible = true;
 			}
 			else
 			{
-				_noButton.visible = false;
+				_cancelButton.visible = false;
 			}
 		}
 
@@ -116,24 +114,15 @@ package com.xgame.godwar.liteui.component
 		
 		protected function onOkButtonClick(evt: MouseEvent): void
 		{
-			if(_onButtonPress != null)
-			{
-				_onButtonPress(BUTTON_OK);
-			}
+			var event: MessageBoxEvent = new MessageBoxEvent(MessageBoxEvent.BTN_OK_CLICK);
+			dispatchEvent(event);
 			close();
 		}
 		
-		protected function onNoButtonClick(evt: MouseEvent): void
+		protected function onCancelButtonClick(evt: MouseEvent): void
 		{
-			if(_onButtonPress != null)
-			{
-				_onButtonPress(BUTTON_CANCEL);
-			}
-			close();
-		}
-		
-		protected function onCloseButtonClick(evt: MouseEvent): void
-		{
+			var event: MessageBoxEvent = new MessageBoxEvent(MessageBoxEvent.BTN_CANCEL_CLICK);
+			dispatchEvent(event);
 			close();
 		}
 		
@@ -144,22 +133,15 @@ package com.xgame.godwar.liteui.component
 			dispose();
 		}
 		
-		public static function show(caption: String, content: String, skinName: String = "", mode: Boolean = true, buttonType: uint = 3, callback: Function = null): MessageBox
+		public static function show(caption: String, content: String, skinName: String = "", mode: Boolean = true, buttonType: uint = 3): MessageBox
 		{
-			var _class: Class;
+			var skin: DisplayObject;
 			if(!StringUtils.empty(skinName))
 			{
-				_class = getDefinitionByName(skinName) as Class;
+				skin = ResourcePool.instance.getDisplayObject(skinName);
 			}
-			else if(!StringUtils.empty(defaultSkinName))
-			{
-				_class = getDefinitionByName(defaultSkinName) as Class;
-			}
-			else
-			{
-				throw new Error("MessageBox未指定显示皮肤");
-			}
-			var _message: MessageBox = new MessageBox(new _class(), callback);
+			var _message: MessageBox = new MessageBox(skin as DisplayObjectContainer);
+			
 			_message.caption = caption;
 			_message.content = content;
 			_message.buttonType = buttonType;
