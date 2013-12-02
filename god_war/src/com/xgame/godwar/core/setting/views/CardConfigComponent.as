@@ -37,6 +37,7 @@ package com.xgame.godwar.core.setting.views
 			_cardList.x = GameManager.container.stageWidth;
 			_cardCurrentList.x = GameManager.container.stageWidth;
 			
+			btnSave.addEventListener(MouseEvent.CLICK, onBtnSaveClick);
 			btnBack.addEventListener(MouseEvent.CLICK, onBtnBackClick);
 		}
 		
@@ -61,6 +62,11 @@ package com.xgame.godwar.core.setting.views
 			TweenLite.to(btnBack, .5, {x: -btnBack.width, ease: Strong.easeIn, delay: .6});
 			TweenLite.to(btnSave, .5, {x: -btnSave.width, ease: Strong.easeIn, delay: .9});
 			TweenLite.to(_groupList, .5, {y: -_groupList.height, ease: Strong.easeIn, delay: 1.2, onComplete: callback});
+		}
+		
+		private function onBtnSaveClick(evt: MouseEvent): void
+		{
+			dispatchEvent(new CardConfigEvent(CardConfigEvent.SAVE_CLICK));
 		}
 		
 		private function onBtnBackClick(evt: MouseEvent): void

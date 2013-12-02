@@ -116,6 +116,7 @@ package com.xgame.godwar.core.setting.mediators
 				var protocol: Receive_Hall_RequestCardGroup = proxy.getData() as Receive_Hall_RequestCardGroup;
 				
 				var send: Send_Info_SaveCardConfig = new Send_Info_SaveCardConfig();
+				send.currentGroupId = currentGroupId;
 				send.list = protocol.list;
 				
 				CommandCenter.instance.send(send);
@@ -131,6 +132,8 @@ package com.xgame.godwar.core.setting.mediators
 			{
 				soulCardList[j].enabled = true;
 			}
+			
+			currentGroupId = 0;
 			
 			component.hide(function(): void
 			{
@@ -228,6 +231,9 @@ package com.xgame.godwar.core.setting.mediators
 		{
 			component.groupList.removeGroupId(groupId);
 			
+			component.cardCurrentList.emptyCards();
+			currentGroupId = 0;
+			
 			var proxy: CardGroupProxy = facade.retrieveProxy(CardGroupProxy.NAME) as CardGroupProxy;
 			var protocol: Receive_Hall_RequestCardGroup = proxy.getData() as Receive_Hall_RequestCardGroup;
 			
@@ -238,6 +244,13 @@ package com.xgame.godwar.core.setting.mediators
 				{
 					protocol.list.splice(i, 1);
 				}
+			}
+			
+			var soulCardProxy: SoulCardProxy = facade.retrieveProxy(SoulCardProxy.NAME) as SoulCardProxy;
+			var soulCardList: Array = soulCardProxy.getData() as Array;
+			for(var j: String in soulCardList)
+			{
+				soulCardList[j].enabled = true;
 			}
 		}
 		
@@ -263,7 +276,7 @@ package com.xgame.godwar.core.setting.mediators
 		private function onCardListClick(evt: MouseEvent): void
 		{
 			var card: Card = evt.currentTarget as Card;
-			if(card.enabled)
+			if(card.enabled && currentGroupId > 0)
 			{
 				card.enabled = false;
 				var clone: Card = card.clone();
@@ -347,7 +360,7 @@ package com.xgame.godwar.core.setting.mediators
 		
 		private function onSaveCardConfig(protocol: Receive_Info_SaveCardConfig): void
 		{
-			
+			facade.sendNotification(LoadingIconMediator.LOADING_HIDE_NOTE);
 		}
 	}
 }

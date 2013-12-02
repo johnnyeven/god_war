@@ -64,6 +64,11 @@ package com.xgame.godwar.liteui.component
 		
 		public function removeAll(): void
 		{
+			for(var i: String in _list)
+			{
+				_list[i].dispose();
+			}
+			_list.splice(0, _list.length);
 			container.removeAll();
 			container.layout.update();
 			scrollList.rebuild();
