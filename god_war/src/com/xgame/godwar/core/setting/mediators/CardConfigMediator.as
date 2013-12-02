@@ -1,10 +1,16 @@
 package com.xgame.godwar.core.setting.mediators
 {
+	import com.xgame.godwar.common.commands.CommandList;
 	import com.xgame.godwar.common.commands.receiving.Receive_Hall_RequestCardGroup;
+	import com.xgame.godwar.common.commands.receiving.Receive_Info_SaveCardConfig;
+	import com.xgame.godwar.common.commands.sending.Send_Info_SaveCardConfig;
 	import com.xgame.godwar.common.object.Card;
 	import com.xgame.godwar.common.parameters.CardGroupParameter;
+	import com.xgame.godwar.configuration.SocketContextConfig;
+	import com.xgame.godwar.core.center.CommandCenter;
 	import com.xgame.godwar.core.general.mediators.BaseMediator;
 	import com.xgame.godwar.core.general.proxy.SoulCardProxy;
+	import com.xgame.godwar.core.loading.mediators.LoadingIconMediator;
 	import com.xgame.godwar.core.setting.proxy.CardGroupProxy;
 	import com.xgame.godwar.core.setting.views.CardConfigComponent;
 	import com.xgame.godwar.enum.PopupEffect;
@@ -38,6 +44,7 @@ package com.xgame.godwar.core.setting.mediators
 			mode = true;
 			popUpEffect = PopupEffect.NONE;
 			
+			component.addEventListener(CardConfigEvent.SAVE_CLICK, onBtnSaveClick);
 			component.addEventListener(CardConfigEvent.BACK_CLICK, onBtnBackClick);
 			component.addEventListener(CardConfigEvent.GROUP_CLICK, onGroupClick);
 			component.addEventListener(CardConfigEvent.CREATE_GROUP_CLICK, onCreateGroupClick);
@@ -55,6 +62,9 @@ package com.xgame.godwar.core.setting.mediators
 			{
 				facade.registerProxy(new CardGroupProxy());
 			}
+			
+			CommandList.instance.bind(SocketContextConfig.INFO_SAVE_CARD_GROUP, Receive_Info_SaveCardConfig);
+			CommandCenter.instance.add(SocketContextConfig.INFO_SAVE_CARD_GROUP, onSaveCardConfig);
 		}
 		
 		public function get component(): CardConfigComponent
@@ -95,6 +105,21 @@ package com.xgame.godwar.core.setting.mediators
 				case SHOW_CARD_LIST_NOTE:
 					addCardList();
 					break;
+			}
+		}
+		
+		private function onBtnSaveClick(evt: CardConfigEvent): void
+		{
+			if(CommandCenter.instance.connected && currentGroupId > 0)
+			{
+				var proxy: CardGroupProxy = facade.retrieveProxy(CardGroupProxy.NAME) as CardGroupProxy;
+				var protocol: Receive_Hall_RequestCardGroup = proxy.getData() as Receive_Hall_RequestCardGroup;
+				
+				var send: Send_Info_SaveCardConfig = new Send_Info_SaveCardConfig();
+				send.list = protocol.list;
+				
+				CommandCenter.instance.send(send);
+				facade.sendNotification(LoadingIconMediator.LOADING_SHOW_NOTE);
 			}
 		}
 		
@@ -318,6 +343,11 @@ package com.xgame.godwar.core.setting.mediators
 			{
 				facade.sendNotification(DeleteGroupMediator.SHOW_NOTE, currentGroupId);
 			}
+		}
+		
+		private function onSaveCardConfig(protocol: Receive_Info_SaveCardConfig): void
+		{
+			
 		}
 	}
 }

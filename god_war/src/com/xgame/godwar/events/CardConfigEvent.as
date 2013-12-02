@@ -4,6 +4,7 @@ package com.xgame.godwar.events
 	
 	public class CardConfigEvent extends Event
 	{
+		public static const SAVE_CLICK: String = "CardConfigEvent.SaveClick";
 		public static const BACK_CLICK: String = "CardConfigEvent.BackClick";
 		public static const GROUP_CLICK: String = "CardConfigEvent.GroupClick";
 		public static const CREATE_GROUP_CLICK: String = "CardConfigEvent.CreateGroupClick";

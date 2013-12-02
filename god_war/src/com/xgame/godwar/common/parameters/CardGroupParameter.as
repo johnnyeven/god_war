@@ -1,5 +1,6 @@
 package com.xgame.godwar.common.parameters
 {
+	import com.xgame.godwar.common.object.Card;
 	import com.xgame.godwar.common.object.HeroCard;
 	import com.xgame.godwar.common.object.SoulCard;
 	import com.xgame.godwar.utils.StringUtils;
@@ -17,6 +18,37 @@ package com.xgame.godwar.common.parameters
 			super();
 		}
 		
+		private function getCardTypeCode(card: Card): int
+		{
+			if(card is SoulCard)
+			{
+				return 0;
+			}
+			else if(card is HeroCard)
+			{
+				return 1;
+			}
+			else
+			{
+				return -1;
+			}
+		}
+		
+		private function getCardType(type: int): Class
+		{
+			return CARD_TYPE[type];
+		}
+		
+		public function get cards(): String
+		{
+			var tmp: Array = new Array();
+			for(var i: String in cardList)
+			{
+				tmp.push(getCardTypeCode(cardList[i]) + ":" + cardList[i].id);
+			}
+			return tmp.join(",");
+		}
+		
 		public function set cards(value: String): void
 		{
 			if(!cardListReady && !StringUtils.empty(value))
@@ -27,7 +59,7 @@ package com.xgame.godwar.common.parameters
 				for(var i: String in array)
 				{
 					tmp = array[i].split(":");
-					cardClass = CARD_TYPE[int(tmp[0])];
+					cardClass = getCardType(int(tmp[0]));
 					cardList.push(new cardClass(tmp[1]));
 				}
 			}
