@@ -8,6 +8,8 @@ package com.xgame.godwar.core.hall.mediators
 	import com.xgame.godwar.core.hall.proxy.HallProxy;
 	import com.xgame.godwar.core.hall.views.BattleHallComponent;
 	import com.xgame.godwar.core.hall.views.BattleRoomListItemComponent;
+	import com.xgame.godwar.core.room.controllers.ShowBattleRoomMediatorCommand;
+	import com.xgame.godwar.core.room.proxy.BattleRoomProxy;
 	import com.xgame.godwar.core.setting.controllers.ShowCardConfigMediatorCommand;
 	import com.xgame.godwar.events.BattleHallEvent;
 	import com.xgame.godwar.utils.manager.PopUpManager;
@@ -31,6 +33,15 @@ package com.xgame.godwar.core.hall.mediators
 			
 			component.addEventListener(BattleHallEvent.CREATE_ROOM_CLICK, showCreateRoom);
 			component.addEventListener(BattleHallEvent.CARD_CONFIG_CLICK, showCardConfig);
+			
+			if(!facade.hasProxy(BattleRoomProxy.NAME))
+			{
+				facade.registerProxy(new BattleRoomProxy());
+			}
+			if(!facade.hasCommand(ShowBattleRoomMediatorCommand.SHOW_NOTE))
+			{
+				facade.registerCommand(ShowBattleRoomMediatorCommand.SHOW_NOTE, ShowBattleRoomMediatorCommand);
+			}
 		}
 		
 		public function get component(): BattleHallComponent
@@ -51,10 +62,26 @@ package com.xgame.godwar.core.hall.mediators
 					show();
 					break;
 				case HIDE_NOTE:
-					dispose();
+					hide(function(): void
+					{
+						remove();
+						var func: Function = notification.getBody() as Function;
+						if(func != null)
+						{
+							func();
+						}
+					});
 					break;
 				case DISPOSE_NOTE:
-					dispose();
+					hide(function(): void
+					{
+						dispose();
+						var func: Function = notification.getBody() as Function;
+						if(func != null)
+						{
+							func();
+						}
+					});
 					break;
 				case SHOW_ROOM_LIST_NOTE:
 					onShowRoomList(notification.getBody() as Vector.<RoomListItemParameter>);
@@ -107,11 +134,6 @@ package com.xgame.godwar.core.hall.mediators
 		private function showCardConfig(evt: BattleHallEvent): void
 		{
 			facade.sendNotification(ShowCardConfigMediatorCommand.SHOW_NOTE, ShowCardConfigMediatorCommand);
-//			hide(function(): void
-//			{
-//				dispose();
-//				facade.sendNotification(ShowCardConfigMediatorCommand.SHOW_NOTE, ShowCardConfigMediatorCommand);
-//			});
 		}
 	}
 }

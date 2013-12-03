@@ -11,6 +11,9 @@
 		<SWFLoader name="create_battle_room_ui" url="assets/swf/ui/hall/create_room_ui.swf" autoPlay="false" version="1.0.0" />
 		<SWFLoader name="card_config_ui" url="assets/swf/ui/config/card_config_ui.swf" autoPlay="false" version="1.0.0" />
 	</LoaderMax>
+	<LoaderMax name="battle_ui">
+		<SWFLoader name="battle_room_ui" url="assets/swf/ui/room/battle_room_ui.swf" autoPlay="false" version="1.0.0" />
+	</LoaderMax>
 
 	<SWFLoader name='chaos_1_duyeqinshizhe' url='assets/swf/cards/chaos_1_duyeqinshizhe.swf' autoPlay= "false" version="1.0.0"/>
 	<SWFLoader name='chaos_1_gebulin' url='assets/swf/cards/chaos_1_gebulin.swf' autoPlay= "false" version="1.0.0"/>
