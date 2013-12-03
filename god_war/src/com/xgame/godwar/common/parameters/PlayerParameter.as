@@ -1,6 +1,6 @@
 package com.xgame.godwar.common.parameters
 {
-	import com.xgame.godwar.utils.Int64;
+	import com.xgame.godwar.utils.UInt64;
 
 	public class PlayerParameter extends Object
 	{

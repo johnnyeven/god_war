@@ -16,6 +16,7 @@ package com.xgame.godwar.core.room.proxy
 	public class BattleRoomProxy extends Proxy implements IProxy
 	{
 		public static const NAME: String = "BattleRoomProxy";
+		public var currentRoomId: int;
 		
 		public function BattleRoomProxy()
 		{
@@ -45,7 +46,7 @@ package com.xgame.godwar.core.room.proxy
 		private function onRoomCreated(protocol: Receive_Hall_RequestRoom): void
 		{
 			facade.sendNotification(LoadingIconMediator.LOADING_HIDE_NOTE);
-			setData(protocol);
+			currentRoomId = protocol.roomId;
 			
 			var mediator: CreateBattleRoomMediator = facade.retrieveMediator(CreateBattleRoomMediator.NAME) as CreateBattleRoomMediator;
 			mediator.onDestroy = function(): void
@@ -56,6 +57,14 @@ package com.xgame.godwar.core.room.proxy
 				});
 			}
 			mediator.dispose();
+		}
+		
+		public function requestEnterRoom(): void
+		{
+			if(CommandCenter.instance.connected)
+			{
+				
+			}
 		}
 	}
 }
