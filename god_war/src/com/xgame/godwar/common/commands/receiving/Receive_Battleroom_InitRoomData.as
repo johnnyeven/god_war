@@ -3,10 +3,11 @@ package com.xgame.godwar.common.commands.receiving
 	import com.xgame.godwar.common.parameters.PlayerParameter;
 	import com.xgame.godwar.configuration.SocketContextConfig;
 	import com.xgame.godwar.utils.StringUtils;
+	import com.xgame.godwar.utils.UInt64;
 	
 	import flash.utils.ByteArray;
 
-	public class Receive_Battleroom_InitRoomData extends ReceivingBase
+	public class Receive_BattleRoom_InitRoomData extends ReceivingBase
 	{
 		public var roomId: int = int.MIN_VALUE;
 		public var roomTitle: String;
@@ -16,7 +17,7 @@ package com.xgame.godwar.common.commands.receiving
 		public var peopleLimit: int = int.MIN_VALUE;
 		public var playerList: Vector.<PlayerParameter> = new Vector.<PlayerParameter>();
 		
-		public function Receive_Battleroom_InitRoomData()
+		public function Receive_BattleRoom_InitRoomData()
 		{
 			super(SocketContextConfig.BATTLEROOM_INIT_ROOM);
 		}
@@ -49,9 +50,39 @@ package com.xgame.godwar.common.commands.receiving
 							{
 								peopleLimit = data.readInt();
 							}
+							else if(parameter.level == int.MIN_VALUE)
+							{
+								parameter.level = data.readInt();
+							}
+							else if(parameter.winningCount == int.MIN_VALUE)
+							{
+								parameter.winningCount = data.readInt();
+							}
+							else if(parameter.battleCount == int.MIN_VALUE)
+							{
+								parameter.battleCount = data.readInt();
+							}
+							else if(parameter.honor == int.MIN_VALUE)
+							{
+								parameter.honor = data.readInt();
+							}
 							else if(parameter.playerStatus == int.MIN_VALUE)
 							{
 								parameter.playerStatus = data.readInt();
+							}
+							break;
+						case SocketContextConfig.TYPE_LONG:
+							if (parameter.accountId == null)
+							{
+								parameter.accountId = new UInt64();
+								parameter.accountId.high = data.readInt();
+								parameter.accountId.low = data.readUnsignedInt();
+							}
+							else if(parameter.cash == null)
+							{
+								parameter.cash = new UInt64();
+								parameter.cash.high = data.readInt();
+								parameter.cash.low = data.readUnsignedInt();
 							}
 							break;
 						case SocketContextConfig.TYPE_STRING:
@@ -74,6 +105,10 @@ package com.xgame.godwar.common.commands.receiving
 							else if(StringUtils.empty(parameter.name))
 							{
 								parameter.name = data.readUTFBytes(length);
+							}
+							else if(StringUtils.empty(parameter.avatarId))
+							{
+								parameter.avatarId = data.readUTFBytes(length);
 							}
 							break;
 					}

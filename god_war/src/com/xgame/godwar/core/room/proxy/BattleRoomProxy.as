@@ -1,7 +1,11 @@
 package com.xgame.godwar.core.room.proxy
 {
 	import com.xgame.godwar.common.commands.CommandList;
+	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_InitRoomData;
+	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerEnterRoom;
+	import com.xgame.godwar.common.commands.receiving.Receive_Hall_RequestEnterRoom;
 	import com.xgame.godwar.common.commands.receiving.Receive_Hall_RequestRoom;
+	import com.xgame.godwar.common.commands.sending.Send_Hall_RequestEnterRoom;
 	import com.xgame.godwar.common.commands.sending.Send_Hall_RequestRoom;
 	import com.xgame.godwar.configuration.SocketContextConfig;
 	import com.xgame.godwar.core.center.CommandCenter;
@@ -21,9 +25,18 @@ package com.xgame.godwar.core.room.proxy
 		public function BattleRoomProxy()
 		{
 			super(NAME, null);
-			
+			//请求新房间
 			CommandList.instance.bind(SocketContextConfig.HALL_REQUEST_ROOM, Receive_Hall_RequestRoom);
 			CommandCenter.instance.add(SocketContextConfig.HALL_REQUEST_ROOM, onRoomCreated);
+			//进入房间失败（满员）
+			CommandList.instance.bind(SocketContextConfig.HALL_REQUEST_ENTER_ROOM, Receive_Hall_RequestEnterRoom);
+			CommandCenter.instance.add(SocketContextConfig.HALL_REQUEST_ENTER_ROOM, onRequestEnterRoomFailed);
+			//进入新房间
+			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_INIT_ROOM, Receive_BattleRoom_InitRoomData);
+			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_INIT_ROOM, onRequestEnterRoom);
+			//玩家进入房间
+			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_PLAYER_ENTER_ROOM, Receive_BattleRoom_PlayerEnterRoom);
+			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_PLAYER_ENTER_ROOM, onPlayerEnterRoom);
 		}
 		
 		public function requestRoom(roomType: int, title: String, peopleLimit: int): void
@@ -63,8 +76,35 @@ package com.xgame.godwar.core.room.proxy
 		{
 			if(CommandCenter.instance.connected)
 			{
-				
+				if(currentRoomId > 0)
+				{
+					var protocol: Send_Hall_RequestEnterRoom = new Send_Hall_RequestEnterRoom();
+					protocol.roomId = currentRoomId;
+					protocol.roomType = 0;
+					
+					CommandCenter.instance.send(protocol);
+					facade.sendNotification(LoadingIconMediator.LOADING_SHOW_NOTE);
+				}
 			}
+		}
+		
+		private function onRequestEnterRoomFailed(protocol: Receive_Hall_RequestEnterRoom): void
+		{
+			facade.sendNotification(LoadingIconMediator.LOADING_HIDE_NOTE);
+			
+		}
+		
+		private function onRequestEnterRoom(protocol: Receive_BattleRoom_InitRoomData): void
+		{
+			facade.sendNotification(LoadingIconMediator.LOADING_HIDE_NOTE);
+			
+			setData(protocol);
+		}
+		
+		private function onPlayerEnterRoom(protocol: Receive_BattleRoom_PlayerEnterRoom): void
+		{
+			facade.sendNotification(LoadingIconMediator.LOADING_HIDE_NOTE);
+			
 		}
 	}
 }

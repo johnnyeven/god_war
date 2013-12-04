@@ -41,6 +41,7 @@ package com.xgame.godwar.configuration
 		public static const ACTION_INIT_ROOM_DATA: int = 0;
 		public static const ACTION_PLAYER_ENTER_ROOM_NOTICE: int = 1;
 		public static const ACTION_PLAYER_SELETED_HERO: int = 2;
+		public static const ACTION_PLAYER_READY: int = 3;
 		
 		public static const TYPE_INT: int = 0;
 		public static const TYPE_LONG: int = 1;
@@ -74,6 +75,7 @@ package com.xgame.godwar.configuration
 		public static const BATTLEROOM_INIT_ROOM: int = ACTION_INIT_ROOM_DATA << 8 | CONTROLLER_BATTLEROOM;
 		public static const BATTLEROOM_PLAYER_ENTER_ROOM: int = ACTION_PLAYER_ENTER_ROOM_NOTICE << 8 | CONTROLLER_BATTLEROOM;
 		public static const BATTLEROOM_PLAYER_SELECTED_HERO: int = ACTION_PLAYER_SELETED_HERO << 8 | CONTROLLER_BATTLEROOM;
+		public static const BATTLEROOM_PLAYER_READY: int = ACTION_PLAYER_READY << 8 | CONTROLLER_BATTLEROOM;
 		
 		public function SocketContextConfig() 
 		{

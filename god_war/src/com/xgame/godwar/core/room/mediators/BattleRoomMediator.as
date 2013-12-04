@@ -1,6 +1,7 @@
 package com.xgame.godwar.core.room.mediators
 {
 	import com.xgame.godwar.core.general.mediators.BaseMediator;
+	import com.xgame.godwar.core.room.proxy.BattleRoomProxy;
 	import com.xgame.godwar.core.room.views.BattleRoomComponent;
 	
 	import org.puremvc.as3.interfaces.INotification;
@@ -33,7 +34,7 @@ package com.xgame.godwar.core.room.mediators
 			{
 				case SHOW_NOTE:
 					show();
-					component.show();
+					component.show(requestEnterRoom);
 					break;
 				case HIDE_NOTE:
 					remove();
@@ -42,6 +43,13 @@ package com.xgame.godwar.core.room.mediators
 					dispose();
 					break;
 			}
+		}
+		
+		private function requestEnterRoom(): void
+		{
+			var proxy: BattleRoomProxy = facade.retrieveProxy(BattleRoomProxy.NAME) as BattleRoomProxy;
+			
+			proxy.requestEnterRoom();
 		}
 	}
 }
