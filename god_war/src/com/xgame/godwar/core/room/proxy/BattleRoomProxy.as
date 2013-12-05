@@ -107,6 +107,7 @@ package com.xgame.godwar.core.room.proxy
 		{
 			facade.sendNotification(LoadingIconMediator.LOADING_HIDE_NOTE);
 			
+			facade.sendNotification(BattleRoomMediator.ADD_PLAYER_NOTE, protocol);
 		}
 	}
 }

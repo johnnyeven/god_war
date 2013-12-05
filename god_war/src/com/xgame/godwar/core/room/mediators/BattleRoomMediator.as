@@ -1,6 +1,7 @@
 package com.xgame.godwar.core.room.mediators
 {
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_InitRoomData;
+	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerEnterRoom;
 	import com.xgame.godwar.common.commands.receiving.Receive_Info_AccountRole;
 	import com.xgame.godwar.common.object.Player;
 	import com.xgame.godwar.common.parameters.AvatarParameter;
@@ -60,8 +61,10 @@ package com.xgame.godwar.core.room.mediators
 					break;
 				case SHOW_ROOM_DATA_NOTE:
 					showRoomData(notification.getBody() as Receive_BattleRoom_InitRoomData);
+					break;
 				case ADD_PLAYER_NOTE:
-					addPlayer();
+					addPlayer(notification.getBody() as Receive_BattleRoom_PlayerEnterRoom);
+					break;
 			}
 		}
 		
@@ -140,9 +143,37 @@ package com.xgame.godwar.core.room.mediators
 			}
 		}
 		
-		private function addPlayer(): void
+		private function addPlayer(protocol: Receive_BattleRoom_PlayerEnterRoom): void
 		{
+			var proxy: AvatarConfigProxy = facade.retrieveProxy(AvatarConfigProxy.NAME) as AvatarConfigProxy;
+			var container: Vector.<AvatarParameter>;
+			var avatarIndex: Dictionary;
+			if(proxy != null)
+			{
+				container = proxy.getData() as Vector.<AvatarParameter>;
+				avatarIndex = proxy.avatarIndex;
+			}
 			
+			var player: Player = new Player();
+			player.guid = protocol.guid;
+			player.accountId = protocol.accountId;
+			player.name = protocol.name;
+			player.level = protocol.level;
+			player.avatarId = protocol.avatarId;
+			player.cash = protocol.cash;
+			player.winningCount = protocol.winningCount;
+			player.battleCount = protocol.battleCount;
+			player.honor = protocol.honor;
+			player.group = protocol.group;
+			
+			if(container != null && avatarIndex != null)
+			{
+				var avatarParameter: AvatarParameter = container[avatarIndex[protocol.avatarId]];
+				player.avatarBigPath = proxy.avatarBasePath + avatarParameter.bigPath;
+				player.avatarNormalPath = proxy.avatarBasePath + avatarParameter.normalPath;
+			}
+			
+			component.addPlayer(player);
 		}
 	}
 }
