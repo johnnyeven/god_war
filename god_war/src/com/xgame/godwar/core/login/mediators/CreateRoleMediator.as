@@ -1,6 +1,7 @@
 package com.xgame.godwar.core.login.mediators
 {
 	import com.xgame.godwar.core.general.mediators.BaseMediator;
+	import com.xgame.godwar.core.initialization.LoadAvatarConfigCommand;
 	import com.xgame.godwar.core.login.proxy.RequestRoleProxy;
 	import com.xgame.godwar.core.login.views.CreateRoleComponent;
 	import com.xgame.godwar.enum.PopupEffect;
@@ -15,6 +16,7 @@ package com.xgame.godwar.core.login.mediators
 		public static const SHOW_NOTE: String = "CreateRoleMediator.ShowNote";
 		public static const HIDE_NOTE: String = "CreateRoleMediator.HideNote";
 		public static const DISPOSE_NOTE: String = "CreateRoleMediator.DisposeNote";
+		public static const SHOW_AVATAR_NOTE: String = NAME + ".ShowAvatarNote";
 		public static const SEND_CREATE_ROLE_NOTE: String = "CreateRoleMediator.SendCreateRoleNote";
 		
 		public function CreateRoleMediator()
@@ -32,7 +34,7 @@ package com.xgame.godwar.core.login.mediators
 		
 		override public function listNotificationInterests():Array
 		{
-			return [SHOW_NOTE, HIDE_NOTE, DISPOSE_NOTE, SEND_CREATE_ROLE_NOTE];
+			return [SHOW_NOTE, HIDE_NOTE, DISPOSE_NOTE, SHOW_AVATAR_NOTE, SEND_CREATE_ROLE_NOTE];
 		}
 		
 		override public function handleNotification(notification:INotification):void
@@ -41,7 +43,7 @@ package com.xgame.godwar.core.login.mediators
 			{
 				case SHOW_NOTE:
 					show();
-					component.show();
+					component.show(loadAvatarConfig);
 					break;
 				case HIDE_NOTE:
 					dispose();
@@ -49,10 +51,18 @@ package com.xgame.godwar.core.login.mediators
 				case DISPOSE_NOTE:
 					dispose();
 					break;
+				case SHOW_AVATAR_NOTE:
+					
+					break;
 				case SEND_CREATE_ROLE_NOTE:
 					sendCreateRole(notification.getBody() as String);
 					break;
 			}
+		}
+		
+		private function loadAvatarConfig(): void
+		{
+			facade.sendNotification(LoadAvatarConfigCommand.LOAD_NOTE);
 		}
 		
 		private function onCreateRoleBackClick(evt: LoginEvent): void

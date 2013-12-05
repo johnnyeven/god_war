@@ -13,6 +13,7 @@ package com.xgame.godwar.core.room.proxy
 	import com.xgame.godwar.core.hall.mediators.CreateBattleRoomMediator;
 	import com.xgame.godwar.core.loading.mediators.LoadingIconMediator;
 	import com.xgame.godwar.core.room.controllers.ShowBattleRoomMediatorCommand;
+	import com.xgame.godwar.core.room.mediators.BattleRoomMediator;
 	
 	import org.puremvc.as3.interfaces.IProxy;
 	import org.puremvc.as3.patterns.proxy.Proxy;
@@ -99,6 +100,7 @@ package com.xgame.godwar.core.room.proxy
 			facade.sendNotification(LoadingIconMediator.LOADING_HIDE_NOTE);
 			
 			setData(protocol);
+			facade.sendNotification(BattleRoomMediator.SHOW_ROOM_DATA_NOTE, protocol);
 		}
 		
 		private function onPlayerEnterRoom(protocol: Receive_BattleRoom_PlayerEnterRoom): void

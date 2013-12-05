@@ -8,6 +8,7 @@ package com.xgame.godwar.core.login.proxy
 	import com.xgame.godwar.common.commands.sending.Send_Info_RequestAccountRole;
 	import com.xgame.godwar.configuration.SocketContextConfig;
 	import com.xgame.godwar.core.center.CommandCenter;
+	import com.xgame.godwar.core.initialization.LoadAvatarConfigCommand;
 	import com.xgame.godwar.core.initialization.LoadInitDataCommand;
 	import com.xgame.godwar.core.loading.mediators.LoadingIconMediator;
 	import com.xgame.godwar.core.login.controllers.ShowChooseModeMediatorCommand;
@@ -54,6 +55,7 @@ package com.xgame.godwar.core.login.proxy
 		private function onRequestAccountRole(protocol: Receive_Info_AccountRole): void
 		{
 			sendNotification(LoadingIconMediator.LOADING_HIDE_NOTE);
+			facade.registerCommand(LoadAvatarConfigCommand.LOAD_NOTE, LoadAvatarConfigCommand);
 			
 			setData(protocol);
 			accountId = protocol.accountId;
@@ -65,6 +67,7 @@ package com.xgame.godwar.core.login.proxy
 			}
 			else
 			{
+				facade.sendNotification(LoadAvatarConfigCommand.LOAD_NOTE);
 				facade.sendNotification(CreateRoleMediator.DISPOSE_NOTE);
 				facade.sendNotification(ShowChooseModeMediatorCommand.SHOW_NOTE);
 			}

@@ -70,6 +70,10 @@ package com.xgame.godwar.common.commands.receiving
 							{
 								parameter.playerStatus = data.readInt();
 							}
+							else if(parameter.group == int.MIN_VALUE)
+							{
+								parameter.group = data.readInt();
+							}
 							break;
 						case SocketContextConfig.TYPE_LONG:
 							if (parameter.accountId == null)
@@ -109,13 +113,25 @@ package com.xgame.godwar.common.commands.receiving
 							else if(StringUtils.empty(parameter.avatarId))
 							{
 								parameter.avatarId = data.readUTFBytes(length);
+								if(StringUtils.empty(parameter.avatarId))
+								{
+									parameter.avatarId = "default";
+								}
 							}
 							break;
 					}
 					
 					if(!StringUtils.empty(parameter.guid) &&
+						parameter.accountId != null &&
 						!StringUtils.empty(parameter.name) &&
-						parameter.playerStatus != int.MIN_VALUE)
+						parameter.level != int.MIN_VALUE &&
+						!StringUtils.empty(parameter.avatarId) &&
+						parameter.cash != null &&
+						parameter.winningCount != int.MIN_VALUE &&
+						parameter.battleCount != int.MIN_VALUE &&
+						parameter.honor != int.MIN_VALUE &&
+						parameter.playerStatus != int.MIN_VALUE &&
+						parameter.group != int.MIN_VALUE)
 					{
 						playerList.push(parameter);
 						parameter = new PlayerParameter();

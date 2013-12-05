@@ -2,24 +2,34 @@ package com.xgame.godwar.core.room.views
 {
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Strong;
+	import com.xgame.godwar.common.object.Player;
 	import com.xgame.godwar.common.pool.ResourcePool;
 	import com.xgame.godwar.enum.ScrollBarOrientation;
+	import com.xgame.godwar.events.BattleRoomEvent;
 	import com.xgame.godwar.liteui.component.CaptionButton;
 	import com.xgame.godwar.liteui.component.Container;
 	import com.xgame.godwar.liteui.component.Label;
 	import com.xgame.godwar.liteui.component.ScrollBar;
 	import com.xgame.godwar.liteui.core.Component;
+	import com.xgame.godwar.liteui.layouts.FlowLayout;
 	import com.xgame.godwar.liteui.layouts.HorizontalTileLayout;
 	
 	import flash.display.DisplayObjectContainer;
+	import flash.events.MouseEvent;
 	
 	public class BattleRoomComponent extends Component
 	{
 		private var lblTitle: Label;
 		private var btnCardConfig: CaptionButton;
-		private var btnReady: CaptionButton;
+		private var _btnReady: CaptionButton;
 		private var heroList: Container;
 		private var heroListScroll: ScrollBar;
+		private var groupContainer1: Container;
+		private var groupContainer2: Container;
+		private var group1: Vector.<Player>;
+		private var group2: Vector.<Player>;
+		private var playerList: Vector.<Player>;
+		private var componentList: Vector.<BattleRoomPlayerComponent>;
 		
 		public function BattleRoomComponent()
 		{
@@ -27,8 +37,10 @@ package com.xgame.godwar.core.room.views
 			
 			lblTitle = getUI(Label, "lblTitle") as Label;
 			btnCardConfig = getUI(CaptionButton, "btnCardConfig") as CaptionButton;
-			btnReady = getUI(CaptionButton, "btnReady") as CaptionButton;
+			_btnReady = getUI(CaptionButton, "btnReady") as CaptionButton;
 			heroList = getUI(Container, "lstContainer") as Container;
+			groupContainer1 = getUI(Container, "groupContainer1") as Container;
+			groupContainer2 = getUI(Container, "groupContainer2") as Container;
 			heroListScroll = getUI(ScrollBar, "scrollList") as ScrollBar;
 			
 			sortChildIndex();
@@ -36,6 +48,27 @@ package com.xgame.godwar.core.room.views
 			heroList.layout = new HorizontalTileLayout(heroList);
 			heroListScroll.orientation = ScrollBarOrientation.VERTICAL;
 			heroListScroll.view = heroList;
+			
+			groupContainer1.layout = new FlowLayout(groupContainer1);
+			groupContainer2.layout = new FlowLayout(groupContainer2);
+			
+			group1 = new Vector.<Player>();
+			group2 = new Vector.<Player>();
+			playerList = new Vector.<Player>();
+			componentList = new Vector.<BattleRoomPlayerComponent>();
+			
+			btnCardConfig.addEventListener(MouseEvent.CLICK, onBtnCardConfigClick);
+			_btnReady.addEventListener(MouseEvent.CLICK, onBtnReadyClick);
+		}
+		
+		private function onBtnCardConfigClick(evt: MouseEvent): void
+		{
+			dispatchEvent(new BattleRoomEvent(BattleRoomEvent.CARD_CONFIG_CLICK));
+		}
+		
+		private function onBtnReadyClick(evt: MouseEvent): void
+		{
+			dispatchEvent(new BattleRoomEvent(BattleRoomEvent.READY_CLICK));
 		}
 		
 		public function show(callback: Function = null): void
@@ -49,5 +82,35 @@ package com.xgame.godwar.core.room.views
 		{
 			TweenLite.to(this, .5, {y: -600, ease: Strong.easeIn, onComplete: callback});
 		}
+		
+		public function addPlayer(p: Player): void
+		{
+			if(p != null)
+			{
+				var component: BattleRoomPlayerComponent = new BattleRoomPlayerComponent();
+				component.player = p;
+				componentList.push(component);
+				playerList.push(p);
+				
+				if(p.group == 1)
+				{
+					group1.push(p);
+					groupContainer1.add(component);
+					groupContainer1.layout.update();
+				}
+				else if(p.group == 2)
+				{
+					group2.push(p);
+					groupContainer2.add(component);
+					groupContainer2.layout.update();
+				}
+			}
+		}
+
+		public function get btnReady():CaptionButton
+		{
+			return _btnReady;
+		}
+
 	}
 }

@@ -9,10 +9,14 @@ package com.xgame.godwar.common.object
 		private var _name: String;
 		private var _level: int;
 		private var _avatarId: String;
+		private var _avatarNormalPath: String;
+		private var _avatarBigPath: String;
 		private var _cash: UInt64;
 		private var _winningCount: int; //胜利场次
 		private var _battleCount: int; //总战斗场次
 		private var _honor: int; //荣誉称号
+		private var _group: int; //1=红队 2=蓝队
+		private var _isOwner: Boolean = false;
 		
 		public function Player()
 		{
@@ -60,7 +64,14 @@ package com.xgame.godwar.common.object
 
 		public function get winningRate(): Number
 		{
-			return Number((_winningCount / _battleCount).toFixed(2));
+			if(_battleCount > 0)
+			{
+				return Number((_winningCount / _battleCount).toFixed(2));
+			}
+			else
+			{
+				return 0;
+			}
 		}
 
 		public function set accountId(value:UInt64):void
@@ -111,6 +122,46 @@ package com.xgame.godwar.common.object
 		public function set guid(value:String):void
 		{
 			_guid = value;
+		}
+
+		public function get group():int
+		{
+			return _group;
+		}
+
+		public function set group(value:int):void
+		{
+			_group = value;
+		}
+
+		public function get avatarNormalPath():String
+		{
+			return _avatarNormalPath;
+		}
+
+		public function set avatarNormalPath(value:String):void
+		{
+			_avatarNormalPath = value;
+		}
+
+		public function get avatarBigPath():String
+		{
+			return _avatarBigPath;
+		}
+
+		public function set avatarBigPath(value:String):void
+		{
+			_avatarBigPath = value;
+		}
+
+		public function get isOwner():Boolean
+		{
+			return _isOwner;
+		}
+
+		public function set isOwner(value:Boolean):void
+		{
+			_isOwner = value;
 		}
 
 

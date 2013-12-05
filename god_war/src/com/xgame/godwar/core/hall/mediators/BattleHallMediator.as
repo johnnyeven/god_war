@@ -33,6 +33,7 @@ package com.xgame.godwar.core.hall.mediators
 			
 			component.addEventListener(BattleHallEvent.CREATE_ROOM_CLICK, showCreateRoom);
 			component.addEventListener(BattleHallEvent.CARD_CONFIG_CLICK, showCardConfig);
+			component.addEventListener(BattleHallEvent.ROOM_CLICK, onRoomClick);
 			
 			if(!facade.hasProxy(BattleRoomProxy.NAME))
 			{
@@ -134,6 +135,19 @@ package com.xgame.godwar.core.hall.mediators
 		private function showCardConfig(evt: BattleHallEvent): void
 		{
 			facade.sendNotification(ShowCardConfigMediatorCommand.SHOW_NOTE, ShowCardConfigMediatorCommand);
+		}
+		
+		private function onRoomClick(evt: BattleHallEvent): void
+		{
+			var item: BattleRoomListItemComponent = evt.param as BattleRoomListItemComponent;
+			
+			var proxy: BattleRoomProxy = facade.retrieveProxy(BattleRoomProxy.NAME) as BattleRoomProxy;
+			proxy.currentRoomId = item.info.id;
+			
+			facade.sendNotification(DISPOSE_NOTE, function(): void
+			{
+				facade.sendNotification(ShowBattleRoomMediatorCommand.SHOW_NOTE);
+			});
 		}
 	}
 }

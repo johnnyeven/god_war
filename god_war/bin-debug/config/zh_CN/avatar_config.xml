@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<base_path>assets\png\avatar\</base_path>
+	<avatar id="default">
+		<big>default.png</big>
+		<normal>default_small.png</normal>
+	</avatar>
+	<avatar id="airenshangren">
+		<big>airenshangren.png</big>
+		<normal>airenshangren_small.png</normal>
+	</avatar>
+	<avatar id="aoding">
+		<big>aoding.png</big>
+		<normal>aoding_small.png</normal>
+	</avatar>
+	<avatar id="banrenma">
+		<big>banrenma.png</big>
+		<normal>banrenma_small.png</normal>
+	</avatar>
+	<avatar id="binglong">
+		<big>binglong.png</big>
+		<normal>binglong_small.png</normal>
+	</avatar>
+	<avatar id="bingshuangtaitan">
+		<big>bingshuangtaitan.png</big>
+		<normal>bingshuangtaitan_small.png</normal>
+	</avatar>
+	<avatar id="bingyuansu">
+		<big>bingyuansu.png</big>
+		<normal>bingyuansu_small.png</normal>
+	</avatar>
+	<avatar id="bosaidong">
+		<big>bosaidong.png</big>
+		<normal>bosaidong_small.png</normal>
+	</avatar>
+	<avatar id="changqiangkaijia">
+		<big>changqiangkaijia.png</big>
+		<normal>changqiangkaijia_small.png</normal>
+	</avatar>
+	<avatar id="diaoxiangemo">
+		<big>diaoxiangemo.png</big>
+		<normal>diaoxiangemo_small.png</normal>
+	</avatar>
+	<avatar id="dijieemo">
+		<big>dijieemo.png</big>
+		<normal>dijieemo_small.png</normal>
+	</avatar>
+	<avatar id="dunpaikulou">
+		<big>dunpaikulou.png</big>
+		<normal>dunpaikulou_small.png</normal>
+	</avatar>
+	<avatar id="emowusi">
+		<big>emowusi.png</big>
+		<normal>emowusi_small.png</normal>
+	</avatar>
+	<avatar id="fenlierlang">
+		<big>fenlierlang.png</big>
+		<normal>fenlierlang_small.png</normal>
+	</avatar>
+	<avatar id="fuchousangshi">
+		<big>fuchousangshi.png</big>
+		<normal>fuchousangshi_small.png</normal>
+	</avatar>
+	<avatar id="gongtingkaijia">
+		<big>gongtingkaijia.png</big>
+		<normal>gongtingkaijia_small.png</normal>
+	</avatar>
+	<avatar id="hadisi">
+		<big>hadisi.png</big>
+		<normal>hadisi_small.png</normal>
+	</avatar>
+	<avatar id="heer">
+		<big>heer.png</big>
+		<normal>heer_small.png</normal>
+	</avatar>
+	<avatar id="hongchunmeimo">
+		<big>hongchunmeimo.png</big>
+		<normal>hongchunmeimo_small.png</normal>
+	</avatar>
+	<avatar id="huoyanemo">
+		<big>huoyanemo.png</big>
+		<normal>huoyanemo_small.png</normal>
+	</avatar>
+	<avatar id="huoyuansu">
+		<big>huoyuansu.png</big>
+		<normal>huoyuansu_small.png</normal>
+	</avatar>
+	<avatar id="huoyuansuren">
+		<big>huoyuansuren.png</big>
+		<normal>huoyuansuren_small.png</normal>
+	</avatar>
+	<avatar id="jujiankaijia">
+		<big>jujiankaijia.png</big>
+		<normal>jujiankaijia_small.png</normal>
+	</avatar>
+	<avatar id="kuangbaoniutouguai">
+		<big>kuangbaoniutouguai.png</big>
+		<normal>kuangbaoniutouguai_small.png</normal>
+	</avatar>
+	<avatar id="kuangzhan5">
+		<big>kuangzhan5.png</big>
+		<normal>kuangzhan5_small.png</normal>
+	</avatar>
+	<avatar id="qishi5">
+		<big>qishi5.png</big>
+		<normal>qishi5_small.png</normal>
+	</avatar>
+	<avatar id="shougezhe5">
+		<big>shougezhe5.png</big>
+		<normal>shougezhe5_small.png</normal>
+	</avatar>
+	<avatar id="silingfashi4">
+		<big>silingfashi4.png</big>
+		<normal>silingfashi4_small.png</normal>
+	</avatar>
+	<avatar id="waerjili4">
+		<big>waerjili4.png</big>
+		<normal>waerjili4_small.png</normal>
+	</avatar>
+	<avatar id="youxia5">
+		<big>youxia5.png</big>
+		<normal>youxia5_small.png</normal>
+	</avatar>
+	<avatar id="yuansushi5">
+		<big>yuansushi5.png</big>
+		<normal>yuansushi5_small.png</normal>
+	</avatar>
+	<avatar id="zhousi">
+		<big>zhousi.png</big>
+		<normal>zhousi_small.png</normal>
+	</avatar>
+	<avatar id="zhongjiakulou">
+		<big>zhongjiakulou.png</big>
+		<normal>zhongjiakulou_small.png</normal>
+	</avatar>
+	<avatar id="youltongning">
+		<big>youltongning.png</big>
+		<normal>youltongning_small.png</normal>
+	</avatar>
+	<avatar id="yadianna">
+		<big>yadianna.png</big>
+		<normal>yadianna_small.png</normal>
+	</avatar>
+	<avatar id="yingshengrenchun">
+		<big>yingshengrenchun.png</big>
+		<normal>yingshengrenchun_small.png</normal>
+	</avatar>
+	<avatar id="tiejiangshen">
+		<big>tiejiangshen.png</big>
+		<normal>tiejiangshen_small.png</normal>
+	</avatar>
+	<avatar id="siyuansu">
+		<big>siyuansu.png</big>
+		<normal>siyuansu_small.png</normal>
+	</avatar>
+	<avatar id="rongyanlongr">
+		<big>rongyanlongr.png</big>
+		<normal>rongyanlongr_small.png</normal>
+	</avatar>
+</root>

@@ -59,6 +59,7 @@ package com.xgame.godwar.core.hall.views
 				item = new BattleRoomListItemComponent();
 				item.info = list[i];
 				roomListContainer.add(item);
+				item.addEventListener(MouseEvent.CLICK, onItemClick);
 			}
 			roomListContainer.layout.update();
 			scrollList.rebuild();
@@ -79,6 +80,13 @@ package com.xgame.godwar.core.hall.views
 		private function onBtnCardClick(evt: MouseEvent): void
 		{
 			dispatchEvent(new BattleHallEvent(BattleHallEvent.CARD_CONFIG_CLICK));
+		}
+		
+		private function onItemClick(evt: MouseEvent): void
+		{
+			var event: BattleHallEvent = new BattleHallEvent(BattleHallEvent.ROOM_CLICK);
+			event.param = evt.currentTarget;
+			dispatchEvent(event);
 		}
 	}
 }

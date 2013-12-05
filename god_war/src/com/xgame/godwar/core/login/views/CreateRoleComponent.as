@@ -68,15 +68,11 @@ package com.xgame.godwar.core.login.views
 			btnBack.addEventListener(MouseEvent.CLICK, onBtnBackClick);
 		}
 		
-		public function show(): void
+		public function show(callback: Function = null): void
 		{
-			TweenLite.to(bottomBg, .5, {y: 490, ease: Strong.easeIn, onComplete: showOthers});
-		}
-		
-		private function showOthers(): void
-		{
-			TweenLite.to(btnEnter, .5, { transformAroundCenter: { scaleX: 1, scaleY: 1, alpha: 1 }, ease: Strong.easeOut});
-			TweenLite.to(btnBack, .5, {delay: .3, x: 13, ease: Strong.easeOut});
+			TweenLite.to(bottomBg, .5, {y: 490, ease: Strong.easeIn});
+			TweenLite.to(btnEnter, .5, {delay: .5, transformAroundCenter: { scaleX: 1, scaleY: 1, alpha: 1 }, ease: Strong.easeOut});
+			TweenLite.to(btnBack, .5, {delay: .8, x: 13, ease: Strong.easeOut, onComplete: callback});
 		}
 		
 		public function hide(callback: Function = null): void
