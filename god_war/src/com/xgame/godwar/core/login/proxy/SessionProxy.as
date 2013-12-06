@@ -6,6 +6,7 @@ package com.xgame.godwar.core.login.proxy
 	import com.xgame.godwar.common.commands.sending.Send_Info_BindSession;
 	import com.xgame.godwar.configuration.SocketContextConfig;
 	import com.xgame.godwar.core.center.CommandCenter;
+	import com.xgame.godwar.core.general.proxy.KeepAliveProxy;
 	import com.xgame.godwar.core.loading.mediators.LoadingIconMediator;
 	import com.xgame.godwar.core.login.controllers.RequestAccountRoleCommand;
 	import com.xgame.godwar.utils.debug.Debug;
@@ -58,6 +59,13 @@ package com.xgame.godwar.core.login.proxy
 			if(protocol.result == 1)
 			{
 				setData(protocol);
+				
+				if(!facade.hasProxy(KeepAliveProxy.NAME))
+				{
+					var proxy: KeepAliveProxy = new KeepAliveProxy();
+					facade.registerProxy(proxy);
+					proxy.startHeatbeat();
+				}
 				
 				if(!facade.hasCommand(RequestAccountRoleCommand.REQUEST_ACCOUNT_ROLE_NOTE))
 				{

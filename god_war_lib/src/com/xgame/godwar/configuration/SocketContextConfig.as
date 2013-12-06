@@ -32,6 +32,7 @@ package com.xgame.godwar.configuration
 		public static const ACTION_CREATE_GROUP: int = 10;
 		public static const ACTION_DELETE_GROUP: int = 11;
 		public static const ACTION_SAVE_CARD_GROUP: int = 12;
+		public static const ACTION_HEART_BEAT: int = 127;
 		//HALL
 		public static const ACTION_REQUEST_ROOM: int = 0;
 		public static const ACTION_SHOW_ROOMLIST: int = 1;
@@ -66,6 +67,7 @@ package com.xgame.godwar.configuration
 		public static const INFO_CREATE_GROUP: int = ACTION_CREATE_GROUP << 8 | CONTROLLER_INFO;
 		public static const INFO_DELETE_GROUP: int = ACTION_DELETE_GROUP << 8 | CONTROLLER_INFO;
 		public static const INFO_SAVE_CARD_GROUP: int = ACTION_SAVE_CARD_GROUP << 8 | CONTROLLER_INFO;
+		public static const INFO_HEART_BEAT: int = ACTION_HEART_BEAT << 8 | CONTROLLER_INFO;
 		//HALL
 		public static const HALL_REQUEST_ROOM: int = ACTION_REQUEST_ROOM << 8 | CONTROLLER_HALL;
 		public static const HALL_SHOW_ROOM_LIST: int = ACTION_SHOW_ROOMLIST << 8 | CONTROLLER_HALL;

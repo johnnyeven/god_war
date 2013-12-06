@@ -6,6 +6,7 @@ package com.xgame.godwar
 	import com.greensock.plugins.TransformAroundCenterPlugin;
 	import com.greensock.plugins.TweenPlugin;
 	import com.xgame.godwar.core.general.mediators.MainMediator;
+	import com.xgame.godwar.core.general.proxy.KeepAliveProxy;
 	import com.xgame.godwar.core.initialization.LoadResourcesConfigCommand;
 	import com.xgame.godwar.core.loading.mediators.LoadingIconMediator;
 	import com.xgame.godwar.core.loading.mediators.ProgressBarMediator;
@@ -58,7 +59,7 @@ package com.xgame.godwar
 		
 		private function initProxy(): void
 		{
-			
+			facade.registerProxy(new KeepAliveProxy());
 		}
 		
 	}
