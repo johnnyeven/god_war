@@ -3,8 +3,10 @@ package com.xgame.godwar.core.room.proxy
 	import com.xgame.godwar.common.commands.CommandList;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_InitRoomData;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerEnterRoom;
+	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerReady;
 	import com.xgame.godwar.common.commands.receiving.Receive_Hall_RequestEnterRoom;
 	import com.xgame.godwar.common.commands.receiving.Receive_Hall_RequestRoom;
+	import com.xgame.godwar.common.commands.sending.Send_BattleRoom_PlayerReady;
 	import com.xgame.godwar.common.commands.sending.Send_Hall_RequestEnterRoom;
 	import com.xgame.godwar.common.commands.sending.Send_Hall_RequestRoom;
 	import com.xgame.godwar.configuration.SocketContextConfig;
@@ -38,6 +40,9 @@ package com.xgame.godwar.core.room.proxy
 			//玩家进入房间
 			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_PLAYER_ENTER_ROOM, Receive_BattleRoom_PlayerEnterRoom);
 			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_PLAYER_ENTER_ROOM, onPlayerEnterRoom);
+			//玩家装备就绪
+			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_PLAYER_READY, Receive_BattleRoom_PlayerReady);
+			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_PLAYER_READY, onPlayerReady);
 		}
 		
 		public function requestRoom(roomType: int, title: String, peopleLimit: int): void
@@ -108,6 +113,22 @@ package com.xgame.godwar.core.room.proxy
 			facade.sendNotification(LoadingIconMediator.LOADING_HIDE_NOTE);
 			
 			facade.sendNotification(BattleRoomMediator.ADD_PLAYER_NOTE, protocol);
+		}
+		
+		public function updatePlayerReady(ready: Boolean): void
+		{
+			if(CommandCenter.instance.connected)
+			{
+				var protocol: Send_BattleRoom_PlayerReady = new Send_BattleRoom_PlayerReady();
+				protocol.ready = ready ? 1 : 0;
+				
+				CommandCenter.instance.send(protocol);
+			}
+		}
+		
+		private function onPlayerReady(protocol: Receive_BattleRoom_PlayerReady): void
+		{
+			facade.sendNotification(BattleRoomMediator.PLAYER_READY_NOTE, protocol);
 		}
 	}
 }

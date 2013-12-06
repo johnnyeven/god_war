@@ -7,6 +7,8 @@ package com.xgame.godwar.events
 		public static const CARD_CONFIG_CLICK: String = "BattleRoomEvent.CardConfigClick";
 		public static const READY_CLICK: String = "BattleRoomEvent.ReadyClick";
 		
+		public var value: Object;
+		
 		public function BattleRoomEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
 			super(type, bubbles, cancelable);

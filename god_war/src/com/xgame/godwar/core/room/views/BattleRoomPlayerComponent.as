@@ -21,6 +21,7 @@ package com.xgame.godwar.core.room.views
 		private var avatarMask: MovieClip;
 		private var normalSkin: MovieClip;
 		private var ownerSkin: MovieClip;
+		private var _ready: MovieClip;
 		private var _player: Player;
 		
 		public function BattleRoomPlayerComponent(_skin:DisplayObjectContainer=null)
@@ -36,11 +37,13 @@ package com.xgame.godwar.core.room.views
 			avatarMask = getSkin("avatarMask") as MovieClip;
 			ownerSkin = getSkin("owner") as MovieClip;
 			normalSkin = getSkin("normal") as MovieClip;
+			_ready = getSkin("ready") as MovieClip;
 			
 			sortChildIndex();
 			
 			avatar.mask = avatarMask;
 			ownerSkin.visible = false;
+			_ready.visible = false;
 		}
 
 		public function get player():Player
@@ -70,6 +73,28 @@ package com.xgame.godwar.core.room.views
 			{
 				ownerSkin.visible = false;
 				normalSkin.visible = true;
+			}
+		}
+		
+		public function set ready(value: Boolean): void
+		{
+			if(value)
+			{
+				_ready.visible = true;
+				
+				lblRateCaption.visible = false;
+				lblRate.visible = false;
+				lblHonorCaption.visible = false;
+				lblHonor.visible = false;
+			}
+			else
+			{
+				_ready.visible = false;
+				
+				lblRateCaption.visible = true;
+				lblRate.visible = true;
+				lblHonorCaption.visible = true;
+				lblHonor.visible = true;
 			}
 		}
 

@@ -17,6 +17,7 @@ package com.xgame.godwar.common.object
 		private var _honor: int; //荣誉称号
 		private var _group: int; //1=红队 2=蓝队
 		private var _isOwner: Boolean = false;
+		private var _ready: Boolean = false;
 		
 		public function Player()
 		{
@@ -162,6 +163,16 @@ package com.xgame.godwar.common.object
 		public function set isOwner(value:Boolean):void
 		{
 			_isOwner = value;
+		}
+
+		public function get ready():Boolean
+		{
+			return _ready;
+		}
+
+		public function set ready(value:Boolean):void
+		{
+			_ready = value;
 		}
 
 

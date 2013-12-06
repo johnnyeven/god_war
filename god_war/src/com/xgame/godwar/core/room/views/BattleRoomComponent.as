@@ -30,6 +30,7 @@ package com.xgame.godwar.core.room.views
 		private var group2: Vector.<Player>;
 		private var playerList: Vector.<Player>;
 		private var componentList: Vector.<BattleRoomPlayerComponent>;
+		private var ready: Boolean = false;
 		
 		public function BattleRoomComponent()
 		{
@@ -68,7 +69,20 @@ package com.xgame.godwar.core.room.views
 		
 		private function onBtnReadyClick(evt: MouseEvent): void
 		{
-			dispatchEvent(new BattleRoomEvent(BattleRoomEvent.READY_CLICK));
+			ready = !ready;
+			
+			if(ready)
+			{
+				_btnReady.caption = "取消准备";
+			}
+			else
+			{
+				_btnReady.caption = "准备完毕";
+			}
+			
+			var event: BattleRoomEvent = new BattleRoomEvent(BattleRoomEvent.READY_CLICK);
+			event.value = ready;
+			dispatchEvent(event);
 		}
 		
 		public function show(callback: Function = null): void
@@ -103,6 +117,21 @@ package com.xgame.godwar.core.room.views
 					group2.push(p);
 					groupContainer2.add(component);
 					groupContainer2.layout.update();
+				}
+			}
+		}
+		
+		public function setPlayerReady(guid: String, ready: Boolean): void
+		{
+			var component: BattleRoomPlayerComponent;
+			for(var i: int = 0; i<componentList.length; i++)
+			{
+				component = componentList[i];
+				if(component.player.guid == guid)
+				{
+					component.ready = ready;
+					component.player.ready = ready;
+					break;
 				}
 			}
 		}

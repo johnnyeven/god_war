@@ -2,6 +2,7 @@ package com.xgame.godwar.core.room.mediators
 {
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_InitRoomData;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerEnterRoom;
+	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerReady;
 	import com.xgame.godwar.common.commands.receiving.Receive_Info_AccountRole;
 	import com.xgame.godwar.common.object.Player;
 	import com.xgame.godwar.common.parameters.AvatarParameter;
@@ -26,6 +27,7 @@ package com.xgame.godwar.core.room.mediators
 		public static const DISPOSE_NOTE: String = NAME + ".DisposeNote";
 		public static const SHOW_ROOM_DATA_NOTE: String = NAME + ".ShowRoomDataNote";
 		public static const ADD_PLAYER_NOTE: String = NAME + ".AddPlayerNote";
+		public static const PLAYER_READY_NOTE: String = NAME + ".PlayerReadyNote";
 		
 		public function BattleRoomMediator()
 		{
@@ -42,7 +44,8 @@ package com.xgame.godwar.core.room.mediators
 		
 		override public function listNotificationInterests():Array
 		{
-			return [SHOW_NOTE, HIDE_NOTE, DISPOSE_NOTE, SHOW_ROOM_DATA_NOTE, ADD_PLAYER_NOTE];
+			return [SHOW_NOTE, HIDE_NOTE, DISPOSE_NOTE, SHOW_ROOM_DATA_NOTE, ADD_PLAYER_NOTE,
+				PLAYER_READY_NOTE];
 		}
 		
 		override public function handleNotification(notification:INotification):void
@@ -65,6 +68,10 @@ package com.xgame.godwar.core.room.mediators
 				case ADD_PLAYER_NOTE:
 					addPlayer(notification.getBody() as Receive_BattleRoom_PlayerEnterRoom);
 					break;
+				case PLAYER_READY_NOTE:
+					var protocol: Receive_BattleRoom_PlayerReady = notification.getBody() as Receive_BattleRoom_PlayerReady;
+					component.setPlayerReady(protocol.guid, Boolean(protocol.ready));
+					break;
 			}
 		}
 		
@@ -75,7 +82,9 @@ package com.xgame.godwar.core.room.mediators
 		
 		private function onReadyClick(evt: BattleRoomEvent): void
 		{
+			var proxy: BattleRoomProxy = facade.retrieveProxy(BattleRoomProxy.NAME) as BattleRoomProxy;
 			
+			proxy.updatePlayerReady(Boolean(evt.value));
 		}
 		
 		private function requestEnterRoom(): void
