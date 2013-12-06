@@ -59,7 +59,8 @@ package com.xgame.godwar.core.hall.views
 				item = new BattleRoomListItemComponent();
 				item.info = list[i];
 				roomListContainer.add(item);
-				item.addEventListener(MouseEvent.CLICK, onItemClick);
+				item.doubleClickEnabled = true;
+				item.addEventListener(MouseEvent.DOUBLE_CLICK, onItemClick);
 			}
 			roomListContainer.layout.update();
 			scrollList.rebuild();
@@ -67,6 +68,8 @@ package com.xgame.godwar.core.hall.views
 		
 		public function addRoom(item: BattleRoomListItemComponent): void
 		{
+			item.doubleClickEnabled = true;
+			item.addEventListener(MouseEvent.DOUBLE_CLICK, onItemClick);
 			roomListContainer.add(item);
 			roomListContainer.layout.update();
 			scrollList.rebuild();
