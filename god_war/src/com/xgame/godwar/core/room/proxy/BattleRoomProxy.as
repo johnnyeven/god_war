@@ -3,6 +3,7 @@ package com.xgame.godwar.core.room.proxy
 	import com.xgame.godwar.common.commands.CommandList;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_InitRoomData;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerEnterRoom;
+	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerLeaveRoom;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerReady;
 	import com.xgame.godwar.common.commands.receiving.Receive_Hall_RequestEnterRoom;
 	import com.xgame.godwar.common.commands.receiving.Receive_Hall_RequestRoom;
@@ -40,6 +41,9 @@ package com.xgame.godwar.core.room.proxy
 			//玩家进入房间
 			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_PLAYER_ENTER_ROOM, Receive_BattleRoom_PlayerEnterRoom);
 			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_PLAYER_ENTER_ROOM, onPlayerEnterRoom);
+			//玩家离开房间
+			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_PLAYER_LEAVE_ROOM, Receive_BattleRoom_PlayerLeaveRoom);
+			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_PLAYER_LEAVE_ROOM, onPlayerLeaveRoom);
 			//玩家装备就绪
 			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_PLAYER_READY, Receive_BattleRoom_PlayerReady);
 			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_PLAYER_READY, onPlayerReady);
@@ -113,6 +117,13 @@ package com.xgame.godwar.core.room.proxy
 			facade.sendNotification(LoadingIconMediator.LOADING_HIDE_NOTE);
 			
 			facade.sendNotification(BattleRoomMediator.ADD_PLAYER_NOTE, protocol);
+		}
+		
+		private function onPlayerLeaveRoom(protocol: Receive_BattleRoom_PlayerLeaveRoom): void
+		{
+			facade.sendNotification(LoadingIconMediator.LOADING_HIDE_NOTE);
+			
+			facade.sendNotification(BattleRoomMediator.REMOVE_PLAYER_NOTE, protocol.guid);
 		}
 		
 		public function updatePlayerReady(ready: Boolean): void

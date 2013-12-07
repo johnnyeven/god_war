@@ -121,6 +121,52 @@ package com.xgame.godwar.core.room.views
 			}
 		}
 		
+		public function removePlayer(guid: String): void
+		{
+			var i: int;
+			var component: BattleRoomPlayerComponent;
+			var p: Player;
+			for(i = 0; i<componentList.length; i++)
+			{
+				component = componentList[i];
+				if(component.player.guid == guid)
+				{
+					p = component.player;
+					break;
+				}
+			}
+			if(component != null)
+			{
+				componentList.splice(i, 1);
+			}
+			if(p != null)
+			{
+				i = playerList.indexOf(p);
+				if(i >= 0)
+				{
+					playerList.splice(i, 1);
+				}
+				if(p.group == 1)
+				{
+					i = group1.indexOf(p);
+					if(i >= 0)
+					{
+						group1.splice(i, 1);
+					}
+					groupContainer1.remove(component);
+				}
+				else
+				{
+					i = group2.indexOf(p);
+					if(i >= 0)
+					{
+						group2.splice(i, 1);
+					}
+					groupContainer2.remove(component);
+				}
+			}
+		}
+		
 		public function setPlayerReady(guid: String, ready: Boolean): void
 		{
 			var component: BattleRoomPlayerComponent;

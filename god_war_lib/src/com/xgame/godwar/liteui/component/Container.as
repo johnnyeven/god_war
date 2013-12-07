@@ -1,16 +1,16 @@
 package com.xgame.godwar.liteui.component
 {
+	import com.xgame.godwar.events.ui.ViewEvent;
+	import com.xgame.godwar.liteui.core.Component;
+	import com.xgame.godwar.liteui.core.IViewPort;
+	import com.xgame.godwar.utils.UIUtils;
+	
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.geom.Rectangle;
-	
-	import com.xgame.godwar.utils.UIUtils;
-	import com.xgame.godwar.events.ui.ViewEvent;
-	import com.xgame.godwar.liteui.core.Component;
-	import com.xgame.godwar.liteui.core.IViewPort;
 	
 	public class Container extends Component implements IViewPort
 	{
@@ -157,7 +157,14 @@ package com.xgame.godwar.liteui.component
 		
 		public function remove(child: DisplayObject): void
 		{
-			_scrollContent.removeChild(child);
+			try
+			{
+				_scrollContent.removeChild(child);
+			}
+			catch(err: ArgumentError)
+			{
+				
+			}
 			measureSize();
 		}
 		
