@@ -13,6 +13,7 @@ package com.xgame.godwar.common.object
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.Sprite;
+	import flash.events.Event;
 	import flash.events.MouseEvent;
 
 	public class Card extends SpriteEx
@@ -51,9 +52,8 @@ package com.xgame.godwar.common.object
 				_id = id;
 				_parameter = CardParameterPool.instance.get(_id) as CardParameter;
 				loadCardInfo();
-				loadCardResource();
 			}
-			
+			addEventListener(Event.ADDED_TO_STAGE, onAddToStage);
 			addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
 			addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);
 		}
@@ -74,6 +74,11 @@ package com.xgame.godwar.common.object
 			}
 		}
 		
+		protected function onAddToStage(evt: Event): void
+		{
+			loadCardResource();
+		}
+		
 		protected function loadCardInfo(): void
 		{
 			_resourceId = _parameter.resourceId;
@@ -87,6 +92,7 @@ package com.xgame.godwar.common.object
 			{
 				bd = ResourcePool.instance.getBitmapData("assets.resource.card.UnknowCard_Small");
 				ResourceCenter.instance.load(_resourceId, null, onCardResourceLoadComplete);
+				trace("load: " + _id);
 			}
 			_cardResourceBuffer.bitmapData = bd;
 			fixSize();
@@ -105,8 +111,16 @@ package com.xgame.godwar.common.object
 		
 		private function onCardResourceLoadComplete(evt: LoaderEvent): void
 		{
-			_cardResourceBuffer.bitmapData = ResourcePool.instance.getBitmapData("assets.resource.card." + _id + "_" + DISPLAY_MODE[_displayMode]);
-			fixSize();
+			if(_id == "ShiZhe")
+			{
+				trace(_id);
+			}
+			var bm: BitmapData = ResourcePool.instance.getBitmapData("assets.resource.card." + _id + "_" + DISPLAY_MODE[_displayMode]);
+			if(bm != null)
+			{
+				_cardResourceBuffer.bitmapData = bm;
+				fixSize();
+			}
 		}
 
 		public function get displayMode():int
