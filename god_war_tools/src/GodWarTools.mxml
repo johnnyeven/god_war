@@ -39,81 +39,207 @@
 			
 			protected function button3_clickHandler(event:MouseEvent):void
 			{
-				var file: File = new File(iptSoulCardConfig.text);
-				//读取文件
-				var stream: FileStream = new FileStream();
-				stream.open(file, FileMode.READ);
-				var ba: ByteArray = new ByteArray();
-				stream.readBytes(ba);
-				stream.close();
-				
-				var xls:ExcelFile = new ExcelFile();
-				xls.loadFromByteArray(ba);
+				var file: File;
+				var stream: FileStream;
+				var ba: ByteArray;
+				var xls:ExcelFile;
 				var sheet:Sheet;
 				var rownow:int;
+				var xmlConfig: String;
+				var _config: XML;
+				var j: int;
+				var i: int;
 				
-				var classId: String;
-				var resourceId: String;
-				var name: String;
-				var level: int;
-				var attack: int;
-				var def: int;
-				var mdef: int;
-				var health: int;
-				var race: int;
-				
-				var xmlConfig: String = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n";
-				for(var j: int = 0; j<xls.sheets.length; j++)
+				if(iptSoulCardConfig.text != "" && iptSoulOutputConfig.text != "")
 				{
-					sheet = xls.sheets[j];
-					rownow = sheet.rows;
-					switch(sheet.name)
+					file = new File(iptSoulCardConfig.text);
+					//读取文件
+					stream = new FileStream();
+					stream.open(file, FileMode.READ);
+					ba = new ByteArray();
+					stream.readBytes(ba);
+					stream.close();
+					
+					xls = new ExcelFile();
+					xls.loadFromByteArray(ba);
+					
+					var classId: String;
+					var resourceId: String;
+					var name: String;
+					var level: int;
+					var attack: int;
+					var def: int;
+					var mdef: int;
+					var health: int;
+					var race: int;
+					
+					xmlConfig = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n";
+					for(j = 0; j<xls.sheets.length; j++)
 					{
-						case "神圣":
-							race = 0;
-							break;
-						case "炼狱":
-							race = 1;
-							break;
-						case "自然":
-							race = 2;
-							break;
-						case "混乱":
-							race = 3;
-							break;
+						sheet = xls.sheets[j];
+						rownow = sheet.rows;
+						switch(sheet.name)
+						{
+							case "神圣":
+								race = 0;
+								break;
+							case "炼狱":
+								race = 1;
+								break;
+							case "自然":
+								race = 2;
+								break;
+							case "混乱":
+								race = 3;
+								break;
+						}
+						for(var i: int = 4; i<rownow; i++)
+						{
+							classId = sheet.getCell(i, 1).value;
+							resourceId = sheet.getCell(i, 2).value;
+							name = sheet.getCell(i, 3).value;
+							level = sheet.getCell(i, 5).value;
+							attack = sheet.getCell(i, 8).value;
+							def = sheet.getCell(i, 9).value;
+							mdef = sheet.getCell(i, 10).value;
+							health = sheet.getCell(i, 11).value;
+							
+							xmlConfig += "	<card>\n";
+							xmlConfig += "		<id>" + classId + "</id>\n";
+							xmlConfig += "		<resource_id>" + resourceId + "</resource_id>\n";
+							xmlConfig += "		<name>" + name + "</name>\n";
+							xmlConfig += "		<attack>" + attack + "</attack>\n";
+							xmlConfig += "		<def>" + def + "</def>\n";
+							xmlConfig += "		<mdef>" + mdef + "</mdef>\n";
+							xmlConfig += "		<health>" + health + "</health>\n";
+							xmlConfig += "		<level>" + level + "</level>\n";
+							xmlConfig += "		<race>" + race + "</race>\n";
+							xmlConfig += "	</card>\n";
+						}
 					}
-					for(var i: int = 4; i<rownow; i++)
-					{
-						classId = sheet.getCell(i, 1).value;
-						resourceId = sheet.getCell(i, 2).value;
-						name = sheet.getCell(i, 3).value;
-						level = sheet.getCell(i, 5).value;
-						attack = sheet.getCell(i, 8).value;
-						def = sheet.getCell(i, 9).value;
-						mdef = sheet.getCell(i, 10).value;
-						health = sheet.getCell(i, 11).value;
-						
-						xmlConfig += "	<card>\n";
-						xmlConfig += "		<id>" + classId + "</id>\n";
-						xmlConfig += "		<resource_id>" + resourceId + "</resource_id>\n";
-						xmlConfig += "		<name>" + name + "</name>\n";
-						xmlConfig += "		<attack>" + attack + "</attack>\n";
-						xmlConfig += "		<def>" + def + "</def>\n";
-						xmlConfig += "		<mdef>" + mdef + "</mdef>\n";
-						xmlConfig += "		<health>" + health + "</health>\n";
-						xmlConfig += "		<level>" + level + "</level>\n";
-						xmlConfig += "		<race>" + race + "</race>\n";
-						xmlConfig += "	</card>\n";
-					}
+					xmlConfig += "</root>";
+					
+					//写入配置文件
+					_config = XML(xmlConfig);
+					file = new File(iptSoulOutputConfig.text);
+					stream.open(file, FileMode.WRITE);
+					stream.writeUTFBytes(_config);
+					stream.close();
 				}
-				xmlConfig += "</root>";
 				
-				//写入配置文件
-				var _config: XML = XML(xmlConfig);
-				file = new File(iptSoulOutputConfig.text);
-				stream.open(file, FileMode.WRITE);
-				stream.writeUTFBytes(_config);
-				stream.close();
+				if(iptHeroCardConfig.text != "" && iptHeroOutputConfig.text != "")
+				{
+					file = new File(iptHeroCardConfig.text);
+					//读取文件
+					stream = new FileStream();
+					stream.open(file, FileMode.READ);
+					ba = new ByteArray();
+					stream.readBytes(ba);
+					stream.close();
+					
+					xls = new ExcelFile();
+					xls.loadFromByteArray(ba);
+					
+					var classId2: String;
+					var resourceId2: String;
+					var name2: String;
+					var nickName2: String;
+					var attack2: int;
+					var def2: int;
+					var mdef2: int;
+					var hit2: int;
+					var flee2: int;
+					var health2: int;
+					var race2: int;
+					
+					xmlConfig = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n";
+					for(j = 0; j<xls.sheets.length; j++)
+					{
+						sheet = xls.sheets[j];
+						rownow = sheet.rows;
+						switch(sheet.name)
+						{
+							case "人类":
+								race2 = 0;
+								break;
+							case "亡灵":
+								race2 = 1;
+								break;
+							case "天使":
+								race2 = 2;
+								break;
+							case "恶魔":
+								race2 = 3;
+								break;
+							case "精灵":
+								race2 = 4;
+								break;
+							case "泰坦":
+								race2 = 5;
+								break;
+						}
+						for(i = 4; i<rownow; i++)
+						{
+							classId2 = sheet.getCell(i, 1).value;
+							resourceId2 = sheet.getCell(i, 2).value;
+							name2 = sheet.getCell(i, 3).value;
+							nickName2 = sheet.getCell(i, 4).value;
+							attack2 = sheet.getCell(i, 7).value;
+							def2 = sheet.getCell(i, 8).value;
+							mdef2 = sheet.getCell(i, 9).value;
+							hit2 = sheet.getCell(i, 10).value;
+							flee2 = sheet.getCell(i, 11).value;
+							health2 = sheet.getCell(i, 12).value;
+							
+							xmlConfig += "	<card>\n";
+							xmlConfig += "		<id>" + classId2 + "</id>\n";
+							xmlConfig += "		<resource_id>" + resourceId2 + "</resource_id>\n";
+							xmlConfig += "		<name>" + name2 + "</name>\n";
+							xmlConfig += "		<nikename>" + nickName2 + "</nikename>\n";
+							xmlConfig += "		<attack>" + attack2 + "</attack>\n";
+							xmlConfig += "		<def>" + def2 + "</def>\n";
+							xmlConfig += "		<mdef>" + mdef2 + "</mdef>\n";
+							xmlConfig += "		<hit>" + hit2 + "</hit>\n";
+							xmlConfig += "		<flee>" + flee2 + "</flee>\n";
+							xmlConfig += "		<health>" + health2 + "</health>\n";
+							xmlConfig += "		<race>" + race2 + "</race>\n";
+							xmlConfig += "	</card>\n";
+						}
+					}
+					xmlConfig += "</root>";
+					
+					//写入配置文件
+					_config = XML(xmlConfig);
+					file = new File(iptHeroOutputConfig.text);
+					stream.open(file, FileMode.WRITE);
+					stream.writeUTFBytes(_config);
+					stream.close();
+				}
+			}
+			
+			protected function button4_clickHandler(event:MouseEvent):void
+			{
+				var _file: File = new File();
+				_file.addEventListener(Event.SELECT, onHeroInputDirSelected);
+				var xlsFilter: FileFilter = new FileFilter("Excel文档", "*.xls;*.xlsx");
+				_file.browseForOpen("选择配置文件", [xlsFilter]);
+			}
+			
+			private function onHeroInputDirSelected(evt: Event): void
+			{
+				iptHeroCardConfig.text = (evt.target as File).nativePath;
+			}
+			
+			protected function button5_clickHandler(event:MouseEvent):void
+			{
+				var _file: File = new File();
+				_file.addEventListener(Event.SELECT, onHeroOutputDirSelected);
+				_file.browseForSave("选择配置文件保存的位置");
+			}
+			
+			private function onHeroOutputDirSelected(evt: Event): void
+			{
+				iptHeroOutputConfig.text = (evt.target as File).nativePath;
 			}
 			
 		]]>
@@ -130,8 +256,8 @@
 			<s:TextInput id="iptSoulCardConfig" x="103" y="21" width="372" editable="false"/>
 			<s:Button x="491" y="21" label="浏览" click="button1_clickHandler(event)"/>
 			<s:Button x="491" y="224" label="浏览" click="button2_clickHandler(event)"/>
-			<s:Button x="491" y="255" label="浏览"/>
-			<s:Button x="491" y="52" label="浏览"/>
+			<s:Button x="491" y="255" label="浏览" click="button5_clickHandler(event)"/>
+			<s:Button x="491" y="52" label="浏览" click="button4_clickHandler(event)"/>
 			<s:Label x="22" y="57" text="英雄卡牌配置"/>
 			<s:TextInput id="iptHeroCardConfig" x="103" y="51" width="372" editable="false"/>
 			<mx:HRule x="8" y="202" width="582" height="1"/>

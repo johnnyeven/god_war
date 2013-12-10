@@ -14,6 +14,37 @@
 	<LoaderMax name="battle_ui">
 		<SWFLoader name="battle_room_ui" url="assets/swf/ui/room/battle_room_ui.swf" autoPlay="false" version="1.0.0" />
 	</LoaderMax>
+	
+	<SWFLoader name='demon_deladiya' url='assets/swf/cards/hero/demon_deladiya.swf' autoPlay= "false" version="1.0.0"/>
+	<SWFLoader name='demon_motedan' url='assets/swf/cards/hero/demon_motedan.swf' autoPlay= "false" version="1.0.0"/>
+	<SWFLoader name='demon_naluke' url='assets/swf/cards/hero/demon_naluke.swf' autoPlay= "false" version="1.0.0"/>
+	<SWFLoader name='demon_wokelieke' url='assets/swf/cards/hero/demon_wokelieke.swf' autoPlay= "false" version="1.0.0"/>
+	<SWFLoader name='demon_xiuerdun' url='assets/swf/cards/hero/demon_xiuerdun.swf' autoPlay= "false" version="1.0.0"/>
+	<SWFLoader name='heaven_airuisi' url='assets/swf/cards/hero/heaven_airuisi.swf' autoPlay= "false" version="1.0.0"/>
+	<SWFLoader name='heaven_aolikeruisi' url='assets/swf/cards/hero/heaven_aolikeruisi.swf' autoPlay= "false" version="1.0.0"/>
+	<SWFLoader name='heaven_yinnuoruier' url='assets/swf/cards/hero/heaven_yinnuoruier.swf' autoPlay= "false" version="1.0.0"/>
+	<SWFLoader name='heaven_yixisi' url='assets/swf/cards/hero/heaven_yixisi.swf' autoPlay= "false" version="1.0.0"/>
+	<SWFLoader name='heaven_younuoruier' url='assets/swf/cards/hero/heaven_younuoruier.swf' autoPlay= "false" version="1.0.0"/>
+	<SWFLoader name='mankind_foluolin' url='assets/swf/cards/hero/mankind_foluolin.swf' autoPlay= "false" version="1.0.0"/>
+	<SWFLoader name='mankind_hainawei' url='assets/swf/cards/hero/mankind_hainawei.swf' autoPlay= "false" version="1.0.0"/>
+	<SWFLoader name='mankind_huobide' url='assets/swf/cards/hero/mankind_huobide.swf' autoPlay= "false" version="1.0.0"/>
+	<SWFLoader name='mankind_jiasite' url='assets/swf/cards/hero/mankind_jiasite.swf' autoPlay= "false" version="1.0.0"/>
+	<SWFLoader name='mankind_mengqi' url='assets/swf/cards/hero/mankind_mengqi.swf' autoPlay= "false" version="1.0.0"/>
+	<SWFLoader name='spirit_aier' url='assets/swf/cards/hero/spirit_aier.swf' autoPlay= "false" version="1.0.0"/>
+	<SWFLoader name='spirit_kaiwen' url='assets/swf/cards/hero/spirit_kaiwen.swf' autoPlay= "false" version="1.0.0"/>
+	<SWFLoader name='spirit_maiya' url='assets/swf/cards/hero/spirit_maiya.swf' autoPlay= "false" version="1.0.0"/>
+	<SWFLoader name='spirit_wode' url='assets/swf/cards/hero/spirit_wode.swf' autoPlay= "false" version="1.0.0"/>
+	<SWFLoader name='spirit_yilan' url='assets/swf/cards/hero/spirit_yilan.swf' autoPlay= "false" version="1.0.0"/>
+	<SWFLoader name='titan_atimosi' url='assets/swf/cards/hero/titan_atimosi.swf' autoPlay= "false" version="1.0.0"/>
+	<SWFLoader name='titan_ekeersi' url='assets/swf/cards/hero/titan_ekeersi.swf' autoPlay= "false" version="1.0.0"/>
+	<SWFLoader name='titan_keesi' url='assets/swf/cards/hero/titan_keesi.swf' autoPlay= "false" version="1.0.0"/>
+	<SWFLoader name='titan_kelatisi' url='assets/swf/cards/hero/titan_kelatisi.swf' autoPlay= "false" version="1.0.0"/>
+	<SWFLoader name='titan_tiya' url='assets/swf/cards/hero/titan_tiya.swf' autoPlay= "false" version="1.0.0"/>
+	<SWFLoader name='undead_bisier' url='assets/swf/cards/hero/undead_bisier.swf' autoPlay= "false" version="1.0.0"/>
+	<SWFLoader name='undead_dimeng' url='assets/swf/cards/hero/undead_dimeng.swf' autoPlay= "false" version="1.0.0"/>
+	<SWFLoader name='undead_jiaermazuo' url='assets/swf/cards/hero/undead_jiaermazuo.swf' autoPlay= "false" version="1.0.0"/>
+	<SWFLoader name='undead_panni' url='assets/swf/cards/hero/undead_panni.swf' autoPlay= "false" version="1.0.0"/>
+	<SWFLoader name='undead_puleige' url='assets/swf/cards/hero/undead_puleige.swf' autoPlay= "false" version="1.0.0"/>
 
 	<SWFLoader name='chaos_1_duyeqinshizhe' url='assets/swf/cards/chaos_1_duyeqinshizhe.swf' autoPlay= "false" version="1.0.0"/>
 	<SWFLoader name='chaos_1_gebulin' url='assets/swf/cards/chaos_1_gebulin.swf' autoPlay= "false" version="1.0.0"/>
