@@ -92,7 +92,6 @@ package com.xgame.godwar.common.object
 			{
 				bd = ResourcePool.instance.getBitmapData("assets.resource.card.UnknowCard_Small");
 				ResourceCenter.instance.load(_resourceId, null, onCardResourceLoadComplete);
-				trace("load: " + _id);
 			}
 			_cardResourceBuffer.bitmapData = bd;
 			fixSize();
@@ -111,10 +110,6 @@ package com.xgame.godwar.common.object
 		
 		private function onCardResourceLoadComplete(evt: LoaderEvent): void
 		{
-			if(_id == "ShiZhe")
-			{
-				trace(_id);
-			}
 			var bm: BitmapData = ResourcePool.instance.getBitmapData("assets.resource.card." + _id + "_" + DISPLAY_MODE[_displayMode]);
 			if(bm != null)
 			{
