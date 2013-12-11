@@ -5,11 +5,13 @@ package com.xgame.godwar.core.general.proxy
 	import com.xgame.godwar.common.commands.CommandList;
 	import com.xgame.godwar.common.commands.receiving.Receive_Info_RequestCardList;
 	import com.xgame.godwar.common.commands.sending.Send_Info_RequestCardList;
+	import com.xgame.godwar.common.object.HeroCard;
 	import com.xgame.godwar.common.object.SoulCard;
 	import com.xgame.godwar.common.parameters.card.CardContainerParameter;
 	import com.xgame.godwar.common.parameters.card.HeroCardParameter;
 	import com.xgame.godwar.common.parameters.card.SoulCardParameter;
 	import com.xgame.godwar.common.pool.CardParameterPool;
+	import com.xgame.godwar.common.pool.HeroCardParameterPool;
 	import com.xgame.godwar.configuration.SocketContextConfig;
 	import com.xgame.godwar.core.center.CommandCenter;
 	import com.xgame.godwar.utils.manager.LanguageManager;
@@ -19,13 +21,13 @@ package com.xgame.godwar.core.general.proxy
 	import org.puremvc.as3.interfaces.IProxy;
 	import org.puremvc.as3.patterns.proxy.Proxy;
 	
-	public class SoulProxy extends Proxy implements IProxy
+	public class CardProxy extends Proxy implements IProxy
 	{
-		public static const NAME: String = "SoulProxy";
+		public static const NAME: String = "CardProxy";
 		public var soulCardIndex: Dictionary;
 		public var container: CardContainerParameter;
 		
-		public function SoulProxy()
+		public function CardProxy()
 		{
 			super(NAME, null);
 			
@@ -70,6 +72,16 @@ package com.xgame.godwar.core.general.proxy
 			var _config: XML = (evt.currentTarget as XMLLoader).content;
 			var parameter: HeroCardParameter;
 			
+			var avatar: AvatarConfigProxy = facade.retrieveProxy(AvatarConfigProxy.NAME) as AvatarConfigProxy;
+			if(avatar == null)
+			{
+				avatar = new AvatarConfigProxy();
+				facade.registerProxy(avatar);
+				avatar.getAvatarConfig();
+				
+				return;
+			}
+			
 			for(var i: int = 0; i < _config.card.length(); i++)
 			{
 				parameter = new HeroCardParameter();
@@ -84,7 +96,8 @@ package com.xgame.godwar.core.general.proxy
 				parameter.flee = _config.card[i].flee;
 				parameter.health = _config.card[i].health;
 				parameter.race = _config.card[i].race;
-				CardParameterPool.instance.add(parameter.id, parameter);
+				parameter.avatarPath = avatar.avatarBasePath + parameter.resourceId + ".png";
+				HeroCardParameterPool.instance.add(parameter.id, parameter);
 			}
 			
 			if(getData() == null)
@@ -103,9 +116,9 @@ package com.xgame.godwar.core.general.proxy
 		private function onRequestCardList(protocol: Receive_Info_RequestCardList): void
 		{
 			soulCardIndex = new Dictionary();
+			
 			var tmp: Array = protocol.cardList.split(',');
 			var list: Array = new Array();
-			
 			var card: SoulCard;
 			for(var i: String in tmp)
 			{
@@ -113,8 +126,19 @@ package com.xgame.godwar.core.general.proxy
 				list.push(card);
 				soulCardIndex[tmp[i]] = list.length-1;
 			}
-			
 			container.soulCardList = list;
+			
+			tmp = protocol.heroCardList.split(',');
+			list = new Array();
+			var heroCard: HeroCard;
+			for(i in tmp)
+			{
+				heroCard = new HeroCard(tmp[i]);
+				list.push(card);
+				soulCardIndex[tmp[i]] = list.length-1;
+			}
+			container.heroCardList = list;
+			
 			setData(container);
 		}
 	}

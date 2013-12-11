@@ -4,7 +4,9 @@ package com.xgame.godwar.common.object
 	import com.greensock.easing.Strong;
 	import com.greensock.events.LoaderEvent;
 	import com.xgame.godwar.common.parameters.card.CardParameter;
+	import com.xgame.godwar.common.parameters.card.HeroCardParameter;
 	import com.xgame.godwar.common.pool.CardParameterPool;
+	import com.xgame.godwar.common.pool.HeroCardParameterPool;
 	import com.xgame.godwar.common.pool.ResourcePool;
 	import com.xgame.godwar.core.center.ResourceCenter;
 	import com.xgame.godwar.enum.CardDisplayModeEnum;
@@ -47,15 +49,12 @@ package com.xgame.godwar.common.object
 			_infoLayer = new Sprite();
 			addChild(_infoLayer);
 			
-			if(id != null)
-			{
-				_id = id;
-				_parameter = CardParameterPool.instance.get(_id) as CardParameter;
-				loadCardInfo();
-			}
 			addEventListener(Event.ADDED_TO_STAGE, onAddToStage);
 			addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
 			addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);
+			
+			_id = id;
+			loadCardInfo();
 		}
 		
 		protected function onMouseOver(evt: MouseEvent): void
@@ -81,8 +80,20 @@ package com.xgame.godwar.common.object
 		
 		protected function loadCardInfo(): void
 		{
-			_resourceId = _parameter.resourceId;
-			_name = _parameter.name;
+			if(_id != null)
+			{
+				if(this is HeroCard)
+				{
+					_parameter = HeroCardParameterPool.instance.get(_id) as HeroCardParameter;
+				}
+				else
+				{
+					_parameter = CardParameterPool.instance.get(_id) as CardParameter;
+				}
+				
+				_resourceId = _parameter.resourceId;
+				_name = _parameter.name;
+			}
 		}
 		
 		protected function loadCardResource(): void

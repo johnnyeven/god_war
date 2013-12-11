@@ -6,6 +6,7 @@ package com.xgame.godwar.common.parameters.card
 		public var hit: int;
 		public var flee: int;
 		public var race: int;
+		public var avatarPath: String;
 		
 		public function HeroCardParameter()
 		{

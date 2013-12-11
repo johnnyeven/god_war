@@ -1,6 +1,6 @@
 package com.xgame.godwar.core.initialization
 {
-	import com.xgame.godwar.core.general.proxy.SoulProxy;
+	import com.xgame.godwar.core.general.proxy.CardProxy;
 	
 	import org.puremvc.as3.interfaces.INotification;
 	import org.puremvc.as3.patterns.command.SimpleCommand;
@@ -12,14 +12,14 @@ package com.xgame.godwar.core.initialization
 		public function LoadCardCommand()
 		{
 			super();
-			facade.registerProxy(new SoulProxy());
+			facade.registerProxy(new CardProxy());
 		}
 		
 		override public function execute(notification:INotification):void
 		{
 			facade.removeCommand(LOAD_NOTE);
 			
-			var _proxy: SoulProxy = facade.retrieveProxy(SoulProxy.NAME) as SoulProxy;
+			var _proxy: CardProxy = facade.retrieveProxy(CardProxy.NAME) as CardProxy;
 			_proxy.getConfig();
 		}
 	}

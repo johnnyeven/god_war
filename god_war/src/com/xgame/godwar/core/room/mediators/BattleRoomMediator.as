@@ -7,14 +7,19 @@ package com.xgame.godwar.core.room.mediators
 	import com.xgame.godwar.common.object.Player;
 	import com.xgame.godwar.common.parameters.AvatarParameter;
 	import com.xgame.godwar.common.parameters.PlayerParameter;
+	import com.xgame.godwar.common.parameters.card.HeroCardParameter;
+	import com.xgame.godwar.common.pool.HeroCardParameterPool;
 	import com.xgame.godwar.core.general.mediators.BaseMediator;
 	import com.xgame.godwar.core.general.proxy.AvatarConfigProxy;
+	import com.xgame.godwar.core.general.proxy.CardProxy;
 	import com.xgame.godwar.core.login.proxy.RequestRoleProxy;
 	import com.xgame.godwar.core.room.proxy.BattleRoomProxy;
 	import com.xgame.godwar.core.room.views.BattleRoomComponent;
+	import com.xgame.godwar.core.room.views.BattleRoomHeroComponent;
 	import com.xgame.godwar.core.setting.controllers.ShowCardConfigMediatorCommand;
 	import com.xgame.godwar.events.BattleRoomEvent;
 	
+	import flash.events.MouseEvent;
 	import flash.utils.Dictionary;
 	
 	import org.puremvc.as3.interfaces.INotification;
@@ -29,6 +34,8 @@ package com.xgame.godwar.core.room.mediators
 		public static const ADD_PLAYER_NOTE: String = NAME + ".AddPlayerNote";
 		public static const REMOVE_PLAYER_NOTE: String = NAME + ".RemovePlayerNote";
 		public static const PLAYER_READY_NOTE: String = NAME + ".PlayerReadyNote";
+		
+		public var currentHeroId: String;
 		
 		public function BattleRoomMediator()
 		{
@@ -112,8 +119,31 @@ package com.xgame.godwar.core.room.mediators
 				avatarIndex = proxy.avatarIndex;
 			}
 			
+			var cardProxy: CardProxy = facade.retrieveProxy(CardProxy.NAME) as CardProxy;
+			var soulCardIndex: Dictionary = cardProxy.soulCardIndex;
+			var heroList: Array = HeroCardParameterPool.instance.list;
+			var heroParameter: HeroCardParameter;
+			var heroComponent: BattleRoomHeroComponent;
+			for(var i: int = 0; i<heroList.length; i++)
+			{
+				heroParameter = heroList[i] as HeroCardParameter;
+				if(heroParameter != null)
+				{
+					heroComponent = new BattleRoomHeroComponent();
+					
+					if(!soulCardIndex.hasOwnProperty(heroParameter.id))
+					{
+						heroComponent.enabled = false;
+					}
+					heroComponent.heroCardParameter = heroParameter;
+					component.addHero(heroComponent);
+					
+					heroComponent.addEventListener(MouseEvent.CLICK, onHeroClick);
+				}
+			}
+			
 			var avatarParameter: AvatarParameter;
-			for(var i: int = 0; i<protocol.playerList.length; i++)
+			for(i = 0; i<protocol.playerList.length; i++)
 			{
 				parameter = protocol.playerList[i];
 				player = new Player();
@@ -192,6 +222,21 @@ package com.xgame.godwar.core.room.mediators
 		private function removePlayer(guid: String): void
 		{
 			component.removePlayer(guid);
+		}
+		
+		private function onHeroClick(evt: MouseEvent): void
+		{
+			var heroComponent: BattleRoomHeroComponent = evt.currentTarget as BattleRoomHeroComponent;
+			if(heroComponent.enabled)
+			{
+				var list: Vector.<BattleRoomHeroComponent> = component.heroComponentList;
+				for(var i: int = 0; i<list.length; i++)
+				{
+					list[i].selected = false;
+				}
+				heroComponent.selected = true;
+				currentHeroId = heroComponent.heroCardParameter.id;
+			}
 		}
 	}
 }

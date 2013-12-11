@@ -3,6 +3,7 @@ package com.xgame.godwar.core.room.views
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Strong;
 	import com.xgame.godwar.common.object.Player;
+	import com.xgame.godwar.common.parameters.card.HeroCardParameter;
 	import com.xgame.godwar.common.pool.ResourcePool;
 	import com.xgame.godwar.enum.ScrollBarOrientation;
 	import com.xgame.godwar.events.BattleRoomEvent;
@@ -30,6 +31,7 @@ package com.xgame.godwar.core.room.views
 		private var group2: Vector.<Player>;
 		private var playerList: Vector.<Player>;
 		private var componentList: Vector.<BattleRoomPlayerComponent>;
+		private var _heroComponentList: Vector.<BattleRoomHeroComponent>;
 		private var ready: Boolean = false;
 		
 		public function BattleRoomComponent()
@@ -47,6 +49,8 @@ package com.xgame.godwar.core.room.views
 			sortChildIndex();
 			
 			heroList.layout = new HorizontalTileLayout(heroList);
+			heroList.layout.hGap = -37;
+			heroList.layout.vGap = -37;
 			heroListScroll.orientation = ScrollBarOrientation.VERTICAL;
 			heroListScroll.view = heroList;
 			
@@ -57,6 +61,7 @@ package com.xgame.godwar.core.room.views
 			group2 = new Vector.<Player>();
 			playerList = new Vector.<Player>();
 			componentList = new Vector.<BattleRoomPlayerComponent>();
+			_heroComponentList = new Vector.<BattleRoomHeroComponent>();
 			
 			btnCardConfig.addEventListener(MouseEvent.CLICK, onBtnCardConfigClick);
 			_btnReady.addEventListener(MouseEvent.CLICK, onBtnReadyClick);
@@ -95,6 +100,17 @@ package com.xgame.godwar.core.room.views
 		public function hide(callback: Function = null): void
 		{
 			TweenLite.to(this, .5, {y: -600, ease: Strong.easeIn, onComplete: callback});
+		}
+		
+		public function addHero(value: BattleRoomHeroComponent): void
+		{
+			if(value != null)
+			{
+				_heroComponentList.push(value);
+				heroList.add(value);
+				heroList.layout.update();
+				heroListScroll.rebuild();
+			}
 		}
 		
 		public function addPlayer(p: Player): void
@@ -186,6 +202,12 @@ package com.xgame.godwar.core.room.views
 		{
 			return _btnReady;
 		}
+
+		public function get heroComponentList():Vector.<BattleRoomHeroComponent>
+		{
+			return _heroComponentList;
+		}
+
 
 	}
 }

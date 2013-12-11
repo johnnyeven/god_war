@@ -8,6 +8,7 @@ package com.xgame.godwar.common.commands.receiving
 	public class Receive_Info_RequestCardList extends ReceivingBase
 	{
 		public var cardList: String = null;
+		public var heroCardList: String = null;
 		
 		public function Receive_Info_RequestCardList()
 		{
@@ -33,6 +34,10 @@ package com.xgame.godwar.common.commands.receiving
 							if (StringUtils.empty(cardList))
 							{
 								cardList = data.readUTFBytes(length);
+							}
+							else if(StringUtils.empty(heroCardList))
+							{
+								heroCardList = data.readUTFBytes(length);
 							}
 							break;
 					}
