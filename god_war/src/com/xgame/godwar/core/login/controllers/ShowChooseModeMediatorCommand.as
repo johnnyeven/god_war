@@ -3,7 +3,7 @@ package com.xgame.godwar.core.login.controllers
 	import com.greensock.events.LoaderEvent;
 	import com.greensock.loading.core.LoaderCore;
 	import com.xgame.godwar.core.center.ResourceCenter;
-	import com.xgame.godwar.core.initialization.LoadSoulCardCommand;
+	import com.xgame.godwar.core.initialization.LoadCardCommand;
 	import com.xgame.godwar.core.loading.mediators.ProgressBarMediator;
 	import com.xgame.godwar.core.login.mediators.ChooseModeMediator;
 	
@@ -17,8 +17,8 @@ package com.xgame.godwar.core.login.controllers
 		public function ShowChooseModeMediatorCommand()
 		{
 			super();
-			facade.registerCommand(LoadSoulCardCommand.LOAD_NOTE, LoadSoulCardCommand);
-			facade.sendNotification(LoadSoulCardCommand.LOAD_NOTE);
+			facade.registerCommand(LoadCardCommand.LOAD_NOTE, LoadCardCommand);
+			facade.sendNotification(LoadCardCommand.LOAD_NOTE);
 		}
 		
 		override public function execute(notification:INotification):void

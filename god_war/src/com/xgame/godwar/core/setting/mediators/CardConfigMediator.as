@@ -9,7 +9,7 @@ package com.xgame.godwar.core.setting.mediators
 	import com.xgame.godwar.configuration.SocketContextConfig;
 	import com.xgame.godwar.core.center.CommandCenter;
 	import com.xgame.godwar.core.general.mediators.BaseMediator;
-	import com.xgame.godwar.core.general.proxy.SoulCardProxy;
+	import com.xgame.godwar.core.general.proxy.SoulProxy;
 	import com.xgame.godwar.core.loading.mediators.LoadingIconMediator;
 	import com.xgame.godwar.core.setting.proxy.CardGroupProxy;
 	import com.xgame.godwar.core.setting.views.CardConfigComponent;
@@ -126,8 +126,8 @@ package com.xgame.godwar.core.setting.mediators
 		
 		private function onBtnBackClick(evt: CardConfigEvent): void
 		{
-			var soulCardProxy: SoulCardProxy = facade.retrieveProxy(SoulCardProxy.NAME) as SoulCardProxy;
-			var soulCardList: Array = soulCardProxy.getData() as Array;
+			var soulCardProxy: SoulProxy = facade.retrieveProxy(SoulProxy.NAME) as SoulProxy;
+			var soulCardList: Array = soulCardProxy.container.soulCardList;
 			for(var j: String in soulCardList)
 			{
 				soulCardList[j].enabled = true;
@@ -160,9 +160,9 @@ package com.xgame.godwar.core.setting.mediators
 					}
 				}
 				
-				var soulCardProxy: SoulCardProxy = facade.retrieveProxy(SoulCardProxy.NAME) as SoulCardProxy;
+				var soulCardProxy: SoulProxy = facade.retrieveProxy(SoulProxy.NAME) as SoulProxy;
 				var soulCardIndex: Dictionary = soulCardProxy.soulCardIndex;
-				var soulCardList: Array = soulCardProxy.getData() as Array;
+				var soulCardList: Array = soulCardProxy.container.soulCardList;
 				var j: String;
 				for(j in soulCardList)
 				{
@@ -246,8 +246,8 @@ package com.xgame.godwar.core.setting.mediators
 				}
 			}
 			
-			var soulCardProxy: SoulCardProxy = facade.retrieveProxy(SoulCardProxy.NAME) as SoulCardProxy;
-			var soulCardList: Array = soulCardProxy.getData() as Array;
+			var soulCardProxy: SoulProxy = facade.retrieveProxy(SoulProxy.NAME) as SoulProxy;
+			var soulCardList: Array = soulCardProxy.container.soulCardList;
 			for(var j: String in soulCardList)
 			{
 				soulCardList[j].enabled = true;
@@ -256,8 +256,8 @@ package com.xgame.godwar.core.setting.mediators
 		
 		private function addCardList(): void
 		{
-			var proxy: SoulCardProxy = facade.retrieveProxy(SoulCardProxy.NAME) as SoulCardProxy;
-			var list: Array = proxy.getData() as Array;
+			var proxy: SoulProxy = facade.retrieveProxy(SoulProxy.NAME) as SoulProxy;
+			var list: Array = proxy.container.soulCardList;
 			var card: Card;
 			if(list != null && list.length > 0)
 			{
@@ -306,9 +306,9 @@ package com.xgame.godwar.core.setting.mediators
 		{
 			var card: Card = evt.currentTarget as Card;
 			
-			var soulCardProxy: SoulCardProxy = facade.retrieveProxy(SoulCardProxy.NAME) as SoulCardProxy;
+			var soulCardProxy: SoulProxy = facade.retrieveProxy(SoulProxy.NAME) as SoulProxy;
 			var soulCardIndex: Dictionary = soulCardProxy.soulCardIndex;
-			var soulCardList: Array = soulCardProxy.getData() as Array;
+			var soulCardList: Array = soulCardProxy.container.soulCardList;
 			
 			if(soulCardIndex.hasOwnProperty(card.id))
 			{
