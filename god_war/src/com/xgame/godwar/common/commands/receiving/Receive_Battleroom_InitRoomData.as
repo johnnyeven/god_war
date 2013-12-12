@@ -15,6 +15,7 @@ package com.xgame.godwar.common.commands.receiving
 		public var ownerName: String;
 		public var peopleCount: int = int.MIN_VALUE;
 		public var peopleLimit: int = int.MIN_VALUE;
+		public var playerGroup: int = int.MIN_VALUE;
 		public var playerList: Vector.<PlayerParameter> = new Vector.<PlayerParameter>();
 		
 		public function Receive_BattleRoom_InitRoomData()
@@ -49,6 +50,10 @@ package com.xgame.godwar.common.commands.receiving
 							else if(peopleLimit == int.MIN_VALUE)
 							{
 								peopleLimit = data.readInt();
+							}
+							else if(playerGroup == int.MIN_VALUE)
+							{
+								playerGroup = data.readInt();
 							}
 							else if(parameter.level == int.MIN_VALUE)
 							{
@@ -118,6 +123,10 @@ package com.xgame.godwar.common.commands.receiving
 									parameter.avatarId = "default";
 								}
 							}
+							else if(StringUtils.empty(parameter.heroCardId))
+							{
+								parameter.heroCardId = data.readUTFBytes(length);
+							}
 							break;
 					}
 					
@@ -126,6 +135,7 @@ package com.xgame.godwar.common.commands.receiving
 						!StringUtils.empty(parameter.name) &&
 						parameter.level != int.MIN_VALUE &&
 						!StringUtils.empty(parameter.avatarId) &&
+						parameter.heroCardId != null &&
 						parameter.cash != null &&
 						parameter.winningCount != int.MIN_VALUE &&
 						parameter.battleCount != int.MIN_VALUE &&

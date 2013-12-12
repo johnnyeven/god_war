@@ -5,9 +5,11 @@ package com.xgame.godwar.core.room.proxy
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerEnterRoom;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerLeaveRoom;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerReady;
+	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerSelectHero;
 	import com.xgame.godwar.common.commands.receiving.Receive_Hall_RequestEnterRoom;
 	import com.xgame.godwar.common.commands.receiving.Receive_Hall_RequestRoom;
 	import com.xgame.godwar.common.commands.sending.Send_BattleRoom_PlayerReady;
+	import com.xgame.godwar.common.commands.sending.Send_BattleRoom_PlayerSelectHero;
 	import com.xgame.godwar.common.commands.sending.Send_Hall_RequestEnterRoom;
 	import com.xgame.godwar.common.commands.sending.Send_Hall_RequestRoom;
 	import com.xgame.godwar.configuration.SocketContextConfig;
@@ -47,6 +49,9 @@ package com.xgame.godwar.core.room.proxy
 			//玩家装备就绪
 			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_PLAYER_READY, Receive_BattleRoom_PlayerReady);
 			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_PLAYER_READY, onPlayerReady);
+			//选择英雄
+			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_PLAYER_SELECTED_HERO, Receive_BattleRoom_PlayerSelectHero);
+			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_PLAYER_SELECTED_HERO, onPlayerSelectHero);
 		}
 		
 		public function requestRoom(roomType: int, title: String, peopleLimit: int): void
@@ -140,6 +145,22 @@ package com.xgame.godwar.core.room.proxy
 		private function onPlayerReady(protocol: Receive_BattleRoom_PlayerReady): void
 		{
 			facade.sendNotification(BattleRoomMediator.PLAYER_READY_NOTE, protocol);
+		}
+		
+		public function selectHero(id: String): void
+		{
+			if(CommandCenter.instance.connected && id != null)
+			{
+				var protocol: Send_BattleRoom_PlayerSelectHero = new Send_BattleRoom_PlayerSelectHero();
+				protocol.cardId = id;
+				
+				CommandCenter.instance.send(protocol);
+			}
+		}
+		
+		private function onPlayerSelectHero(protocol: Receive_BattleRoom_PlayerSelectHero): void
+		{
+			facade.sendNotification(BattleRoomMediator.PLAYER_SELECT_HERO_NOTE, protocol);
 		}
 	}
 }

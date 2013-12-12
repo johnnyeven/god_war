@@ -32,7 +32,9 @@ package com.xgame.godwar.core.room.views
 		private var playerList: Vector.<Player>;
 		private var componentList: Vector.<BattleRoomPlayerComponent>;
 		private var _heroComponentList: Vector.<BattleRoomHeroComponent>;
-		private var ready: Boolean = false;
+		private var _ready: Boolean = false;
+		public var currentGroup: int;
+		public var isOwner: Boolean = false;
 		
 		public function BattleRoomComponent()
 		{
@@ -74,19 +76,26 @@ package com.xgame.godwar.core.room.views
 		
 		private function onBtnReadyClick(evt: MouseEvent): void
 		{
-			ready = !ready;
-			
-			if(ready)
+			if(isOwner)
 			{
-				_btnReady.caption = "取消准备";
+				_ready = true;
 			}
 			else
 			{
-				_btnReady.caption = "准备完毕";
+				_ready = !_ready;
+				
+				if(_ready)
+				{
+					_btnReady.caption = "取消准备";
+				}
+				else
+				{
+					_btnReady.caption = "准备完毕";
+				}
 			}
 			
 			var event: BattleRoomEvent = new BattleRoomEvent(BattleRoomEvent.READY_CLICK);
-			event.value = ready;
+			event.value = _ready;
 			dispatchEvent(event);
 		}
 		
@@ -197,6 +206,22 @@ package com.xgame.godwar.core.room.views
 				}
 			}
 		}
+		
+		public function setPlayerHero(guid: String, cardId: String): void
+		{
+			var component: BattleRoomPlayerComponent;
+			for(var i: int = 0; i<componentList.length; i++)
+			{
+				component = componentList[i];
+				if(component.player.guid == guid)
+				{
+					if(component.player.group == currentGroup)
+					{
+						component.avatarImage = cardId;
+					}
+				}
+			}
+		}
 
 		public function get btnReady():CaptionButton
 		{
@@ -206,6 +231,11 @@ package com.xgame.godwar.core.room.views
 		public function get heroComponentList():Vector.<BattleRoomHeroComponent>
 		{
 			return _heroComponentList;
+		}
+
+		public function get ready():Boolean
+		{
+			return _ready;
 		}
 
 

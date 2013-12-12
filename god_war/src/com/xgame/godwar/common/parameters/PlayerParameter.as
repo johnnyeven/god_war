@@ -9,6 +9,7 @@ package com.xgame.godwar.common.parameters
 		public var name: String;
 		public var level: int = int.MIN_VALUE;
 		public var avatarId: String;
+		public var heroCardId: String;
 		public var cash: UInt64;
 		public var winningCount: int = int.MIN_VALUE;
 		public var battleCount: int = int.MIN_VALUE;

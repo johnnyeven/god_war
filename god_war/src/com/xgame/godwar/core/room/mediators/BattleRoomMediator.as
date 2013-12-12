@@ -3,6 +3,7 @@ package com.xgame.godwar.core.room.mediators
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_InitRoomData;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerEnterRoom;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerReady;
+	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerSelectHero;
 	import com.xgame.godwar.common.commands.receiving.Receive_Info_AccountRole;
 	import com.xgame.godwar.common.object.Player;
 	import com.xgame.godwar.common.parameters.AvatarParameter;
@@ -18,6 +19,7 @@ package com.xgame.godwar.core.room.mediators
 	import com.xgame.godwar.core.room.views.BattleRoomHeroComponent;
 	import com.xgame.godwar.core.setting.controllers.ShowCardConfigMediatorCommand;
 	import com.xgame.godwar.events.BattleRoomEvent;
+	import com.xgame.godwar.utils.StringUtils;
 	
 	import flash.events.MouseEvent;
 	import flash.utils.Dictionary;
@@ -34,12 +36,17 @@ package com.xgame.godwar.core.room.mediators
 		public static const ADD_PLAYER_NOTE: String = NAME + ".AddPlayerNote";
 		public static const REMOVE_PLAYER_NOTE: String = NAME + ".RemovePlayerNote";
 		public static const PLAYER_READY_NOTE: String = NAME + ".PlayerReadyNote";
+		public static const PLAYER_SELECT_HERO_NOTE: String = NAME + ".PlayerSelectHeroNote";
 		
 		public var currentHeroId: String;
+		public var currentGroup: int;
+		public var isOwner: Boolean = false;
+		public var isReady: Boolean = false;
 		
 		public function BattleRoomMediator()
 		{
 			super(NAME, new BattleRoomComponent());
+			component.mediator = this;
 			
 			component.addEventListener(BattleRoomEvent.CARD_CONFIG_CLICK, onCardConfigClick);
 			component.addEventListener(BattleRoomEvent.READY_CLICK, onReadyClick);
@@ -53,7 +60,7 @@ package com.xgame.godwar.core.room.mediators
 		override public function listNotificationInterests():Array
 		{
 			return [SHOW_NOTE, HIDE_NOTE, DISPOSE_NOTE, SHOW_ROOM_DATA_NOTE, ADD_PLAYER_NOTE,
-				REMOVE_PLAYER_NOTE, PLAYER_READY_NOTE];
+				REMOVE_PLAYER_NOTE, PLAYER_READY_NOTE, PLAYER_SELECT_HERO_NOTE];
 		}
 		
 		override public function handleNotification(notification:INotification):void
@@ -81,7 +88,30 @@ package com.xgame.godwar.core.room.mediators
 					break;
 				case PLAYER_READY_NOTE:
 					var protocol: Receive_BattleRoom_PlayerReady = notification.getBody() as Receive_BattleRoom_PlayerReady;
-					component.setPlayerReady(protocol.guid, Boolean(protocol.ready));
+					var ready: Boolean = Boolean(protocol.ready);
+					component.setPlayerReady(protocol.guid, ready);
+					
+					var roleProxy: RequestRoleProxy = facade.retrieveProxy(RequestRoleProxy.NAME) as RequestRoleProxy;
+					if(roleProxy != null)
+					{
+						var protocolRole: Receive_Info_AccountRole = roleProxy.getData() as Receive_Info_AccountRole;
+						if(protocolRole != null)
+						{
+							if(protocolRole.guid == protocol.guid)
+							{
+								isReady = ready;
+							}
+						}
+					}
+					break;
+				case PLAYER_SELECT_HERO_NOTE:
+					var proto: Receive_BattleRoom_PlayerSelectHero = notification.getBody() as Receive_BattleRoom_PlayerSelectHero;
+					var avatar: AvatarConfigProxy = facade.retrieveProxy(AvatarConfigProxy.NAME) as AvatarConfigProxy;
+					var heroCardParameter: HeroCardParameter = HeroCardParameterPool.instance.get(proto.cardId) as HeroCardParameter;
+					if(heroCardParameter != null)
+					{
+						component.setPlayerHero(proto.guid, avatar.avatarBasePath + heroCardParameter.resourceId + ".png");
+					}
 					break;
 			}
 		}
@@ -93,15 +123,45 @@ package com.xgame.godwar.core.room.mediators
 		
 		private function onReadyClick(evt: BattleRoomEvent): void
 		{
-			var proxy: BattleRoomProxy = facade.retrieveProxy(BattleRoomProxy.NAME) as BattleRoomProxy;
-			
-			proxy.updatePlayerReady(Boolean(evt.value));
+			if(isOwner)
+			{
+				isReady = Boolean(evt.value);
+			}
+			else
+			{
+				var proxy: BattleRoomProxy = facade.retrieveProxy(BattleRoomProxy.NAME) as BattleRoomProxy;
+				var ready: Boolean = Boolean(evt.value);
+				proxy.updatePlayerReady(ready);
+				
+				var cardProxy: CardProxy = facade.retrieveProxy(CardProxy.NAME) as CardProxy;
+				var heroComponentList: Vector.<BattleRoomHeroComponent> = component.heroComponentList;
+				var i: int;
+				if(ready)
+				{
+					for(i = 0; i<heroComponentList.length; i++)
+					{
+						heroComponentList[i].enabled = false;
+					}
+				}
+				else
+				{
+					var soulCardIndex: Dictionary = cardProxy.soulCardIndex;
+					var heroComponent: BattleRoomHeroComponent;
+					for(i = 0; i<heroComponentList.length; i++)
+					{
+						heroComponent = heroComponentList[i];
+						if(soulCardIndex.hasOwnProperty(heroComponent.heroCardParameter.id))
+						{
+							heroComponent.enabled = true;
+						}
+					}
+				}
+			}
 		}
 		
 		private function requestEnterRoom(): void
 		{
 			var proxy: BattleRoomProxy = facade.retrieveProxy(BattleRoomProxy.NAME) as BattleRoomProxy;
-			
 			proxy.requestEnterRoom();
 		}
 		
@@ -142,6 +202,9 @@ package com.xgame.godwar.core.room.mediators
 				}
 			}
 			
+			currentGroup = protocol.playerGroup;
+			component.currentGroup = protocol.playerGroup;
+			
 			var avatarParameter: AvatarParameter;
 			for(i = 0; i<protocol.playerList.length; i++)
 			{
@@ -157,6 +220,16 @@ package com.xgame.godwar.core.room.mediators
 				player.battleCount = parameter.battleCount;
 				player.honor = parameter.honor;
 				player.group = parameter.group;
+				player.heroCardId = parameter.heroCardId;
+				
+				if(protocol.playerGroup == player.group)
+				{
+					if(!StringUtils.empty(parameter.heroCardId))
+					{
+						heroParameter = HeroCardParameterPool.instance.get(parameter.heroCardId) as HeroCardParameter;
+						player.heroCardPath = proxy.avatarBasePath + heroParameter.resourceId + ".png";
+					}
+				}
 				
 				if(container != null && avatarIndex != null)
 				{
@@ -180,6 +253,8 @@ package com.xgame.godwar.core.room.mediators
 				{
 					if(protocolRole.guid == protocol.ownerGuid)
 					{
+						isOwner = true;
+						component.isOwner = true;
 						component.btnReady.caption = "开始游戏";
 					}
 				}
@@ -236,6 +311,9 @@ package com.xgame.godwar.core.room.mediators
 				}
 				heroComponent.selected = true;
 				currentHeroId = heroComponent.heroCardParameter.id;
+				
+				var proxy: BattleRoomProxy = facade.retrieveProxy(BattleRoomProxy.NAME) as BattleRoomProxy;
+				proxy.selectHero(currentHeroId);
 			}
 		}
 	}

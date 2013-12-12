@@ -6,6 +6,7 @@ package com.xgame.godwar.core.room.views
 	import com.xgame.godwar.liteui.component.ImageContainer;
 	import com.xgame.godwar.liteui.component.Label;
 	import com.xgame.godwar.liteui.core.Component;
+	import com.xgame.godwar.utils.StringUtils;
 	
 	import flash.display.DisplayObjectContainer;
 	import flash.display.MovieClip;
@@ -58,7 +59,14 @@ package com.xgame.godwar.core.room.views
 			lblName.text = _player.name;
 			lblRate.text = _player.winningRate * 100 + "%";
 			lblHonor.text = String(_player.honor);
-			avatar.source = _player.avatarNormalPath;
+			if(StringUtils.empty(_player.heroCardPath))
+			{
+				avatar.source = _player.avatarNormalPath;
+			}
+			else
+			{
+				avatar.source = _player.heroCardPath;
+			}
 			isOwner = value.isOwner;
 		}
 		
@@ -96,6 +104,11 @@ package com.xgame.godwar.core.room.views
 				lblHonorCaption.visible = true;
 				lblHonor.visible = true;
 			}
+		}
+		
+		public function set avatarImage(value: String): void
+		{
+			avatar.source = value
 		}
 
 	}

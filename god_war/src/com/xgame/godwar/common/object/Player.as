@@ -16,6 +16,8 @@ package com.xgame.godwar.common.object
 		private var _battleCount: int; //总战斗场次
 		private var _honor: int; //荣誉称号
 		private var _group: int; //1=红队 2=蓝队
+		private var _heroCardId: String = "";
+		private var _heroCardPath: String = "";
 		private var _isOwner: Boolean = false;
 		private var _ready: Boolean = false;
 		
@@ -173,6 +175,26 @@ package com.xgame.godwar.common.object
 		public function set ready(value:Boolean):void
 		{
 			_ready = value;
+		}
+
+		public function get heroCardId():String
+		{
+			return _heroCardId;
+		}
+
+		public function set heroCardId(value:String):void
+		{
+			_heroCardId = value;
+		}
+
+		public function get heroCardPath():String
+		{
+			return _heroCardPath;
+		}
+
+		public function set heroCardPath(value:String):void
+		{
+			_heroCardPath = value;
 		}
 
 
