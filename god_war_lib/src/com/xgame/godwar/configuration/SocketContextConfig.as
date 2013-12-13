@@ -16,6 +16,7 @@ package com.xgame.godwar.configuration
 		public static var auth_key: String;
 		
 		public static const CONTROLLER_HALL: int = 5;
+		public static const CONTROLLER_BASE: int = 4;
 		public static const CONTROLLER_BATTLEROOM: int = 3;
 		public static const CONTROLLER_MSG: int = 2;
 		public static const CONTROLLER_INFO: int = 0
@@ -33,6 +34,9 @@ package com.xgame.godwar.configuration
 		public static const ACTION_DELETE_GROUP: int = 11;
 		public static const ACTION_SAVE_CARD_GROUP: int = 12;
 		public static const ACTION_HEART_BEAT: int = 127;
+		//BASE
+		public static const ACTION_LOGIC_SERVER_INFO: int = 4;
+		public static const ACTION_CONNECT_LOGIC_SERVER: int = 5;
 		//HALL
 		public static const ACTION_REQUEST_ROOM: int = 0;
 		public static const ACTION_SHOW_ROOMLIST: int = 1;
@@ -70,6 +74,9 @@ package com.xgame.godwar.configuration
 		public static const INFO_DELETE_GROUP: int = ACTION_DELETE_GROUP << 8 | CONTROLLER_INFO;
 		public static const INFO_SAVE_CARD_GROUP: int = ACTION_SAVE_CARD_GROUP << 8 | CONTROLLER_INFO;
 		public static const INFO_HEART_BEAT: int = ACTION_HEART_BEAT << 8 | CONTROLLER_INFO;
+		//BASE
+		public static const BASE_LOGIC_SERVER_INFO: int = ACTION_LOGIC_SERVER_INFO << 8 | CONTROLLER_BASE;
+		public static const BASE_CONNECT_LOGIC_SERVER: int = ACTION_CONNECT_LOGIC_SERVER << 8 | CONTROLLER_BASE;
 		//HALL
 		public static const HALL_REQUEST_ROOM: int = ACTION_REQUEST_ROOM << 8 | CONTROLLER_HALL;
 		public static const HALL_SHOW_ROOM_LIST: int = ACTION_SHOW_ROOMLIST << 8 | CONTROLLER_HALL;

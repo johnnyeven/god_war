@@ -1,5 +1,7 @@
 package com.xgame.godwar.core.room.mediators
 {
+	import com.greensock.TweenLite;
+	import com.greensock.easing.Strong;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_InitRoomData;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerEnterRoom;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerReady;
@@ -72,10 +74,26 @@ package com.xgame.godwar.core.room.mediators
 					component.show(requestEnterRoom);
 					break;
 				case HIDE_NOTE:
-					remove();
+					hide(function(): void
+					{
+						remove();
+						var func: Function = notification.getBody() as Function;
+						if(func != null)
+						{
+							func();
+						}
+					});
 					break;
 				case DISPOSE_NOTE:
-					dispose();
+					hide(function(): void
+					{
+						dispose();
+						var func: Function = notification.getBody() as Function;
+						if(func != null)
+						{
+							func();
+						}
+					});
 					break;
 				case SHOW_ROOM_DATA_NOTE:
 					showRoomData(notification.getBody() as Receive_BattleRoom_InitRoomData);
@@ -114,6 +132,11 @@ package com.xgame.godwar.core.room.mediators
 					}
 					break;
 			}
+		}
+		
+		public function hide(callback: Function = null): void
+		{
+			TweenLite.to(component, .5, { y: -600, ease: Strong.easeIn, onComplete: callback });
 		}
 		
 		private function onCardConfigClick(evt: BattleRoomEvent): void

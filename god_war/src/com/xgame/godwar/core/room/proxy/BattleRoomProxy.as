@@ -1,6 +1,7 @@
 package com.xgame.godwar.core.room.proxy
 {
 	import com.xgame.godwar.common.commands.CommandList;
+	import com.xgame.godwar.common.commands.receiving.Receive_Base_LogicServerInfo;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_InitRoomData;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerEnterRoom;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerLeaveRoom;
@@ -29,6 +30,9 @@ package com.xgame.godwar.core.room.proxy
 		public static const NAME: String = "BattleRoomProxy";
 		public var currentRoomId: int;
 		
+		private var logicServerIp: String;
+		private var logicServerPort: int;
+		
 		public function BattleRoomProxy()
 		{
 			super(NAME, null);
@@ -53,6 +57,9 @@ package com.xgame.godwar.core.room.proxy
 			//选择英雄
 			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_PLAYER_SELECTED_HERO, Receive_BattleRoom_PlayerSelectHero);
 			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_PLAYER_SELECTED_HERO, onPlayerSelectHero);
+			//逻辑服务器信息
+			CommandList.instance.bind(SocketContextConfig.BASE_LOGIC_SERVER_INFO, Receive_Base_LogicServerInfo);
+			CommandCenter.instance.add(SocketContextConfig.BASE_LOGIC_SERVER_INFO, onLogicServerInfo);
 		}
 		
 		public function requestRoom(roomType: int, title: String, peopleLimit: int): void
@@ -172,7 +179,17 @@ package com.xgame.godwar.core.room.proxy
 				protocol.roomId = currentRoomId;
 				
 				CommandCenter.instance.send(protocol);
+				facade.sendNotification(LoadingIconMediator.LOADING_SHOW_NOTE);
 			}
+		}
+		
+		private function onLogicServerInfo(protocol: Receive_Base_LogicServerInfo): void
+		{
+			logicServerIp = protocol.ip;
+			logicServerPort = protocol.port;
+			
+			facade.sendNotification(LoadingIconMediator.LOADING_HIDE_NOTE);
+			facade.sendNotification(BattleRoomMediator.DISPOSE_NOTE);
 		}
 	}
 }
