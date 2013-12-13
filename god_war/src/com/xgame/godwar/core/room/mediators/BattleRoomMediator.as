@@ -123,13 +123,14 @@ package com.xgame.godwar.core.room.mediators
 		
 		private function onReadyClick(evt: BattleRoomEvent): void
 		{
+			var proxy: BattleRoomProxy = facade.retrieveProxy(BattleRoomProxy.NAME) as BattleRoomProxy;
 			if(isOwner)
 			{
 				isReady = Boolean(evt.value);
+				proxy.startBattle();
 			}
 			else
 			{
-				var proxy: BattleRoomProxy = facade.retrieveProxy(BattleRoomProxy.NAME) as BattleRoomProxy;
 				var ready: Boolean = Boolean(evt.value);
 				proxy.updatePlayerReady(ready);
 				

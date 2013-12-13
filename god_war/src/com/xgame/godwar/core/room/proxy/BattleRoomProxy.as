@@ -10,6 +10,7 @@ package com.xgame.godwar.core.room.proxy
 	import com.xgame.godwar.common.commands.receiving.Receive_Hall_RequestRoom;
 	import com.xgame.godwar.common.commands.sending.Send_BattleRoom_PlayerReady;
 	import com.xgame.godwar.common.commands.sending.Send_BattleRoom_PlayerSelectHero;
+	import com.xgame.godwar.common.commands.sending.Send_BattleRoom_StartBattle;
 	import com.xgame.godwar.common.commands.sending.Send_Hall_RequestEnterRoom;
 	import com.xgame.godwar.common.commands.sending.Send_Hall_RequestRoom;
 	import com.xgame.godwar.configuration.SocketContextConfig;
@@ -161,6 +162,17 @@ package com.xgame.godwar.core.room.proxy
 		private function onPlayerSelectHero(protocol: Receive_BattleRoom_PlayerSelectHero): void
 		{
 			facade.sendNotification(BattleRoomMediator.PLAYER_SELECT_HERO_NOTE, protocol);
+		}
+		
+		public function startBattle(): void
+		{
+			if(CommandCenter.instance.connected && currentRoomId != 0)
+			{
+				var protocol: Send_BattleRoom_StartBattle = new Send_BattleRoom_StartBattle();
+				protocol.roomId = currentRoomId;
+				
+				CommandCenter.instance.send(protocol);
+			}
 		}
 	}
 }
