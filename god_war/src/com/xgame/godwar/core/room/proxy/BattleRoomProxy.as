@@ -1,6 +1,7 @@
 package com.xgame.godwar.core.room.proxy
 {
 	import com.xgame.godwar.common.commands.CommandList;
+	import com.xgame.godwar.common.commands.receiving.Receive_Base_ConnectLogicServer;
 	import com.xgame.godwar.common.commands.receiving.Receive_Base_LogicServerInfo;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_InitRoomData;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerEnterRoom;
@@ -14,10 +15,12 @@ package com.xgame.godwar.core.room.proxy
 	import com.xgame.godwar.common.commands.sending.Send_BattleRoom_StartBattle;
 	import com.xgame.godwar.common.commands.sending.Send_Hall_RequestEnterRoom;
 	import com.xgame.godwar.common.commands.sending.Send_Hall_RequestRoom;
+	import com.xgame.godwar.common.parameters.ServerListParameter;
 	import com.xgame.godwar.configuration.SocketContextConfig;
 	import com.xgame.godwar.core.center.CommandCenter;
 	import com.xgame.godwar.core.hall.mediators.BattleHallMediator;
 	import com.xgame.godwar.core.hall.mediators.CreateBattleRoomMediator;
+	import com.xgame.godwar.core.initialization.InitLogicSocketCommand;
 	import com.xgame.godwar.core.loading.mediators.LoadingIconMediator;
 	import com.xgame.godwar.core.room.controllers.ShowBattleRoomMediatorCommand;
 	import com.xgame.godwar.core.room.mediators.BattleRoomMediator;
@@ -60,6 +63,9 @@ package com.xgame.godwar.core.room.proxy
 			//逻辑服务器信息
 			CommandList.instance.bind(SocketContextConfig.BASE_LOGIC_SERVER_INFO, Receive_Base_LogicServerInfo);
 			CommandCenter.instance.add(SocketContextConfig.BASE_LOGIC_SERVER_INFO, onLogicServerInfo);
+			//连接逻辑服务器
+			CommandList.instance.bind(SocketContextConfig.BASE_CONNECT_LOGIC_SERVER, Receive_Base_ConnectLogicServer);
+			CommandCenter.instance.add(SocketContextConfig.BASE_CONNECT_LOGIC_SERVER, onConnectLogicServer);
 		}
 		
 		public function requestRoom(roomType: int, title: String, peopleLimit: int): void
@@ -190,6 +196,16 @@ package com.xgame.godwar.core.room.proxy
 			
 			facade.sendNotification(LoadingIconMediator.LOADING_HIDE_NOTE);
 			facade.sendNotification(BattleRoomMediator.DISPOSE_NOTE);
+		}
+		
+		private function onConnectLogicServer(protocol: Receive_Base_ConnectLogicServer): void
+		{
+			var parameter: ServerListParameter = new ServerListParameter();
+			parameter.ip = logicServerIp;
+			parameter.port = logicServerPort;
+			
+			facade.registerCommand(InitLogicSocketCommand.CONNECT_SOCKET_NOTE, InitLogicSocketCommand);
+			facade.sendNotification(InitLogicSocketCommand.CONNECT_SOCKET_NOTE, parameter);
 		}
 	}
 }

@@ -13,6 +13,8 @@ package com.xgame.godwar.configuration
 		public static var login_port: int = 9040;
 		public static var server_ip: String = '';
 		public static var server_port: int = 0;
+		public static var logic_ip: String = '';
+		public static var logic_port: int = 0;
 		public static var auth_key: String;
 		
 		public static const CONTROLLER_HALL: int = 5;
@@ -27,6 +29,7 @@ package com.xgame.godwar.configuration
 		public static const ACTION_REGISTER: int = 3;
 		public static const ACTION_REQUEST_CHARACTER: int = 4;
 		public static const ACTION_REGISTER_CHARACTER: int = 5;
+		public static const ACTION_LOGICSERVER_BIND_SESSION: int = 6;
 		public static const ACTION_BIND_SESSION: int = 7;
 		public static const ACTION_REQUEST_CARD_GROUP: int = 8;
 		public static const ACTION_REQUEST_CARD_LIST: int = 9;
@@ -67,6 +70,7 @@ package com.xgame.godwar.configuration
 		public static const INFO_REGISTER: int = ACTION_REGISTER << 8 | CONTROLLER_INFO;
 		public static const REQUEST_ACCOUNT_ROLE: int = ACTION_REQUEST_CHARACTER << 8 | CONTROLLER_INFO;
 		public static const REGISTER_ACCOUNT_ROLE: int = ACTION_REGISTER_CHARACTER << 8 | CONTROLLER_INFO;
+		public static const INFO_LOGICSERVER_BIND_SESSION: int = ACTION_LOGICSERVER_BIND_SESSION << 8 | CONTROLLER_INFO;
 		public static const INFO_BIND_SESSION: int = ACTION_BIND_SESSION << 8 | CONTROLLER_INFO;
 		public static const INFO_REQUEST_CARD_GROUP: int = ACTION_REQUEST_CARD_GROUP << 8 | CONTROLLER_INFO;
 		public static const INFO_REQUEST_CARD_LIST: int = ACTION_REQUEST_CARD_LIST << 8 | CONTROLLER_INFO;
