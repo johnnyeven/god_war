@@ -1,6 +1,10 @@
 package com.xgame.godwar.liteui.component
 {
 	import com.greensock.TweenLite;
+	import com.xgame.godwar.liteui.core.Component;
+	import com.xgame.godwar.utils.RequestUtils;
+	import com.xgame.godwar.utils.StringUtils;
+	import com.xgame.godwar.utils.UIUtils;
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
@@ -11,11 +15,6 @@ package com.xgame.godwar.liteui.component
 	import flash.events.IOErrorEvent;
 	import flash.net.URLRequest;
 	import flash.text.TextFieldAutoSize;
-	
-	import com.xgame.godwar.utils.RequestUtils;
-	import com.xgame.godwar.utils.StringUtils;
-	import com.xgame.godwar.utils.UIUtils;
-	import com.xgame.godwar.liteui.core.Component;
 	
 	public class ImageContainer extends Component
 	{
@@ -33,6 +32,9 @@ package com.xgame.godwar.liteui.component
 				UIUtils.remove(_skin);
 			}
 			
+			_loader = new Loader();
+			_loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onLoadComplete);
+			_loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, onLoadIOError);
 			//addChild(_loader);
 		}
 		

@@ -8,15 +8,15 @@ package com.xgame.godwar.core.room.views
 	import flash.display.DisplayObjectContainer;
 	import flash.display.MovieClip;
 	
-	public class BattleGameMaonRoleSkillComponent extends Component
+	public class BattleGameMainRoleSkillComponent extends Component
 	{
 		private var btnSkill: Button;
 		private var skillMask: MovieClip;
 		private var skillContainer: ImageContainer;
 		
-		public function BattleGameMaonRoleSkillComponent(_skin:DisplayObjectContainer=null)
+		public function BattleGameMainRoleSkillComponent(_skin:DisplayObjectContainer=null)
 		{
-			super(_skin ? _skin : ResourcePool.instance.getDisplayObject("assets.ui.room.BattleGameMaonRoleSkillComponent", null, false) as DisplayObjectContainer);
+			super(_skin ? _skin : ResourcePool.instance.getDisplayObject("assets.ui.room.BattleGameMainRoleSkillComponent", null, false) as DisplayObjectContainer);
 			
 			btnSkill = getUI(Button, "btnSkill") as Button;
 			skillContainer = getUI(ImageContainer, "skillContainer") as ImageContainer;
