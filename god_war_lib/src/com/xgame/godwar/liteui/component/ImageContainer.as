@@ -33,9 +33,6 @@ package com.xgame.godwar.liteui.component
 				UIUtils.remove(_skin);
 			}
 			
-			_loader = new Loader();
-			_loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onLoadComplete);
-			_loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, onLoadIOError);
 			//addChild(_loader);
 		}
 		
@@ -73,13 +70,20 @@ package com.xgame.godwar.liteui.component
 		
 		private function closeLoader(): void
 		{
-			try
+			if(_loader != null)
 			{
-				_loader.unloadAndStop();
-				_loader.close();
-			}
-			catch(err: Error)
-			{
+				try
+				{
+					if(_loader.loaderInfo.content != null)
+					{
+						removeChild(_loader.loaderInfo.content);
+					}
+					_loader.unloadAndStop();
+					_loader.close();
+				}
+				catch(err: Error)
+				{
+				}
 			}
 		}
 
