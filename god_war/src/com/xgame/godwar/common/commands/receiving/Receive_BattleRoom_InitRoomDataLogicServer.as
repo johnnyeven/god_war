@@ -10,11 +10,7 @@ package com.xgame.godwar.common.commands.receiving
 	public class Receive_BattleRoom_InitRoomDataLogicServer extends ReceivingBase
 	{
 		public var roomId: int = int.MIN_VALUE;
-		public var roomTitle: String;
-		public var ownerGuid: String;
-		public var ownerName: String;
 		public var peopleCount: int = int.MIN_VALUE;
-		public var peopleLimit: int = int.MIN_VALUE;
 		public var playerGroup: int = int.MIN_VALUE;
 		public var playerList: Vector.<PlayerParameter> = new Vector.<PlayerParameter>();
 		
@@ -47,10 +43,6 @@ package com.xgame.godwar.common.commands.receiving
 							{
 								peopleCount = data.readInt();
 							}
-							else if(peopleLimit == int.MIN_VALUE)
-							{
-								peopleLimit = data.readInt();
-							}
 							else if(playerGroup == int.MIN_VALUE)
 							{
 								playerGroup = data.readInt();
@@ -58,22 +50,6 @@ package com.xgame.godwar.common.commands.receiving
 							else if(parameter.level == int.MIN_VALUE)
 							{
 								parameter.level = data.readInt();
-							}
-							else if(parameter.winningCount == int.MIN_VALUE)
-							{
-								parameter.winningCount = data.readInt();
-							}
-							else if(parameter.battleCount == int.MIN_VALUE)
-							{
-								parameter.battleCount = data.readInt();
-							}
-							else if(parameter.honor == int.MIN_VALUE)
-							{
-								parameter.honor = data.readInt();
-							}
-							else if(parameter.playerStatus == int.MIN_VALUE)
-							{
-								parameter.playerStatus = data.readInt();
 							}
 							else if(parameter.group == int.MIN_VALUE)
 							{
@@ -87,41 +63,15 @@ package com.xgame.godwar.common.commands.receiving
 								parameter.accountId.high = data.readInt();
 								parameter.accountId.low = data.readUnsignedInt();
 							}
-							else if(parameter.cash == null)
-							{
-								parameter.cash = new UInt64();
-								parameter.cash.high = data.readInt();
-								parameter.cash.low = data.readUnsignedInt();
-							}
 							break;
 						case SocketContextConfig.TYPE_STRING:
-							if (StringUtils.empty(roomTitle))
-							{
-								roomTitle = data.readUTFBytes(length);
-							}
-							else if(StringUtils.empty(ownerGuid))
-							{
-								ownerGuid = data.readUTFBytes(length);
-							}
-							else if(StringUtils.empty(ownerName))
-							{
-								ownerName = data.readUTFBytes(length);
-							}
-							else if(StringUtils.empty(parameter.guid))
+							if(StringUtils.empty(parameter.guid))
 							{
 								parameter.guid = data.readUTFBytes(length);
 							}
 							else if(StringUtils.empty(parameter.name))
 							{
 								parameter.name = data.readUTFBytes(length);
-							}
-							else if(StringUtils.empty(parameter.avatarId))
-							{
-								parameter.avatarId = data.readUTFBytes(length);
-								if(StringUtils.empty(parameter.avatarId))
-								{
-									parameter.avatarId = "default";
-								}
 							}
 							else if(StringUtils.empty(parameter.heroCardId))
 							{
@@ -134,13 +84,7 @@ package com.xgame.godwar.common.commands.receiving
 						parameter.accountId != null &&
 						!StringUtils.empty(parameter.name) &&
 						parameter.level != int.MIN_VALUE &&
-						!StringUtils.empty(parameter.avatarId) &&
 						parameter.heroCardId != null &&
-						parameter.cash != null &&
-						parameter.winningCount != int.MIN_VALUE &&
-						parameter.battleCount != int.MIN_VALUE &&
-						parameter.honor != int.MIN_VALUE &&
-						parameter.playerStatus != int.MIN_VALUE &&
 						parameter.group != int.MIN_VALUE)
 					{
 						playerList.push(parameter);

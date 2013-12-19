@@ -7,6 +7,7 @@ package com.xgame.godwar.core.room.proxy
 	import com.xgame.godwar.configuration.SocketContextConfig;
 	import com.xgame.godwar.core.center.CommandCenter;
 	import com.xgame.godwar.core.loading.mediators.LoadingIconMediator;
+	import com.xgame.godwar.core.room.mediators.BattleGameMediator;
 	
 	import org.puremvc.as3.interfaces.IProxy;
 	import org.puremvc.as3.patterns.proxy.Proxy;
@@ -20,11 +21,11 @@ package com.xgame.godwar.core.room.proxy
 		{
 			super(NAME, null);
 			//进入房间失败（满员）
-			CommandList.instance.bind(SocketContextConfig.HALL_REQUEST_ENTER_ROOM, Receive_Hall_RequestEnterRoomLogicServer);
-			CommandCenter.instance.add(SocketContextConfig.HALL_REQUEST_ENTER_ROOM, onRequestEnterRoomFailed);
+			CommandList.instance.bind(SocketContextConfig.HALL_REQUEST_ENTER_ROOM_LOGICSERVER, Receive_Hall_RequestEnterRoomLogicServer);
+			CommandCenter.instance.add(SocketContextConfig.HALL_REQUEST_ENTER_ROOM_LOGICSERVER, onRequestEnterRoomFailed);
 			//进入新房间
-			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_INIT_ROOM, Receive_BattleRoom_InitRoomDataLogicServer);
-			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_INIT_ROOM, onRequestEnterRoom);
+			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_INIT_ROOM_LOGICSERVER, Receive_BattleRoom_InitRoomDataLogicServer);
+			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_INIT_ROOM_LOGICSERVER, onRequestEnterRoom);
 		}
 		
 		public function requestEnterRoom(): void
@@ -54,7 +55,7 @@ package com.xgame.godwar.core.room.proxy
 			facade.sendNotification(LoadingIconMediator.LOADING_HIDE_NOTE);
 			
 			setData(protocol);
-//			facade.sendNotification(BattleRoomMediator.SHOW_ROOM_DATA_NOTE, protocol);
+			facade.sendNotification(BattleGameMediator.SHOW_ROOM_DATA_NOTE, protocol);
 		}
 	}
 }
