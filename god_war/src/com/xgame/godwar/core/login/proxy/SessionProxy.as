@@ -12,6 +12,7 @@ package com.xgame.godwar.core.login.proxy
 	import com.xgame.godwar.core.general.proxy.KeepAliveProxy;
 	import com.xgame.godwar.core.loading.mediators.LoadingIconMediator;
 	import com.xgame.godwar.core.login.controllers.RequestAccountRoleCommand;
+	import com.xgame.godwar.core.room.controllers.ShowBattleGameMediatorCommand;
 	import com.xgame.godwar.utils.debug.Debug;
 	
 	import org.puremvc.as3.interfaces.IProxy;
@@ -122,11 +123,11 @@ package com.xgame.godwar.core.login.proxy
 //					proxy.startHeatbeat();
 //				}
 				
-//				if(!facade.hasCommand(RequestAccountRoleCommand.REQUEST_ACCOUNT_ROLE_NOTE))
-//				{
-//					facade.registerCommand(RequestAccountRoleCommand.REQUEST_ACCOUNT_ROLE_NOTE, RequestAccountRoleCommand);
-//				}
-//				facade.sendNotification(RequestAccountRoleCommand.REQUEST_ACCOUNT_ROLE_NOTE);
+				if(!facade.hasCommand(ShowBattleGameMediatorCommand.SHOW_NOTE))
+				{
+					facade.registerCommand(ShowBattleGameMediatorCommand.SHOW_NOTE, ShowBattleGameMediatorCommand);
+				}
+				facade.sendNotification(ShowBattleGameMediatorCommand.SHOW_NOTE);
 			}
 		}
 	}

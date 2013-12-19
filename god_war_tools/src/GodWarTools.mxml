@@ -195,7 +195,7 @@
 							xmlConfig += "		<id>" + classId2 + "</id>\n";
 							xmlConfig += "		<resource_id>" + resourceId2 + "</resource_id>\n";
 							xmlConfig += "		<name>" + name2 + "</name>\n";
-							xmlConfig += "		<nikename>" + nickName2 + "</nikename>\n";
+							xmlConfig += "		<nickname>" + nickName2 + "</nickname>\n";
 							xmlConfig += "		<attack>" + attack2 + "</attack>\n";
 							xmlConfig += "		<def>" + def2 + "</def>\n";
 							xmlConfig += "		<mdef>" + mdef2 + "</mdef>\n";
