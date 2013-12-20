@@ -26,5 +26,10 @@ package com.xgame.godwar.core.room.views
 			avatarContainer.mask = avatarMask;
 			healthBar.gotoAndStop(1000);
 		}
+		
+		public function setMainRoleAvatar(path: String): void
+		{
+			avatarContainer.source = path;
+		}
 	}
 }

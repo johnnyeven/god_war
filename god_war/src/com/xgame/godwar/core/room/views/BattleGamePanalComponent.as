@@ -13,7 +13,7 @@ package com.xgame.godwar.core.room.views
 	{
 		private var cardContainer: Container;
 		private var cardScroll: ScrollBar;
-		private var mainRoleComponent: BattleGameMainRoleComponent;
+		private var _mainRoleComponent: BattleGameMainRoleComponent;
 		
 		public function BattleGamePanalComponent(_skin:DisplayObjectContainer=null)
 		{
@@ -21,7 +21,7 @@ package com.xgame.godwar.core.room.views
 			
 			cardContainer = getUI(Container, "cardContainer") as Container;
 			cardScroll = getUI(ScrollBar, "cardScroll") as ScrollBar;
-			mainRoleComponent = getUI(BattleGameMainRoleComponent, "mainRoleComponent") as BattleGameMainRoleComponent;
+			_mainRoleComponent = getUI(BattleGameMainRoleComponent, "mainRoleComponent") as BattleGameMainRoleComponent;
 			
 			sortChildIndex();
 			
@@ -30,6 +30,11 @@ package com.xgame.godwar.core.room.views
 			cardContainer.layout.vGap = 0;
 			cardScroll.orientation = ScrollBarOrientation.HORIZONTAL;
 			cardScroll.view = cardContainer;
+		}
+		
+		public function get mainRoleComponent(): BattleGameMainRoleComponent
+		{
+			return _mainRoleComponent;
 		}
 	}
 }

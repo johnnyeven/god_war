@@ -97,6 +97,7 @@ package com.xgame.godwar.core.general.proxy
 				parameter.health = _config.card[i].health;
 				parameter.race = _config.card[i].race;
 				parameter.avatarPath = avatar.avatarBasePath + parameter.resourceId + ".png";
+				parameter.avatarPathBig = avatar.avatarBasePath + parameter.resourceId + "_big.png";
 				HeroCardParameterPool.instance.add(parameter.id, parameter);
 			}
 			

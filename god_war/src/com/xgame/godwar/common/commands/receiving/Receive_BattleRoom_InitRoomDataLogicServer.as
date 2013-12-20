@@ -12,6 +12,7 @@ package com.xgame.godwar.common.commands.receiving
 		public var roomId: int = int.MIN_VALUE;
 		public var peopleCount: int = int.MIN_VALUE;
 		public var playerGroup: int = int.MIN_VALUE;
+		public var heroCardId: String;
 		public var playerList: Vector.<PlayerParameter> = new Vector.<PlayerParameter>();
 		
 		public function Receive_BattleRoom_InitRoomDataLogicServer()
@@ -65,6 +66,10 @@ package com.xgame.godwar.common.commands.receiving
 							}
 							break;
 						case SocketContextConfig.TYPE_STRING:
+							if(StringUtils.empty(heroCardId))
+							{
+								heroCardId = data.readUTFBytes(length);
+							}
 							if(StringUtils.empty(parameter.guid))
 							{
 								parameter.guid = data.readUTFBytes(length);

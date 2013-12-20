@@ -2,6 +2,7 @@ package com.xgame.godwar.core.room.proxy
 {
 	import com.xgame.godwar.common.commands.CommandList;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_InitRoomDataLogicServer;
+	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerEnterRoomLogicServer;
 	import com.xgame.godwar.common.commands.receiving.Receive_Hall_RequestEnterRoomLogicServer;
 	import com.xgame.godwar.common.commands.sending.Send_Hall_RequestEnterRoomLogicServer;
 	import com.xgame.godwar.configuration.SocketContextConfig;
@@ -26,6 +27,9 @@ package com.xgame.godwar.core.room.proxy
 			//进入新房间
 			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_INIT_ROOM_LOGICSERVER, Receive_BattleRoom_InitRoomDataLogicServer);
 			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_INIT_ROOM_LOGICSERVER, onRequestEnterRoom);
+			//玩家进入房间
+			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_PLAYER_ENTER_ROOM_LOGICSERVER, Receive_BattleRoom_PlayerEnterRoomLogicServer);
+			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_PLAYER_ENTER_ROOM_LOGICSERVER, onPlayerEnterRoom);
 		}
 		
 		public function requestEnterRoom(): void
@@ -56,6 +60,13 @@ package com.xgame.godwar.core.room.proxy
 			
 			setData(protocol);
 			facade.sendNotification(BattleGameMediator.SHOW_ROOM_DATA_NOTE, protocol);
+		}
+		
+		private function onPlayerEnterRoom(protocol: Receive_BattleRoom_PlayerEnterRoomLogicServer): void
+		{
+			facade.sendNotification(LoadingIconMediator.LOADING_HIDE_NOTE);
+			
+			facade.sendNotification(BattleGameMediator.ADD_PLAYER_NOTE, protocol);
 		}
 	}
 }

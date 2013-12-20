@@ -3,9 +3,17 @@ package com.xgame.godwar.core.room.mediators
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Strong;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_InitRoomDataLogicServer;
+	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerEnterRoomLogicServer;
+	import com.xgame.godwar.common.object.Player;
+	import com.xgame.godwar.common.parameters.PlayerParameter;
+	import com.xgame.godwar.common.parameters.card.HeroCardParameter;
+	import com.xgame.godwar.common.pool.HeroCardParameterPool;
 	import com.xgame.godwar.core.general.mediators.BaseMediator;
+	import com.xgame.godwar.core.general.proxy.AvatarConfigProxy;
 	import com.xgame.godwar.core.room.proxy.BattleGameProxy;
 	import com.xgame.godwar.core.room.views.BattleGameComponent;
+	import com.xgame.godwar.core.room.views.BattleGameOtherRoleComponent;
+	import com.xgame.godwar.utils.StringUtils;
 	
 	import org.puremvc.as3.interfaces.INotification;
 	
@@ -16,6 +24,7 @@ package com.xgame.godwar.core.room.mediators
 		public static const HIDE_NOTE: String = NAME + ".HideNote";
 		public static const DISPOSE_NOTE: String = NAME + ".DisposeNote";
 		public static const SHOW_ROOM_DATA_NOTE: String = NAME + ".ShowRoomDataNote";
+		public static const ADD_PLAYER_NOTE: String = NAME + ".AddPlayerNote";
 		
 		public function BattleGameMediator()
 		{
@@ -31,7 +40,7 @@ package com.xgame.godwar.core.room.mediators
 		
 		override public function listNotificationInterests():Array
 		{
-			return [SHOW_NOTE, HIDE_NOTE, DISPOSE_NOTE, SHOW_ROOM_DATA_NOTE];
+			return [SHOW_NOTE, HIDE_NOTE, DISPOSE_NOTE, SHOW_ROOM_DATA_NOTE, ADD_PLAYER_NOTE];
 		}
 		
 		override public function handleNotification(notification:INotification):void
@@ -68,6 +77,9 @@ package com.xgame.godwar.core.room.mediators
 				case SHOW_ROOM_DATA_NOTE:
 					showRoomData(notification.getBody() as Receive_BattleRoom_InitRoomDataLogicServer);
 					break;
+				case ADD_PLAYER_NOTE:
+					addPlayer(notification.getBody() as Receive_BattleRoom_PlayerEnterRoomLogicServer);
+					break;
 			}
 		}
 		
@@ -84,7 +96,74 @@ package com.xgame.godwar.core.room.mediators
 		
 		private function showRoomData(protocol: Receive_BattleRoom_InitRoomDataLogicServer): void
 		{
-			trace(protocol);
+			component.peopleCount = protocol.peopleCount;
+			component.playerGroup = protocol.playerGroup;
+			component.initBattleArea();
+			
+			var proxy: AvatarConfigProxy = facade.retrieveProxy(AvatarConfigProxy.NAME) as AvatarConfigProxy;
+			var parameter: PlayerParameter;
+			var roleComponent: BattleGameOtherRoleComponent;
+			var player: Player;
+			var heroParameter: HeroCardParameter;
+			
+			if(!StringUtils.empty(protocol.heroCardId))
+			{
+				var heroParameter: HeroCardParameter = HeroCardParameterPool.instance.get(protocol.heroCardId) as HeroCardParameter;
+				component.panelComponent.mainRoleComponent.setMainRoleAvatar(proxy.avatarBasePath + heroParameter.avatarPathBig + ".png");
+			}
+			
+			for(var i: int = 0; i<protocol.playerList.length; i++)
+			{
+				parameter = protocol.playerList[i];
+				
+				player = new Player();
+				player.guid = parameter.guid;
+				player.accountId = parameter.accountId;
+				player.name = parameter.name;
+				player.level = parameter.level;
+				player.avatarId = parameter.avatarId;
+				player.heroCardId = parameter.heroCardId;
+				player.cash = parameter.cash;
+				player.winningCount = parameter.winningCount;
+				player.battleCount = parameter.battleCount;
+				player.honor = parameter.honor;
+				player.group = parameter.group;
+				
+				if(!StringUtils.empty(parameter.heroCardId))
+				{
+					heroParameter = HeroCardParameterPool.instance.get(parameter.heroCardId) as HeroCardParameter;
+					player.heroCardPath = proxy.avatarBasePath + heroParameter.avatarPathBig + ".png";
+				}
+				
+				roleComponent = new BattleGameOtherRoleComponent();
+				roleComponent.player = player;
+				
+				component.addPlayer(roleComponent);
+			}
+		}
+		
+		private function addPlayer(protocol: Receive_BattleRoom_PlayerEnterRoomLogicServer): void
+		{
+			var proxy: AvatarConfigProxy = facade.retrieveProxy(AvatarConfigProxy.NAME) as AvatarConfigProxy;
+			
+			var player: Player = new Player();
+			player.guid = protocol.guid;
+			player.accountId = protocol.accountId;
+			player.name = protocol.name;
+			player.level = protocol.level;
+			player.heroCardId = protocol.heroCardId;
+			player.group = protocol.group;
+			
+			if(!StringUtils.empty(protocol.heroCardId))
+			{
+				var heroParameter: HeroCardParameter = HeroCardParameterPool.instance.get(protocol.heroCardId) as HeroCardParameter;
+				player.heroCardPath = proxy.avatarBasePath + heroParameter.avatarPathBig + ".png";
+			}
+			
+			var roleComponent: BattleGameOtherRoleComponent = new BattleGameOtherRoleComponent();
+			roleComponent.player = player;
+			
+			component.addPlayer(roleComponent);
 		}
 	}
 }

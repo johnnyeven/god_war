@@ -1,5 +1,7 @@
 package com.xgame.godwar.core.room.views
 {
+	import com.xgame.godwar.common.object.Player;
+	import com.xgame.godwar.common.parameters.PlayerParameter;
 	import com.xgame.godwar.common.pool.ResourcePool;
 	import com.xgame.godwar.liteui.component.ImageContainer;
 	import com.xgame.godwar.liteui.core.Component;
@@ -11,7 +13,10 @@ package com.xgame.godwar.core.room.views
 	{
 		private var avatarMask: MovieClip;
 		private var avatarContainer: ImageContainer;
+		private var healthMy: MovieClip;
+		private var healthOther: MovieClip;
 		private var healthBar: MovieClip;
+		private var _player: Player;
 		
 		public function BattleGameOtherRoleComponent(_skin:DisplayObjectContainer=null)
 		{
@@ -19,12 +24,46 @@ package com.xgame.godwar.core.room.views
 			
 			avatarContainer = getUI(ImageContainer, "avatarContainer") as ImageContainer;
 			avatarMask = getSkin("avatarMask") as MovieClip;
-			healthBar = getSkin("healthBar") as MovieClip;
+			healthMy = getSkin("healthMy") as MovieClip;
+			healthOther = getSkin("healthOther") as MovieClip;
 			
 			sortChildIndex();
 			
 			avatarContainer.mask = avatarMask;
-			healthBar.gotoAndStop(1000);
+			healthMy.gotoAndStop(1000);
+			healthOther.gotoAndStop(1000);
+			
+			healthBar = healthMy;
 		}
+		
+		public function switchHealthBar(value: Boolean): void
+		{
+			if(value)
+			{
+				healthMy.visible = true;
+				healthOther.visible = false;
+				healthBar = healthMy;
+			}
+			else
+			{
+				healthMy.visible = false;
+				healthOther.visible = true;
+				healthBar = healthOther;
+			}
+		}
+
+		public function get player():Player
+		{
+			return _player;
+		}
+
+		public function set player(value:Player):void
+		{
+			_player = value;
+			
+			avatarContainer.source = _player.heroCardPath;
+		}
+
+
 	}
 }
