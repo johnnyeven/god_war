@@ -70,7 +70,7 @@ package com.xgame.godwar.common.commands.receiving
 							{
 								heroCardId = data.readUTFBytes(length);
 							}
-							if(StringUtils.empty(parameter.guid))
+							else if(StringUtils.empty(parameter.guid))
 							{
 								parameter.guid = data.readUTFBytes(length);
 							}

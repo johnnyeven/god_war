@@ -109,7 +109,7 @@ package com.xgame.godwar.core.room.mediators
 			if(!StringUtils.empty(protocol.heroCardId))
 			{
 				heroParameter = HeroCardParameterPool.instance.get(protocol.heroCardId) as HeroCardParameter;
-				component.panelComponent.mainRoleComponent.setMainRoleAvatar(proxy.avatarBasePath + heroParameter.avatarPathBig + ".png");
+				component.panelComponent.mainRoleComponent.setMainRoleAvatar(heroParameter.avatarPathBig);
 			}
 			
 			for(var i: int = 0; i<protocol.playerList.length; i++)
@@ -132,7 +132,7 @@ package com.xgame.godwar.core.room.mediators
 				if(!StringUtils.empty(parameter.heroCardId))
 				{
 					heroParameter = HeroCardParameterPool.instance.get(parameter.heroCardId) as HeroCardParameter;
-					player.heroCardPath = proxy.avatarBasePath + heroParameter.avatarPathBig + ".png";
+					player.heroCardPath = heroParameter.avatarPathBig;
 				}
 				
 				roleComponent = new BattleGameOtherRoleComponent();
@@ -157,7 +157,7 @@ package com.xgame.godwar.core.room.mediators
 			if(!StringUtils.empty(protocol.heroCardId))
 			{
 				var heroParameter: HeroCardParameter = HeroCardParameterPool.instance.get(protocol.heroCardId) as HeroCardParameter;
-				player.heroCardPath = proxy.avatarBasePath + heroParameter.avatarPathBig + ".png";
+				player.heroCardPath = heroParameter.avatarPathBig;
 			}
 			
 			var roleComponent: BattleGameOtherRoleComponent = new BattleGameOtherRoleComponent();

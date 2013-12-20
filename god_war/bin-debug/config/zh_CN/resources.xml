@@ -12,6 +12,7 @@
 		<SWFLoader name="card_config_ui" url="assets/swf/ui/config/card_config_ui.swf" autoPlay="false" version="1.0.0" />
 	</LoaderMax>
 	<LoaderMax name="battle_ui">
+		<SWFLoader name="numeric_ui" url="assets/swf/ui/numeric_ui.swf" autoPlay="false" version="1.0.0" />
 		<SWFLoader name="battle_room_ui" url="assets/swf/ui/room/battle_room_ui.swf" autoPlay="false" version="1.0.0" />
 		<SWFLoader name="battle_game_ui" url="assets/swf/ui/room/battle_game_ui.swf" autoPlay="false" version="1.0.0" />
 	</LoaderMax>

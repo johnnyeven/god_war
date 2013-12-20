@@ -68,6 +68,7 @@ package com.xgame.godwar.core.room.views
 				avatar.source = _player.heroCardPath;
 			}
 			isOwner = value.isOwner;
+			ready = value.ready;
 		}
 		
 		public function set isOwner(value: Boolean): void

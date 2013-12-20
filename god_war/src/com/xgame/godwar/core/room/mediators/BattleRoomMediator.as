@@ -245,6 +245,7 @@ package com.xgame.godwar.core.room.mediators
 				player.honor = parameter.honor;
 				player.group = parameter.group;
 				player.heroCardId = parameter.heroCardId;
+				player.ready = parameter.playerStatus == 1 ? true : false;
 				
 				if(protocol.playerGroup == player.group)
 				{
