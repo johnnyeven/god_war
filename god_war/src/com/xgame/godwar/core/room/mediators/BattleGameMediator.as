@@ -108,7 +108,7 @@ package com.xgame.godwar.core.room.mediators
 			
 			if(!StringUtils.empty(protocol.heroCardId))
 			{
-				var heroParameter: HeroCardParameter = HeroCardParameterPool.instance.get(protocol.heroCardId) as HeroCardParameter;
+				heroParameter = HeroCardParameterPool.instance.get(protocol.heroCardId) as HeroCardParameter;
 				component.panelComponent.mainRoleComponent.setMainRoleAvatar(proxy.avatarBasePath + heroParameter.avatarPathBig + ".png");
 			}
 			
