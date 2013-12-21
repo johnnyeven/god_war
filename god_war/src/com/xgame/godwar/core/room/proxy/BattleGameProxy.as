@@ -9,6 +9,7 @@ package com.xgame.godwar.core.room.proxy
 	import com.xgame.godwar.common.commands.sending.Send_Hall_RequestEnterRoomLogicServer;
 	import com.xgame.godwar.configuration.SocketContextConfig;
 	import com.xgame.godwar.core.center.CommandCenter;
+	import com.xgame.godwar.core.general.mediators.TimerMediator;
 	import com.xgame.godwar.core.loading.mediators.LoadingIconMediator;
 	import com.xgame.godwar.core.room.mediators.BattleGameMediator;
 	
@@ -79,7 +80,7 @@ package com.xgame.godwar.core.room.proxy
 		
 		private function onStartGameTimer(protocol: Receive_BattleRoom_StartGameTimer): void
 		{
-			
+			facade.sendNotification(TimerMediator.ADD_TIMER_NOTE, 10);
 		}
 		
 		private function onStartGame(protocol: Receive_BattleRoom_RequestStartGame): void

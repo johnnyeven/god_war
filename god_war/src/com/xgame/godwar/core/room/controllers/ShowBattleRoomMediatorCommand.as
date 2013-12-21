@@ -3,6 +3,7 @@ package com.xgame.godwar.core.room.controllers
 	import com.greensock.events.LoaderEvent;
 	import com.greensock.loading.core.LoaderCore;
 	import com.xgame.godwar.core.center.ResourceCenter;
+	import com.xgame.godwar.core.general.mediators.TimerMediator;
 	import com.xgame.godwar.core.loading.mediators.ProgressBarMediator;
 	import com.xgame.godwar.core.room.mediators.BattleRoomMediator;
 	
@@ -36,6 +37,7 @@ package com.xgame.godwar.core.room.controllers
 		{
 			facade.sendNotification(ProgressBarMediator.HIDE_PROGRESSBAR_NOTE);
 			
+			facade.registerMediator(new TimerMediator());
 			facade.registerMediator(new BattleRoomMediator());
 			facade.sendNotification(BattleRoomMediator.SHOW_NOTE);
 		}
