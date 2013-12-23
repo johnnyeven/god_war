@@ -8,6 +8,7 @@ package com.xgame.godwar.core.room.proxy
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerLeaveRoom;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerReady;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerSelectHero;
+	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_StartRoomTimer;
 	import com.xgame.godwar.common.commands.receiving.Receive_Hall_RequestEnterRoom;
 	import com.xgame.godwar.common.commands.receiving.Receive_Hall_RequestRoom;
 	import com.xgame.godwar.common.commands.sending.Send_BattleRoom_PlayerReady;
@@ -18,6 +19,7 @@ package com.xgame.godwar.core.room.proxy
 	import com.xgame.godwar.common.parameters.ServerListParameter;
 	import com.xgame.godwar.configuration.SocketContextConfig;
 	import com.xgame.godwar.core.center.CommandCenter;
+	import com.xgame.godwar.core.general.mediators.TimerMediator;
 	import com.xgame.godwar.core.hall.mediators.BattleHallMediator;
 	import com.xgame.godwar.core.hall.mediators.CreateBattleRoomMediator;
 	import com.xgame.godwar.core.initialization.InitLogicSocketCommand;
@@ -60,6 +62,9 @@ package com.xgame.godwar.core.room.proxy
 			//选择英雄
 			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_PLAYER_SELECTED_HERO, Receive_BattleRoom_PlayerSelectHero);
 			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_PLAYER_SELECTED_HERO, onPlayerSelectHero);
+			//开始游戏倒计时
+			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_START_ROOM_TIMER, Receive_BattleRoom_StartRoomTimer);
+			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_START_ROOM_TIMER, onStartRoom);
 			//逻辑服务器信息
 			CommandList.instance.bind(SocketContextConfig.BASE_LOGIC_SERVER_INFO, Receive_Base_LogicServerInfo);
 			CommandCenter.instance.add(SocketContextConfig.BASE_LOGIC_SERVER_INFO, onLogicServerInfo);
@@ -187,6 +192,11 @@ package com.xgame.godwar.core.room.proxy
 				CommandCenter.instance.send(protocol);
 				facade.sendNotification(LoadingIconMediator.LOADING_SHOW_NOTE);
 			}
+		}
+		
+		private function onStartRoom(protocol: Receive_BattleRoom_StartRoomTimer): void
+		{
+			facade.sendNotification(TimerMediator.ADD_TIMER_NOTE, 10);
 		}
 		
 		private function onLogicServerInfo(protocol: Receive_Base_LogicServerInfo): void

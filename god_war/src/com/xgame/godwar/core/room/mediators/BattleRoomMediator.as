@@ -147,13 +147,13 @@ package com.xgame.godwar.core.room.mediators
 		private function onReadyClick(evt: BattleRoomEvent): void
 		{
 			var proxy: BattleRoomProxy = facade.retrieveProxy(BattleRoomProxy.NAME) as BattleRoomProxy;
-			if(isOwner)
-			{
-				isReady = Boolean(evt.value);
-				proxy.startBattle();
-			}
-			else
-			{
+//			if(isOwner)
+//			{
+//				isReady = Boolean(evt.value);
+//				proxy.startBattle();
+//			}
+//			else
+//			{
 				var ready: Boolean = Boolean(evt.value);
 				proxy.updatePlayerReady(ready);
 				
@@ -180,7 +180,7 @@ package com.xgame.godwar.core.room.mediators
 						}
 					}
 				}
-			}
+//			}
 		}
 		
 		private function requestEnterRoom(): void
@@ -280,7 +280,7 @@ package com.xgame.godwar.core.room.mediators
 					{
 						isOwner = true;
 						component.isOwner = true;
-						component.btnReady.caption = "开始游戏";
+//						component.btnReady.caption = "开始游戏";
 					}
 				}
 			}

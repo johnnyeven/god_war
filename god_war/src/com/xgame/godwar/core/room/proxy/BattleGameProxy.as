@@ -80,7 +80,7 @@ package com.xgame.godwar.core.room.proxy
 		
 		private function onStartGameTimer(protocol: Receive_BattleRoom_StartGameTimer): void
 		{
-			facade.sendNotification(TimerMediator.ADD_TIMER_NOTE, 10);
+			facade.sendNotification(TimerMediator.ADD_TIMER_NOTE, 3);
 		}
 		
 		private function onStartGame(protocol: Receive_BattleRoom_RequestStartGame): void

@@ -76,12 +76,12 @@ package com.xgame.godwar.core.room.views
 		
 		private function onBtnReadyClick(evt: MouseEvent): void
 		{
-			if(isOwner)
-			{
-				_ready = true;
-			}
-			else
-			{
+//			if(isOwner)
+//			{
+//				_ready = true;
+//			}
+//			else
+//			{
 				_ready = !_ready;
 				
 				if(_ready)
@@ -92,7 +92,7 @@ package com.xgame.godwar.core.room.views
 				{
 					_btnReady.caption = "准备完毕";
 				}
-			}
+//			}
 			
 			var event: BattleRoomEvent = new BattleRoomEvent(BattleRoomEvent.READY_CLICK);
 			event.value = _ready;
