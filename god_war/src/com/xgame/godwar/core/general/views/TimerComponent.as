@@ -24,6 +24,7 @@ package com.xgame.godwar.core.general.views
 		private var singleWidth: int;
 		private var singleHeight: int;
 		private var timeCount: int;
+		private var isDispose: Boolean = false;
 		
 		public function TimerComponent()
 		{
@@ -77,7 +78,6 @@ package com.xgame.godwar.core.general.views
 		private function onTimer(): void
 		{
 			var b: Bitmap = getTimeResource(timeCount);
-			var isDispose: Boolean = false;
 			b.scaleX = 1.5;
 			b.scaleY = 1.5;
 			b.alpha = 0;
@@ -96,15 +96,16 @@ package com.xgame.godwar.core.general.views
 			
 			TweenLite.to(b, .3, {transformAroundCenter: { scaleX: 1, scaleY: 1, alpha: 1 }, ease: Strong.easeOut, onComplete: function(): void
 			{
-				TweenLite.to(b, .5, {y: b.y + 200, alpha: 0, ease: Strong.easeIn, onComplete: removeTimeResource, onCompleteParams: [b, isDispose]});
+				TweenLite.to(b, .5, {y: b.y + 200, alpha: 0, ease: Strong.easeIn, onComplete: removeTimeResource, onCompleteParams: [b]});
 			}});
 		}
 		
-		private function removeTimeResource(b: Bitmap, isDispose: Boolean): void
+		private function removeTimeResource(b: Bitmap): void
 		{
 			removeChild(b);
 			b.bitmapData = null;
 			b = null;
+			TweenLite.killTweensOf(b);
 			
 			if(isDispose)
 			{

@@ -39,6 +39,9 @@ package com.xgame.godwar.core.room.proxy
 			//开始游戏
 			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_REQUEST_START_BATTLE, Receive_BattleRoom_RequestStartGame);
 			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_REQUEST_START_BATTLE, onStartGame);
+			//第一次抽牌
+			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_FIRST_CHOUPAI, Receive_BattleRoom_RequestStartGame);
+			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_FIRST_CHOUPAI, onStartGame);
 		}
 		
 		public function requestEnterRoom(): void
@@ -85,7 +88,7 @@ package com.xgame.godwar.core.room.proxy
 		
 		private function onStartGame(protocol: Receive_BattleRoom_RequestStartGame): void
 		{
-			
+			//摸卡
 		}
 	}
 }

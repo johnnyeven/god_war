@@ -58,6 +58,7 @@ package com.xgame.godwar.configuration
 		public static const ACTION_PLAYER_ENTER_ROOM_NOTICE_LOGICSERVER: int = 7;
 		public static const ACTION_START_BATTLE_TIMER: int = 8;
 		public static const ACTION_START_ROOM_TIMER: int = 9;
+		public static const ACTION_FIRST_CHOUPAI: int = 10;
 		
 		public static const TYPE_INT: int = 0;
 		public static const TYPE_LONG: int = 1;
@@ -104,6 +105,7 @@ package com.xgame.godwar.configuration
 		public static const BATTLEROOM_PLAYER_ENTER_ROOM_LOGICSERVER: int = ACTION_PLAYER_ENTER_ROOM_NOTICE_LOGICSERVER << 8 | CONTROLLER_BATTLEROOM;
 		public static const BATTLEROOM_START_BATTLE_TIMER: int = ACTION_START_BATTLE_TIMER << 8 | CONTROLLER_BATTLEROOM;
 		public static const BATTLEROOM_START_ROOM_TIMER: int = ACTION_START_ROOM_TIMER << 8 | CONTROLLER_BATTLEROOM;
+		public static const BATTLEROOM_FIRST_CHOUPAI: int = ACTION_FIRST_CHOUPAI << 8 | CONTROLLER_BATTLEROOM;
 		
 		public function SocketContextConfig() 
 		{
