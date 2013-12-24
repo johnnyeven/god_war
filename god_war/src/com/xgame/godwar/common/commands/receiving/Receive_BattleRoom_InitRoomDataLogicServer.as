@@ -11,8 +11,16 @@ package com.xgame.godwar.common.commands.receiving
 	{
 		public var roomId: int = int.MIN_VALUE;
 		public var peopleCount: int = int.MIN_VALUE;
+		public var guid: String;
+		public var accountId: UInt64;
+		public var level: int = int.MIN_VALUE;
+		public var name: String;
 		public var playerGroup: int = int.MIN_VALUE;
 		public var heroCardId: String;
+		public var soulCardCount: int = int.MIN_VALUE;
+		public var supplyCardCount: int = int.MIN_VALUE;
+		public var soulCardString: String;
+		public var supplyCardString: String;
 		public var playerList: Vector.<PlayerParameter> = new Vector.<PlayerParameter>();
 		
 		public function Receive_BattleRoom_InitRoomDataLogicServer()
@@ -36,7 +44,11 @@ package com.xgame.godwar.common.commands.receiving
 					switch(type)
 					{
 						case SocketContextConfig.TYPE_INT:
-							if(roomId == int.MIN_VALUE)
+							if(level == int.MIN_VALUE)
+							{
+								level = data.readInt();
+							}
+							else if(roomId == int.MIN_VALUE)
 							{
 								roomId = data.readInt();
 							}
@@ -48,6 +60,14 @@ package com.xgame.godwar.common.commands.receiving
 							{
 								playerGroup = data.readInt();
 							}
+							else if(soulCardCount == int.MIN_VALUE)
+							{
+								soulCardCount = data.readInt();
+							}
+							else if(supplyCardCount == int.MIN_VALUE)
+							{
+								supplyCardCount = data.readInt();
+							}
 							else if(parameter.level == int.MIN_VALUE)
 							{
 								parameter.level = data.readInt();
@@ -58,7 +78,13 @@ package com.xgame.godwar.common.commands.receiving
 							}
 							break;
 						case SocketContextConfig.TYPE_LONG:
-							if (parameter.accountId == null)
+							if (accountId == null)
+							{
+								accountId = new UInt64();
+								accountId.high = data.readInt();
+								accountId.low = data.readUnsignedInt();
+							}
+							else if (parameter.accountId == null)
 							{
 								parameter.accountId = new UInt64();
 								parameter.accountId.high = data.readInt();
@@ -66,9 +92,25 @@ package com.xgame.godwar.common.commands.receiving
 							}
 							break;
 						case SocketContextConfig.TYPE_STRING:
-							if(StringUtils.empty(heroCardId))
+							if(StringUtils.empty(guid))
+							{
+								guid = data.readUTFBytes(length);
+							}
+							else if(StringUtils.empty(name))
+							{
+								name = data.readUTFBytes(length);
+							}
+							else if(StringUtils.empty(heroCardId))
 							{
 								heroCardId = data.readUTFBytes(length);
+							}
+							else if(StringUtils.empty(soulCardString))
+							{
+								soulCardString = data.readUTFBytes(length);
+							}
+							else if(StringUtils.empty(supplyCardString))
+							{
+								supplyCardString = data.readUTFBytes(length);
 							}
 							else if(StringUtils.empty(parameter.guid))
 							{

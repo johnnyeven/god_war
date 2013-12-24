@@ -20,9 +20,27 @@ package com.xgame.godwar.common.object
 		private var _heroCardPath: String = "";
 		private var _isOwner: Boolean = false;
 		private var _ready: Boolean = false;
+		private var _soulCardList: Vector.<SoulCard>;
+//		private var _supplyCardList: Vector.<SupplyCard>;
+		private var _cardHandList: Vector.<Card>;
+		
+		public var soulCardCount: int;
+		public var supplyCardCount: int;
 		
 		public function Player()
 		{
+			_soulCardList = new Vector.<SoulCard>();
+			_cardHandList = new Vector.<Card>();
+		}
+		
+		public function addSoulCard(card: SoulCard): void
+		{
+			_soulCardList.push(card);
+		}
+		
+		public function addCardHand(card: Card): void
+		{
+			_cardHandList.push(card);
 		}
 
 		public function get accountId():UInt64

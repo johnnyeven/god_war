@@ -7,11 +7,18 @@ package com.xgame.godwar.core.room.proxy
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_StartGameTimer;
 	import com.xgame.godwar.common.commands.receiving.Receive_Hall_RequestEnterRoomLogicServer;
 	import com.xgame.godwar.common.commands.sending.Send_Hall_RequestEnterRoomLogicServer;
+	import com.xgame.godwar.common.object.Card;
+	import com.xgame.godwar.common.object.Player;
+	import com.xgame.godwar.common.object.SoulCard;
+	import com.xgame.godwar.common.parameters.card.CardContainerParameter;
 	import com.xgame.godwar.configuration.SocketContextConfig;
 	import com.xgame.godwar.core.center.CommandCenter;
 	import com.xgame.godwar.core.general.mediators.TimerMediator;
+	import com.xgame.godwar.core.general.proxy.CardProxy;
 	import com.xgame.godwar.core.loading.mediators.LoadingIconMediator;
 	import com.xgame.godwar.core.room.mediators.BattleGameMediator;
+	
+	import flash.utils.Dictionary;
 	
 	import org.puremvc.as3.interfaces.IProxy;
 	import org.puremvc.as3.patterns.proxy.Proxy;
@@ -20,6 +27,7 @@ package com.xgame.godwar.core.room.proxy
 	{
 		public static const NAME: String = "BattleGameProxy";
 		public var currentRoomId: int;
+		public var player: Player;
 		
 		public function BattleGameProxy()
 		{
@@ -69,6 +77,42 @@ package com.xgame.godwar.core.room.proxy
 		private function onRequestEnterRoom(protocol: Receive_BattleRoom_InitRoomDataLogicServer): void
 		{
 			facade.sendNotification(LoadingIconMediator.LOADING_HIDE_NOTE);
+			
+			var proxy: CardProxy = facade.retrieveProxy(CardProxy.NAME) as CardProxy;
+			var parameter: CardContainerParameter = proxy.container;
+			var cardIndex: Dictionary = proxy.soulCardIndex;
+			
+			var p: Player = new Player();
+			p.guid = protocol.guid;
+			p.accountId = protocol.accountId;
+			p.level = protocol.level;
+			p.name = protocol.name;
+			p.group = protocol.playerGroup;
+			p.heroCardId = protocol.heroCardId;
+			p.soulCardCount = protocol.soulCardCount;
+			p.supplyCardCount = protocol.supplyCardCount;
+			
+			var i: int;
+			var index: int;
+			var card: SoulCard;
+			
+			var soulCardList: Array = protocol.soulCardString.split(",");
+			for(i = 0; i < soulCardList.length; i++)
+			{
+				if(cardIndex.hasOwnProperty(soulCardList[i]))
+				{
+					index = cardIndex[soulCardList[i]];
+					card = parameter.soulCardList[index];
+					p.addSoulCard(card);
+				}
+			}
+			var supplyCardList: Array = protocol.supplyCardString.split(",")
+			for(i = 0; i < supplyCardList.length; i++)
+			{
+				
+			}
+			
+			player = p;
 			
 			setData(protocol);
 			facade.sendNotification(BattleGameMediator.SHOW_ROOM_DATA_NOTE, protocol);
