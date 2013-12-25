@@ -4,6 +4,7 @@ package com.xgame.godwar.core.room.mediators
 	import com.greensock.easing.Strong;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_InitRoomDataLogicServer;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerEnterRoomLogicServer;
+	import com.xgame.godwar.common.object.Card;
 	import com.xgame.godwar.common.object.Player;
 	import com.xgame.godwar.common.parameters.PlayerParameter;
 	import com.xgame.godwar.common.parameters.card.HeroCardParameter;
@@ -25,6 +26,8 @@ package com.xgame.godwar.core.room.mediators
 		public static const DISPOSE_NOTE: String = NAME + ".DisposeNote";
 		public static const SHOW_ROOM_DATA_NOTE: String = NAME + ".ShowRoomDataNote";
 		public static const ADD_PLAYER_NOTE: String = NAME + ".AddPlayerNote";
+		public static const ADD_CARD_ANIMATE_NOTE: String = NAME + ".AddCardAnimateNote";
+		public static const START_CARD_ANIMATE_NOTE: String = NAME + ".StartCardAnimateNote";
 		
 		public function BattleGameMediator()
 		{
@@ -40,7 +43,8 @@ package com.xgame.godwar.core.room.mediators
 		
 		override public function listNotificationInterests():Array
 		{
-			return [SHOW_NOTE, HIDE_NOTE, DISPOSE_NOTE, SHOW_ROOM_DATA_NOTE, ADD_PLAYER_NOTE];
+			return [SHOW_NOTE, HIDE_NOTE, DISPOSE_NOTE, SHOW_ROOM_DATA_NOTE, ADD_PLAYER_NOTE,
+				ADD_CARD_ANIMATE_NOTE, START_CARD_ANIMATE_NOTE];
 		}
 		
 		override public function handleNotification(notification:INotification):void
@@ -79,6 +83,12 @@ package com.xgame.godwar.core.room.mediators
 					break;
 				case ADD_PLAYER_NOTE:
 					addPlayer(notification.getBody() as Receive_BattleRoom_PlayerEnterRoomLogicServer);
+					break;
+				case ADD_CARD_ANIMATE_NOTE:
+					component.addCardAnimate(notification.getBody() as Card);
+					break;
+				case START_CARD_ANIMATE_NOTE:
+					component.startCardAnimate();
 					break;
 			}
 		}

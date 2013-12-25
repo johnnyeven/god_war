@@ -59,6 +59,7 @@ package com.xgame.godwar.configuration
 		public static const ACTION_START_BATTLE_TIMER: int = 8;
 		public static const ACTION_START_ROOM_TIMER: int = 9;
 		public static const ACTION_FIRST_CHOUPAI: int = 10;
+		public static const ACTION_PLAYER_READY_ERROR: int = 11;
 		
 		public static const TYPE_INT: int = 0;
 		public static const TYPE_LONG: int = 1;
@@ -99,6 +100,7 @@ package com.xgame.godwar.configuration
 		public static const BATTLEROOM_PLAYER_ENTER_ROOM: int = ACTION_PLAYER_ENTER_ROOM_NOTICE << 8 | CONTROLLER_BATTLEROOM;
 		public static const BATTLEROOM_PLAYER_SELECTED_HERO: int = ACTION_PLAYER_SELETED_HERO << 8 | CONTROLLER_BATTLEROOM;
 		public static const BATTLEROOM_PLAYER_READY: int = ACTION_PLAYER_READY << 8 | CONTROLLER_BATTLEROOM;
+		public static const BATTLEROOM_PLAYER_READY_ERROR: int = ACTION_PLAYER_READY_ERROR << 8 | CONTROLLER_BATTLEROOM;
 		public static const BATTLEROOM_PLAYER_LEAVE_ROOM: int = ACTION_PLAYER_LEAVE_ROOM_NOTICE << 8 | CONTROLLER_BATTLEROOM;
 		public static const BATTLEROOM_REQUEST_START_BATTLE: int = ACTION_REQUEST_START_BATTLE << 8 | CONTROLLER_BATTLEROOM;
 		public static const BATTLEROOM_INIT_ROOM_LOGICSERVER: int = ACTION_INIT_ROOM_DATA_LOGICSERVER << 8 | CONTROLLER_BATTLEROOM;

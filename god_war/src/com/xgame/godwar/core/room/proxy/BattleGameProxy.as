@@ -1,6 +1,7 @@
 package com.xgame.godwar.core.room.proxy
 {
 	import com.xgame.godwar.common.commands.CommandList;
+	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_FirstChouPai;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_InitRoomDataLogicServer;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerEnterRoomLogicServer;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_RequestStartGame;
@@ -48,8 +49,8 @@ package com.xgame.godwar.core.room.proxy
 			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_REQUEST_START_BATTLE, Receive_BattleRoom_RequestStartGame);
 			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_REQUEST_START_BATTLE, onStartGame);
 			//第一次抽牌
-			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_FIRST_CHOUPAI, Receive_BattleRoom_RequestStartGame);
-			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_FIRST_CHOUPAI, onStartGame);
+			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_FIRST_CHOUPAI, Receive_BattleRoom_FirstChouPai);
+			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_FIRST_CHOUPAI, onFirstChouPai);
 		}
 		
 		public function requestEnterRoom(): void
@@ -120,8 +121,6 @@ package com.xgame.godwar.core.room.proxy
 		
 		private function onPlayerEnterRoom(protocol: Receive_BattleRoom_PlayerEnterRoomLogicServer): void
 		{
-			facade.sendNotification(LoadingIconMediator.LOADING_HIDE_NOTE);
-			
 			facade.sendNotification(BattleGameMediator.ADD_PLAYER_NOTE, protocol);
 		}
 		
@@ -132,7 +131,33 @@ package com.xgame.godwar.core.room.proxy
 		
 		private function onStartGame(protocol: Receive_BattleRoom_RequestStartGame): void
 		{
-			//摸卡
+			
+		}
+		
+		private function onFirstChouPai(protocol: Receive_BattleRoom_FirstChouPai): void
+		{
+			var cardProxy: CardProxy = facade.retrieveProxy(CardProxy.NAME) as CardProxy;
+			if(cardProxy != null)
+			{
+				var parameter: CardContainerParameter = cardProxy.container;
+				var cardIndex: Dictionary = cardProxy.soulCardIndex;
+				var index: int;
+				var card: SoulCard;
+				
+				for(var i: int = 0; i < protocol.soulCardList.length; i++)
+				{
+					if(cardIndex.hasOwnProperty(protocol.soulCardList[i]))
+					{
+						index = cardIndex[protocol.soulCardList[i]];
+						card = parameter.soulCardList[index];
+						player.removeSoulCard(card);
+						player.addCardHand(card);
+						facade.sendNotification(BattleGameMediator.ADD_CARD_ANIMATE_NOTE, card);
+					}
+				}
+				
+				facade.sendNotification(BattleGameMediator.START_CARD_ANIMATE_NOTE);
+			}
 		}
 	}
 }

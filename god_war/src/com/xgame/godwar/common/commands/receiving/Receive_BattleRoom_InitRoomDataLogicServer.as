@@ -104,11 +104,11 @@ package com.xgame.godwar.common.commands.receiving
 							{
 								heroCardId = data.readUTFBytes(length);
 							}
-							else if(StringUtils.empty(soulCardString))
+							else if(soulCardString == null)
 							{
 								soulCardString = data.readUTFBytes(length);
 							}
-							else if(StringUtils.empty(supplyCardString))
+							else if(supplyCardString == null)
 							{
 								supplyCardString = data.readUTFBytes(length);
 							}

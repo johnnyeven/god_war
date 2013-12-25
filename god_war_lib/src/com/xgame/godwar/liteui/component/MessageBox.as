@@ -29,7 +29,7 @@ package com.xgame.godwar.liteui.component
 		public function MessageBox(_skin:DisplayObjectContainer=null)
 		{
 			super(_skin ? _skin : ResourcePool.instance.getDisplayObject("assets.ui.MessageBox", null, false) as DisplayObjectContainer);
-			_labelCaption = getUI(Label, "title") as Label;
+			_labelCaption = getUI(Label, "lblTitle") as Label;
 			_labelContent = getUI(Label, "lblContent") as Label;
 			_okButton = getUI(CaptionButton, "btnOk") as CaptionButton;
 			_cancelButton = getUI(CaptionButton, "btnCancel") as CaptionButton;
@@ -136,10 +136,11 @@ package com.xgame.godwar.liteui.component
 		public static function show(caption: String, content: String, skinName: String = "", mode: Boolean = true, buttonType: uint = 3): MessageBox
 		{
 			var skin: DisplayObject;
-			if(!StringUtils.empty(skinName))
+			if(StringUtils.empty(skinName))
 			{
-				skin = ResourcePool.instance.getDisplayObject(skinName);
+				skinName = "assets.ui.base.MessageBox";
 			}
+			skin = ResourcePool.instance.getDisplayObject(skinName, null, false);
 			var _message: MessageBox = new MessageBox(skin as DisplayObjectContainer);
 			
 			_message.caption = caption;

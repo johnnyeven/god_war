@@ -1,10 +1,15 @@
 package com.xgame.godwar.core.room.views
 {
+	import com.greensock.TweenLite;
+	import com.greensock.easing.Strong;
+	import com.xgame.godwar.common.object.Card;
 	import com.xgame.godwar.common.pool.ResourcePool;
+	import com.xgame.godwar.core.GameManager;
 	import com.xgame.godwar.liteui.component.Container;
 	import com.xgame.godwar.liteui.component.Label;
 	import com.xgame.godwar.liteui.core.Component;
 	import com.xgame.godwar.liteui.layouts.FlowLayout;
+	import com.xgame.godwar.utils.UIUtils;
 	
 	import flash.display.DisplayObjectContainer;
 	
@@ -31,6 +36,7 @@ package com.xgame.godwar.core.room.views
 		private var componentList: Vector.<BattleGameOtherRoleComponent>;
 		private var myGroupContainer: Container;
 		private var otherGroupContainer: Container;
+		private var cardAnimateContainer: Vector.<Card>;
 		
 		public function BattleGameComponent(_skin:DisplayObjectContainer=null)
 		{
@@ -53,6 +59,35 @@ package com.xgame.godwar.core.room.views
 			otherGroupContainer.layout.vGap = 0;
 			
 			componentList = new Vector.<BattleGameOtherRoleComponent>();
+			cardAnimateContainer = new Vector.<Card>();
+		}
+		
+		public function addCardAnimate(card: Card): void
+		{
+			cardAnimateContainer.push(card);
+		}
+		
+		public function startCardAnimate(): void
+		{
+			if(cardAnimateContainer.length > 0)
+			{
+				var card: Card;
+				var centerY: int;
+				var delay: Number = 0;
+				var targetX: int = (GameManager.container.stageWidth - (cardAnimateContainer.length * cardAnimateContainer[0].width)) / 2;
+				for(var i: int = 0; i<cardAnimateContainer.length; i++)
+				{
+					card = cardAnimateContainer[i];
+					GameManager.instance.addView(card);
+					UIUtils.center(card);
+					centerY = card.y;
+					card.y = 600;
+					TweenLite.to(card, .5, {x: targetX, y: centerY, delay: delay, ease: Strong.easeOut});
+					targetX += card.width;
+					delay += .2;
+				}
+				cardAnimateContainer.splice(0, cardAnimateContainer.length);
+			}
 		}
 		
 		public function initBattleArea(): void

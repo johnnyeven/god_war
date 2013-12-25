@@ -82,21 +82,35 @@ package com.xgame.godwar.core.room.views
 //			}
 //			else
 //			{
-				_ready = !_ready;
-				
-				if(_ready)
-				{
-					_btnReady.caption = "取消准备";
-				}
-				else
-				{
-					_btnReady.caption = "准备完毕";
-				}
+//				_ready = !_ready;
+//				
+//				if(_ready)
+//				{
+//					_btnReady.caption = "取消准备";
+//				}
+//				else
+//				{
+//					_btnReady.caption = "准备完毕";
+//				}
 //			}
 			
 			var event: BattleRoomEvent = new BattleRoomEvent(BattleRoomEvent.READY_CLICK);
-			event.value = _ready;
+			event.value = !_ready;
 			dispatchEvent(event);
+		}
+		
+		public function switchReady(value: Boolean): void
+		{
+			_ready = value;
+			
+			if(_ready)
+			{
+				_btnReady.caption = "取消准备";
+			}
+			else
+			{
+				_btnReady.caption = "准备完毕";
+			}
 		}
 		
 		public function show(callback: Function = null): void

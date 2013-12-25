@@ -7,6 +7,7 @@ package com.xgame.godwar.core.room.proxy
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerEnterRoom;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerLeaveRoom;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerReady;
+	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerReadyError;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerSelectHero;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_StartRoomTimer;
 	import com.xgame.godwar.common.commands.receiving.Receive_Hall_RequestEnterRoom;
@@ -26,6 +27,7 @@ package com.xgame.godwar.core.room.proxy
 	import com.xgame.godwar.core.loading.mediators.LoadingIconMediator;
 	import com.xgame.godwar.core.room.controllers.ShowBattleRoomMediatorCommand;
 	import com.xgame.godwar.core.room.mediators.BattleRoomMediator;
+	import com.xgame.godwar.liteui.component.MessageBox;
 	
 	import org.puremvc.as3.interfaces.IProxy;
 	import org.puremvc.as3.patterns.proxy.Proxy;
@@ -59,6 +61,8 @@ package com.xgame.godwar.core.room.proxy
 			//玩家装备就绪
 			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_PLAYER_READY, Receive_BattleRoom_PlayerReady);
 			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_PLAYER_READY, onPlayerReady);
+			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_PLAYER_READY_ERROR, Receive_BattleRoom_PlayerReadyError);
+			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_PLAYER_READY_ERROR, onPlayerReadyError);
 			//选择英雄
 			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_PLAYER_SELECTED_HERO, Receive_BattleRoom_PlayerSelectHero);
 			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_PLAYER_SELECTED_HERO, onPlayerSelectHero);
@@ -164,6 +168,18 @@ package com.xgame.godwar.core.room.proxy
 		private function onPlayerReady(protocol: Receive_BattleRoom_PlayerReady): void
 		{
 			facade.sendNotification(BattleRoomMediator.PLAYER_READY_NOTE, protocol);
+		}
+		
+		private function onPlayerReadyError(protocol: Receive_BattleRoom_PlayerReadyError): void
+		{
+			if(protocol.flag == 500)
+			{
+				MessageBox.show("温馨提示", "请先配置卡组", "", true, 1);
+			}
+			else if(protocol.flag == 400)
+			{
+				MessageBox.show("温馨提示", "请先选择一个英雄出战", "", true, 1);
+			}
 		}
 		
 		public function selectHero(id: String): void

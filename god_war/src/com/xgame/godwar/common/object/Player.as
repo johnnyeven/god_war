@@ -38,9 +38,31 @@ package com.xgame.godwar.common.object
 			_soulCardList.push(card);
 		}
 		
+		public function removeSoulCard(card: SoulCard): Boolean
+		{
+			var i: int = _soulCardList.indexOf(card);
+			if(i >= 0)
+			{
+				_soulCardList.splice(i, 1);
+				return true;
+			}
+			return false;
+		}
+		
 		public function addCardHand(card: Card): void
 		{
 			_cardHandList.push(card);
+		}
+		
+		public function removeHandCard(card: SoulCard): Boolean
+		{
+			var i: int = _cardHandList.indexOf(card);
+			if(i >= 0)
+			{
+				_cardHandList.splice(i, 1);
+				return true;
+			}
+			return false;
 		}
 
 		public function get accountId():UInt64

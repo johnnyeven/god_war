@@ -118,6 +118,31 @@ package com.xgame.godwar.core.room.mediators
 							if(protocolRole.guid == protocol.guid)
 							{
 								isReady = ready;
+								component.switchReady(ready);
+								
+								var cardProxy: CardProxy = facade.retrieveProxy(CardProxy.NAME) as CardProxy;
+								var heroComponentList: Vector.<BattleRoomHeroComponent> = component.heroComponentList;
+								var i: int;
+								if(ready)
+								{
+									for(i = 0; i<heroComponentList.length; i++)
+									{
+										heroComponentList[i].enabled = false;
+									}
+								}
+								else
+								{
+									var soulCardIndex: Dictionary = cardProxy.soulCardIndex;
+									var heroComponent: BattleRoomHeroComponent;
+									for(i = 0; i<heroComponentList.length; i++)
+									{
+										heroComponent = heroComponentList[i];
+										if(soulCardIndex.hasOwnProperty(heroComponent.heroCardParameter.id))
+										{
+											heroComponent.enabled = true;
+										}
+									}
+								}
 							}
 						}
 					}
@@ -157,29 +182,29 @@ package com.xgame.godwar.core.room.mediators
 				var ready: Boolean = Boolean(evt.value);
 				proxy.updatePlayerReady(ready);
 				
-				var cardProxy: CardProxy = facade.retrieveProxy(CardProxy.NAME) as CardProxy;
-				var heroComponentList: Vector.<BattleRoomHeroComponent> = component.heroComponentList;
-				var i: int;
-				if(ready)
-				{
-					for(i = 0; i<heroComponentList.length; i++)
-					{
-						heroComponentList[i].enabled = false;
-					}
-				}
-				else
-				{
-					var soulCardIndex: Dictionary = cardProxy.soulCardIndex;
-					var heroComponent: BattleRoomHeroComponent;
-					for(i = 0; i<heroComponentList.length; i++)
-					{
-						heroComponent = heroComponentList[i];
-						if(soulCardIndex.hasOwnProperty(heroComponent.heroCardParameter.id))
-						{
-							heroComponent.enabled = true;
-						}
-					}
-				}
+//				var cardProxy: CardProxy = facade.retrieveProxy(CardProxy.NAME) as CardProxy;
+//				var heroComponentList: Vector.<BattleRoomHeroComponent> = component.heroComponentList;
+//				var i: int;
+//				if(ready)
+//				{
+//					for(i = 0; i<heroComponentList.length; i++)
+//					{
+//						heroComponentList[i].enabled = false;
+//					}
+//				}
+//				else
+//				{
+//					var soulCardIndex: Dictionary = cardProxy.soulCardIndex;
+//					var heroComponent: BattleRoomHeroComponent;
+//					for(i = 0; i<heroComponentList.length; i++)
+//					{
+//						heroComponent = heroComponentList[i];
+//						if(soulCardIndex.hasOwnProperty(heroComponent.heroCardParameter.id))
+//						{
+//							heroComponent.enabled = true;
+//						}
+//					}
+//				}
 //			}
 		}
 		
