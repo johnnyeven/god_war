@@ -41,6 +41,7 @@ package com.xgame.godwar.core.room.controllers
 			}
 			try
 			{
+				facade.registerMediator(new BattlePhaseMediator());
 				facade.registerMediator(new BattleGameMediator());
 				facade.sendNotification(BattleGameMediator.SHOW_NOTE);
 			}
@@ -55,7 +56,6 @@ package com.xgame.godwar.core.room.controllers
 		{
 			facade.sendNotification(ProgressBarMediator.HIDE_PROGRESSBAR_NOTE);
 			
-			facade.registerMediator(new BattlePhaseMediator());
 			facade.registerMediator(new BattleGameMediator());
 			facade.sendNotification(BattleGameMediator.SHOW_NOTE);
 		}

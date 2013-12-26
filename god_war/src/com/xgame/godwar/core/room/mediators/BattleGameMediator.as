@@ -66,7 +66,6 @@ package com.xgame.godwar.core.room.mediators
 						}
 					});
 					break;
-					break;
 				case DISPOSE_NOTE:
 					hide(function(): void
 					{

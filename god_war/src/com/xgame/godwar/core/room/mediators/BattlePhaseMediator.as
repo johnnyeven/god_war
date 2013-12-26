@@ -1,5 +1,6 @@
 package com.xgame.godwar.core.room.mediators
 {
+	import com.xgame.godwar.core.GameManager;
 	import com.xgame.godwar.core.room.views.BattlePhaseComponent;
 	
 	import org.puremvc.as3.interfaces.IMediator;
@@ -34,6 +35,7 @@ package com.xgame.godwar.core.room.mediators
 		private function addPhase(phase: int): void
 		{
 			var component: BattlePhaseComponent = new BattlePhaseComponent();
+			GameManager.instance.addView(component);
 			component.showPhase(phase);
 		}
 	}
