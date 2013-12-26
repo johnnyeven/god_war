@@ -85,10 +85,10 @@ package com.xgame.godwar.core.room.mediators
 					addPlayer(notification.getBody() as Receive_BattleRoom_PlayerEnterRoomLogicServer);
 					break;
 				case ADD_CARD_ANIMATE_NOTE:
-					component.addCardAnimate(notification.getBody() as Card);
+					component.choupaiComponent.addCardAnimate(notification.getBody() as Card);
 					break;
 				case START_CARD_ANIMATE_NOTE:
-					component.startCardAnimate();
+					component.choupaiComponent.startCardAnimate();
 					break;
 			}
 		}

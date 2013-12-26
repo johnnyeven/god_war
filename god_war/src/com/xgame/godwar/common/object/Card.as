@@ -176,6 +176,15 @@ package com.xgame.godwar.common.object
 				UIUtils.setBrightness(this, -0.7);
 			}
 		}
+		
+		public function set interactive(value: Boolean): void
+		{
+			scaleX = 1;
+			scaleY = 1;
+			_enabled = value;
+			mouseEnabled = value;
+			tabEnabled = value;
+		}
 
 		public function clone(): Card
 		{

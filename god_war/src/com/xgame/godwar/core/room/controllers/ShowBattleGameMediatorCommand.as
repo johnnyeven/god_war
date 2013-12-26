@@ -5,6 +5,7 @@ package com.xgame.godwar.core.room.controllers
 	import com.xgame.godwar.core.center.ResourceCenter;
 	import com.xgame.godwar.core.loading.mediators.ProgressBarMediator;
 	import com.xgame.godwar.core.room.mediators.BattleGameMediator;
+	import com.xgame.godwar.core.room.mediators.BattlePhaseMediator;
 	import com.xgame.godwar.core.room.proxy.BattleGameProxy;
 	import com.xgame.godwar.core.room.proxy.BattleRoomProxy;
 	import com.xgame.godwar.utils.debug.Debug;
@@ -54,6 +55,7 @@ package com.xgame.godwar.core.room.controllers
 		{
 			facade.sendNotification(ProgressBarMediator.HIDE_PROGRESSBAR_NOTE);
 			
+			facade.registerMediator(new BattlePhaseMediator());
 			facade.registerMediator(new BattleGameMediator());
 			facade.sendNotification(BattleGameMediator.SHOW_NOTE);
 		}

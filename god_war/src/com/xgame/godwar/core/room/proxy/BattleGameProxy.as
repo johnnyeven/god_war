@@ -18,6 +18,7 @@ package com.xgame.godwar.core.room.proxy
 	import com.xgame.godwar.core.general.proxy.CardProxy;
 	import com.xgame.godwar.core.loading.mediators.LoadingIconMediator;
 	import com.xgame.godwar.core.room.mediators.BattleGameMediator;
+	import com.xgame.godwar.core.room.mediators.BattlePhaseMediator;
 	
 	import flash.utils.Dictionary;
 	
@@ -131,7 +132,7 @@ package com.xgame.godwar.core.room.proxy
 		
 		private function onStartGame(protocol: Receive_BattleRoom_RequestStartGame): void
 		{
-			
+			facade.sendNotification(BattlePhaseMediator.ADD_PHASE_NOTE, 0);
 		}
 		
 		private function onFirstChouPai(protocol: Receive_BattleRoom_FirstChouPai): void

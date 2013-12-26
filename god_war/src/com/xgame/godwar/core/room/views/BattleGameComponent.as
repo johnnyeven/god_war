@@ -5,6 +5,7 @@ package com.xgame.godwar.core.room.views
 	import com.xgame.godwar.common.object.Card;
 	import com.xgame.godwar.common.pool.ResourcePool;
 	import com.xgame.godwar.core.GameManager;
+	import com.xgame.godwar.events.BattleGameEvent;
 	import com.xgame.godwar.liteui.component.Container;
 	import com.xgame.godwar.liteui.component.Label;
 	import com.xgame.godwar.liteui.core.Component;
@@ -36,7 +37,7 @@ package com.xgame.godwar.core.room.views
 		private var componentList: Vector.<BattleGameOtherRoleComponent>;
 		private var myGroupContainer: Container;
 		private var otherGroupContainer: Container;
-		private var cardAnimateContainer: Vector.<Card>;
+		private var _choupaiComponent: BattleGameChouPaiComponent;
 		
 		public function BattleGameComponent(_skin:DisplayObjectContainer=null)
 		{
@@ -47,6 +48,9 @@ package com.xgame.godwar.core.room.views
 			lblZhenxing = getUI(Label, "lblZhenxing") as Label;
 			chatComponent = getUI(BattleGameChatComponent, "chatComponent") as BattleGameChatComponent;
 			_panelComponent = getUI(BattleGamePanalComponent, "panelComponent") as BattleGamePanalComponent;
+			_choupaiComponent = new BattleGameChouPaiComponent();
+			GameManager.instance.addView(_choupaiComponent);
+			_choupaiComponent.visible = false;
 			
 			sortChildIndex();
 			
@@ -59,34 +63,15 @@ package com.xgame.godwar.core.room.views
 			otherGroupContainer.layout.vGap = 0;
 			
 			componentList = new Vector.<BattleGameOtherRoleComponent>();
-			cardAnimateContainer = new Vector.<Card>();
+			_choupaiComponent.addEventListener(BattleGameEvent.CHOUPAI_EVENT, onChouPai);
 		}
 		
-		public function addCardAnimate(card: Card): void
+		private function onChouPai(evt: BattleGameEvent): void
 		{
-			cardAnimateContainer.push(card);
-		}
-		
-		public function startCardAnimate(): void
-		{
-			if(cardAnimateContainer.length > 0)
+			var card: Card = evt.value as Card;
+			if(card != null)
 			{
-				var card: Card;
-				var centerY: int;
-				var delay: Number = 0;
-				var targetX: int = (GameManager.container.stageWidth - (cardAnimateContainer.length * cardAnimateContainer[0].width)) / 2;
-				for(var i: int = 0; i<cardAnimateContainer.length; i++)
-				{
-					card = cardAnimateContainer[i];
-					GameManager.instance.addView(card);
-					UIUtils.center(card);
-					centerY = card.y;
-					card.y = 600;
-					TweenLite.to(card, .5, {x: targetX, y: centerY, delay: delay, ease: Strong.easeOut});
-					targetX += card.width;
-					delay += .2;
-				}
-				cardAnimateContainer.splice(0, cardAnimateContainer.length);
+				_panelComponent.addCard(card);
 			}
 		}
 		
@@ -135,6 +120,20 @@ package com.xgame.godwar.core.room.views
 		{
 			return _panelComponent;
 		}
+		
+		override public function dispose():void
+		{
+			GameManager.instance.removeView(_choupaiComponent);
+			_choupaiComponent.dispose();
+			_choupaiComponent = null;
+			super.dispose();
+		}
+
+		public function get choupaiComponent():BattleGameChouPaiComponent
+		{
+			return _choupaiComponent;
+		}
+
 
 	}
 }
