@@ -49,5 +49,12 @@ package com.xgame.godwar.core.room.views
 			cardContainer.layout.update();
 			cardScroll.rebuild();
 		}
+		
+		public function removeCard(card: Card): void
+		{
+			cardContainer.remove(card);
+			cardContainer.layout.update();
+			cardScroll.rebuild();
+		}
 	}
 }

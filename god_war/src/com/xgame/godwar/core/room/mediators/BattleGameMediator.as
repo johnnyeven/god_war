@@ -14,6 +14,7 @@ package com.xgame.godwar.core.room.mediators
 	import com.xgame.godwar.core.room.proxy.BattleGameProxy;
 	import com.xgame.godwar.core.room.views.BattleGameComponent;
 	import com.xgame.godwar.core.room.views.BattleGameOtherRoleComponent;
+	import com.xgame.godwar.events.BattleGameEvent;
 	import com.xgame.godwar.utils.StringUtils;
 	
 	import org.puremvc.as3.interfaces.INotification;
@@ -34,6 +35,8 @@ package com.xgame.godwar.core.room.mediators
 			super(NAME, new BattleGameComponent());
 			
 			component.mediator = this;
+			
+			component.addEventListener(BattleGameEvent.CHOUPAI_COMPLETE_EVENT, onChouPaiComplete);
 		}
 		
 		public function get component(): BattleGameComponent
@@ -173,6 +176,12 @@ package com.xgame.godwar.core.room.mediators
 			roleComponent.player = player;
 			
 			component.addPlayer(roleComponent);
+		}
+		
+		private function onChouPaiComplete(evt: BattleGameEvent): void
+		{
+			facade.sendNotification(BattleGuideMediator.CHANGE_CONTENT_NOTE, "请选择一张英灵牌放置在守护灵位置");
+			facade.sendNotification(BattleGuideMediator.SHOW_NOTE);
 		}
 	}
 }

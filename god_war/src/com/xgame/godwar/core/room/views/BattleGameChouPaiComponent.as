@@ -97,14 +97,17 @@ package com.xgame.godwar.core.room.views
 			{
 				cardAnimateContainer.splice(index, 1);
 			}
-			if(cardAnimateContainer.length == 0)
-			{
-				visible = false;
-			}
 			
 			var event: BattleGameEvent = new BattleGameEvent(BattleGameEvent.CHOUPAI_EVENT);
 			event.value = card;
 			dispatchEvent(event);
+			
+			if(cardAnimateContainer.length == 0)
+			{
+				visible = false;
+				event = new BattleGameEvent(BattleGameEvent.CHOUPAI_COMPLETE_EVENT);
+				dispatchEvent(event);
+			}
 		}
 	}
 }

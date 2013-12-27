@@ -13,6 +13,7 @@ package com.xgame.godwar.core.room.views
 	import com.xgame.godwar.utils.UIUtils;
 	
 	import flash.display.DisplayObjectContainer;
+	import flash.events.MouseEvent;
 	
 	public class BattleGameComponent extends Component
 	{
@@ -39,6 +40,8 @@ package com.xgame.godwar.core.room.views
 		private var otherGroupContainer: Container;
 		private var _choupaiComponent: BattleGameChouPaiComponent;
 		
+		private var deployPhase: int = 0;
+		
 		public function BattleGameComponent(_skin:DisplayObjectContainer=null)
 		{
 			super(_skin ? _skin : ResourcePool.instance.getDisplayObject("assets.ui.room.BattleGameComponent", null, false) as DisplayObjectContainer);
@@ -64,15 +67,38 @@ package com.xgame.godwar.core.room.views
 			
 			componentList = new Vector.<BattleGameOtherRoleComponent>();
 			_choupaiComponent.addEventListener(BattleGameEvent.CHOUPAI_EVENT, onChouPai);
+			_choupaiComponent.addEventListener(BattleGameEvent.CHOUPAI_COMPLETE_EVENT, onChouPaiComplete);
 		}
 		
 		private function onChouPai(evt: BattleGameEvent): void
 		{
 			var card: Card = evt.value as Card;
+			
+			if(card.hasEventListener(MouseEvent.CLICK))
+			{
+				card.removeEventListenerType(MouseEvent.CLICK);
+			}
+			card.addEventListener(MouseEvent.CLICK, onHandCardClick);
 			if(card != null)
 			{
 				_panelComponent.addCard(card);
 			}
+		}
+		
+		private function onHandCardClick(evt: MouseEvent): void
+		{
+			var card: Card = evt.currentTarget as Card;
+			if(deployPhase > 0)
+			{
+				_panelComponent.removeCard(card);
+			}
+		}
+		
+		private function onChouPaiComplete(evt: BattleGameEvent): void
+		{
+			var event: BattleGameEvent = new BattleGameEvent(BattleGameEvent.CHOUPAI_COMPLETE_EVENT);
+			dispatchEvent(event);
+			deployPhase = 1;
 		}
 		
 		public function initBattleArea(): void

@@ -37,12 +37,12 @@ package com.xgame.godwar.core
 			_popUpLayer = new Sprite();
 			_toolTipLayer = new Sprite();
 			_infoLayer = new Sprite();
-			addChild(_backLayer);
-			addChild(_baseLayer);
-			addChild(_viewLayer);
-			addChild(_popUpLayer);
-			addChild(_toolTipLayer);
-			addChild(_infoLayer);
+			addChild(_backLayer);	//背景
+			addChild(_baseLayer);	//游戏主要内容
+			addChild(_viewLayer);	//UI层
+			addChild(_popUpLayer);	//弹出层
+			addChild(_infoLayer);	//信息
+			addChild(_toolTipLayer);	//提示
 			addEventListener(Event.ADDED_TO_STAGE, onAddToStage);
 		}
 		

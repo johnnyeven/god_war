@@ -6,6 +6,7 @@ package com.xgame.godwar.events
 	{
 		public static const NAME: String = "BattleGameEvent";
 		public static const CHOUPAI_EVENT: String = NAME + ".ChouPaiEvent";
+		public static const CHOUPAI_COMPLETE_EVENT: String = NAME + "ChouPaiCompleteEvent";
 		
 		public var value: Object;
 		

@@ -79,6 +79,10 @@ package com.xgame.godwar.core.general.mediators
 							break;
 					}
 				}
+				else
+				{
+					GameManager.instance.removeBase(comp);
+				}
 			}
 		}
 		
@@ -112,6 +116,7 @@ package com.xgame.godwar.core.general.mediators
 				}
 				else
 				{
+					GameManager.instance.removeBase(comp);
 					if(comp is Component)
 					{
 						(comp as Component).dispose();
@@ -132,7 +137,7 @@ package com.xgame.godwar.core.general.mediators
 			facade.removeMediator(getMediatorName());
 		}
 		
-		private function callDestroyCallback(): void
+		protected function callDestroyCallback(): void
 		{
 			if(onDestroy != null)
 			{
