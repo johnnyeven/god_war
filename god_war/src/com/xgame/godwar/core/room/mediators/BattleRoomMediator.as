@@ -157,12 +157,18 @@ package com.xgame.godwar.core.room.mediators
 					}
 					
 					var hero: BattleRoomHeroComponent;
-					for(var j: int = 0; i<component.heroComponentList.length; i++)
+					var roleProxy: RequestRoleProxy = facade.retrieveProxy(RequestRoleProxy.NAME) as RequestRoleProxy;
+					var protocolRole: Receive_Info_AccountRole = roleProxy.getData() as Receive_Info_AccountRole;
+					if(protocolRole != null && protocolRole.guid != proto.guid)
 					{
-						hero = component.heroComponentList[j];
-						if(hero.heroCardParameter.id == proto.cardId)
+						for(var j: int = 0; j<component.heroComponentList.length; j++)
 						{
-							hero.enabled = false;
+							hero = component.heroComponentList[j];
+							if(hero.heroCardParameter.id == proto.cardId)
+							{
+								hero.enabled = false;
+								break;
+							}
 						}
 					}
 					break;
