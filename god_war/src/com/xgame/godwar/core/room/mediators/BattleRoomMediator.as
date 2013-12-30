@@ -155,6 +155,16 @@ package com.xgame.godwar.core.room.mediators
 					{
 						component.setPlayerHero(proto.guid, avatar.avatarBasePath + heroCardParameter.resourceId + ".png");
 					}
+					
+					var hero: BattleRoomHeroComponent;
+					for(var j: int = 0; i<component.heroComponentList.length; i++)
+					{
+						hero = component.heroComponentList[j];
+						if(hero.heroCardParameter.id == proto.cardId)
+						{
+							hero.enabled = false;
+						}
+					}
 					break;
 			}
 		}

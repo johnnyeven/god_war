@@ -5,6 +5,7 @@ package com.xgame.godwar.utils
 	
 	import flash.display.DisplayObject;
 	import flash.display.Stage;
+	import flash.filters.ColorMatrixFilter;
 	import flash.geom.ColorTransform;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
@@ -114,6 +115,39 @@ package com.xgame.godwar.utils
 			}
 			obj.transform.colorTransform = colorTransformer
 			obj.filters = backup_filters
+		}
+		
+		public static function setGray(obj: DisplayObject, value: Boolean): void
+		{
+			if(obj != null)
+			{
+				var filterArray: Array;
+				if(value)
+				{
+					var matrix: Array = [
+						0.3086, 0.6094, 0.0820, 0, 0,
+						0.3086, 0.6094, 0.0820, 0, 0,
+						0.3086, 0.6094, 0.0820, 0, 0,
+						0,      0,      0,      1, 0
+					];
+					var filter: ColorMatrixFilter = new ColorMatrixFilter(matrix);
+					filterArray = obj.filters;
+					filterArray.push(filter);
+					obj.filters = filterArray;
+				}
+				else
+				{
+					filterArray = obj.filters;
+					for(var i: int = 0; i<filterArray.length; i++)
+					{
+						if(filterArray[i] is ColorMatrixFilter)
+						{
+							filterArray.splice(i, 1);
+						}
+					}
+					obj.filters = filterArray;
+				}
+			}
 		}
 	}
 }

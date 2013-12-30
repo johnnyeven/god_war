@@ -165,15 +165,19 @@ package com.xgame.godwar.common.object
 			_enabled = value;
 			mouseEnabled = value;
 			tabEnabled = value;
+			mouseChildren = value;
+			tabEnabled = value;
 			
 			if(value)
 			{
+				UIUtils.setGray(this, false);
 				UIUtils.setBrightness(this, 0);
 			}
 			else
 			{
 				TweenLite.to(this, .3, { transformAroundCenter: { scaleX: 1, scaleY: 1 }, ease: Strong.easeOut });
-				UIUtils.setBrightness(this, -0.7);
+				UIUtils.setGray(this, true);
+				UIUtils.setBrightness(this, -0.5);
 			}
 		}
 		
@@ -183,6 +187,8 @@ package com.xgame.godwar.common.object
 			scaleY = 1;
 			_enabled = value;
 			mouseEnabled = value;
+			tabEnabled = value;
+			mouseChildren = value;
 			tabEnabled = value;
 		}
 

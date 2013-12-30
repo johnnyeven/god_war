@@ -62,13 +62,19 @@ package com.xgame.godwar.core.room.views
 				for(var i: int = 0; i<cardAnimateContainer.length; i++)
 				{
 					card = cardAnimateContainer[i];
+					card.interactive = false;
 					container.addChild(card);
 					card.y = GameManager.container.stageHeight - y;
-					TweenLite.to(card, .5, {x: targetX, y: 0, delay: delay, ease: Strong.easeOut});
+					TweenLite.to(card, .5, {x: targetX, y: 0, delay: delay, ease: Strong.easeOut, onComplete: onCardAnimateComplete, onCompleteParams: [card]});
 					targetX += card.width;
 					delay += .1;
 				}
 			}
+		}
+		
+		private function onCardAnimateComplete(card: Card): void
+		{
+			card.interactive = true;
 		}
 		
 		private function onBtnOkClick(evt: MouseEvent): void

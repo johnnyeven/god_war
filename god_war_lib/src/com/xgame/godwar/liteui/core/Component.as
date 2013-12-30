@@ -1,5 +1,8 @@
 package com.xgame.godwar.liteui.core
 {
+	import com.xgame.godwar.liteui.layouts.BaseLayout;
+	import com.xgame.godwar.utils.UIUtils;
+	
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.InteractiveObject;
@@ -10,16 +13,13 @@ package com.xgame.godwar.liteui.core
 	
 	import org.puremvc.as3.patterns.mediator.Mediator;
 	
-	import com.xgame.godwar.utils.UIUtils;
-	import com.xgame.godwar.liteui.layouts.BaseLayout;
-	
 	public class Component extends Sprite
 	{
 		private var _isDispose: Boolean;
-		private var _enabled: Boolean;
 		private var _eventListener: Dictionary;
 		private var _skin: DisplayObjectContainer;
 		private var _changeWatcherList: Array;
+		protected var _enabled: Boolean;
 		protected var _filterColor: Number = 0x000000;
 		protected var _filterEnabled: Boolean = false;
 		protected var _skinChildIndex: Dictionary;
@@ -237,6 +237,33 @@ package com.xgame.godwar.liteui.core
 		public function set layout(value:BaseLayout):void
 		{
 			_layout = value;
+		}
+
+		public function get enabled():Boolean
+		{
+			return _enabled;
+		}
+
+		public function set enabled(value:Boolean):void
+		{
+			_enabled = value;
+			
+			mouseEnabled = value;
+			tabEnabled = value;
+			
+			mouseChildren = value;
+			tabEnabled = value;
+			
+			if(value)
+			{
+				UIUtils.setGray(this, false);
+				UIUtils.setBrightness(this, 0);
+			}
+			else
+			{
+				UIUtils.setGray(this, true);
+				UIUtils.setBrightness(this, -0.2);
+			}
 		}
 
 

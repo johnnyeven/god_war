@@ -3,6 +3,7 @@ package com.xgame.godwar.core.room.views
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Strong;
 	import com.xgame.godwar.common.object.Card;
+	import com.xgame.godwar.common.object.SoulCard;
 	import com.xgame.godwar.common.pool.ResourcePool;
 	import com.xgame.godwar.core.GameManager;
 	import com.xgame.godwar.events.BattleGameEvent;
@@ -33,6 +34,7 @@ package com.xgame.godwar.core.room.views
 		private var myStartX: int;
 		private var otherStartX: int;
 		private var lblZhenxing: Label;
+		private var _cardFormation: BattleGameCardFormationComponent;
 		private var chatComponent: BattleGameChatComponent;
 		private var _panelComponent: BattleGamePanalComponent;
 		private var componentList: Vector.<BattleGameOtherRoleComponent>;
@@ -49,6 +51,7 @@ package com.xgame.godwar.core.room.views
 			myGroupContainer = getUI(Container, "myGroupContainer") as Container;
 			otherGroupContainer = getUI(Container, "otherGroupContainer") as Container;
 			lblZhenxing = getUI(Label, "lblZhenxing") as Label;
+			_cardFormation = getUI(BattleGameCardFormationComponent, "cardFormation") as BattleGameCardFormationComponent;
 			chatComponent = getUI(BattleGameChatComponent, "chatComponent") as BattleGameChatComponent;
 			_panelComponent = getUI(BattleGamePanalComponent, "panelComponent") as BattleGamePanalComponent;
 			_choupaiComponent = new BattleGameChouPaiComponent();
@@ -87,10 +90,18 @@ package com.xgame.godwar.core.room.views
 		
 		private function onHandCardClick(evt: MouseEvent): void
 		{
-			var card: Card = evt.currentTarget as Card;
-			if(deployPhase > 0)
+			if(deployPhase > 0 && deployPhase < 5)
 			{
+				var card: Card = evt.currentTarget as Card;
+				card.removeEventListenerType(MouseEvent.CLICK);
 				_panelComponent.removeCard(card);
+				setCardFormation(deployPhase - 1, card as SoulCard);
+					
+				deployPhase++;
+				
+				var event: BattleGameEvent = new BattleGameEvent(BattleGameEvent.DEPLOY_PHASE_EVENT);
+				event.value = deployPhase;
+				dispatchEvent(event);
 			}
 		}
 		
@@ -160,6 +171,9 @@ package com.xgame.godwar.core.room.views
 			return _choupaiComponent;
 		}
 
-
+		public function setCardFormation(position: int, card: SoulCard): void
+		{
+			_cardFormation.setCard(position, card);
+		}
 	}
 }

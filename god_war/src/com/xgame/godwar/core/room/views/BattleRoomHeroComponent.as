@@ -18,7 +18,6 @@ package com.xgame.godwar.core.room.views
 		private var imgAvatar: ImageContainer;
 		private var selectedMc: MovieClip;
 		private var _selected: Boolean = false;
-		private var _enabled: Boolean = true;
 		private var parameter: HeroCardParameter;
 		
 		public function BattleRoomHeroComponent(_skin:DisplayObjectContainer=null)
@@ -66,27 +65,6 @@ package com.xgame.godwar.core.room.views
 			if(_enabled)
 			{
 				UIUtils.setBrightness(this, 0);
-			}
-		}
-		
-		public function get enabled():Boolean
-		{
-			return _enabled;
-		}
-
-		public function set enabled(value:Boolean):void
-		{
-			_enabled = value;
-			mouseEnabled = value;
-			tabEnabled = value;
-			
-			if(_enabled)
-			{
-				UIUtils.setBrightness(this, 0);
-			}
-			else
-			{
-				UIUtils.setBrightness(this, -0.7);
 			}
 		}
 

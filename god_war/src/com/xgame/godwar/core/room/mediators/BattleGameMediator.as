@@ -37,6 +37,7 @@ package com.xgame.godwar.core.room.mediators
 			component.mediator = this;
 			
 			component.addEventListener(BattleGameEvent.CHOUPAI_COMPLETE_EVENT, onChouPaiComplete);
+			component.addEventListener(BattleGameEvent.DEPLOY_PHASE_EVENT, onDeployPhase);
 		}
 		
 		public function get component(): BattleGameComponent
@@ -182,6 +183,45 @@ package com.xgame.godwar.core.room.mediators
 		{
 			facade.sendNotification(BattleGuideMediator.CHANGE_CONTENT_NOTE, "请选择一张英灵牌放置在守护灵位置");
 			facade.sendNotification(BattleGuideMediator.SHOW_NOTE);
+		}
+		
+		private function onDeployPhase(evt: BattleGameEvent): void
+		{
+			var phase: int = int(evt.value);
+			
+			if(phase == 2)
+			{
+				facade.sendNotification(BattleGuideMediator.HIDE_NOTE, function(): void
+				{
+					facade.sendNotification(BattleGuideMediator.CHANGE_CONTENT_NOTE, "请选择一张英灵牌放置在进攻灵#1位置");
+					facade.sendNotification(BattleGuideMediator.SHOW_NOTE);
+				});
+			}
+			else if(phase == 3)
+			{
+				facade.sendNotification(BattleGuideMediator.HIDE_NOTE, function(): void
+				{
+					facade.sendNotification(BattleGuideMediator.CHANGE_CONTENT_NOTE, "请选择一张英灵牌放置在进攻灵#2位置");
+					facade.sendNotification(BattleGuideMediator.SHOW_NOTE);
+				});
+			}
+			else if(phase == 4)
+			{
+				facade.sendNotification(BattleGuideMediator.HIDE_NOTE, function(): void
+				{
+					facade.sendNotification(BattleGuideMediator.CHANGE_CONTENT_NOTE, "请选择一张英灵牌放置在进攻灵#3位置");
+					facade.sendNotification(BattleGuideMediator.SHOW_NOTE);
+				});
+			}
+			else if(phase == 5)
+			{
+				facade.sendNotification(BattleGuideMediator.HIDE_NOTE, function(): void
+				{
+					facade.sendNotification(BattleGuideMediator.CHANGE_CONTENT_NOTE, "部署完毕，点击“开始战斗”按钮！");
+					facade.sendNotification(BattleGuideMediator.SHOW_NOTE);
+					component.panelComponent.btnFightEnabled(true);
+				});
+			}
 		}
 	}
 }

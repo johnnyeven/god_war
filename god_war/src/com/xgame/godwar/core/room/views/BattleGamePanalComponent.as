@@ -36,6 +36,9 @@ package com.xgame.godwar.core.room.views
 			cardContainer.layout.vGap = -10;
 			cardScroll.orientation = ScrollBarOrientation.HORIZONTAL;
 			cardScroll.view = cardContainer;
+			
+			btnFight.enabled = false;
+			btnPass.enabled = false;
 		}
 		
 		public function get mainRoleComponent(): BattleGameMainRoleComponent
@@ -55,6 +58,16 @@ package com.xgame.godwar.core.room.views
 			cardContainer.remove(card);
 			cardContainer.layout.update();
 			cardScroll.rebuild();
+		}
+		
+		public function btnFightEnabled(value: Boolean): void
+		{
+			btnFight.enabled = value;
+		}
+		
+		public function btnPassEnabled(value: Boolean): void
+		{
+			btnPass.enabled = value;
 		}
 	}
 }
