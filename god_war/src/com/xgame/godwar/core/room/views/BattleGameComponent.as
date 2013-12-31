@@ -44,6 +44,11 @@ package com.xgame.godwar.core.room.views
 		
 		private var deployPhase: int = 0;
 		
+		private var _cardDefenser: String;
+		private var _cardAttacker1: String;
+		private var _cardAttacker2: String;
+		private var _cardAttacker3: String;
+		
 		public function BattleGameComponent(_skin:DisplayObjectContainer=null)
 		{
 			super(_skin ? _skin : ResourcePool.instance.getDisplayObject("assets.ui.room.BattleGameComponent", null, false) as DisplayObjectContainer);
@@ -96,6 +101,23 @@ package com.xgame.godwar.core.room.views
 				card.removeEventListenerType(MouseEvent.CLICK);
 				_panelComponent.removeCard(card);
 				setCardFormation(deployPhase - 1, card as SoulCard);
+				
+				if(deployPhase == 1)
+				{
+					_cardDefenser = card.id;
+				}
+				else if(deployPhase == 2)
+				{
+					_cardAttacker1 = card.id;
+				}
+				else if(deployPhase == 3)
+				{
+					_cardAttacker2 = card.id;
+				}
+				else if(deployPhase == 4)
+				{
+					_cardAttacker3 = card.id;
+				}
 					
 				deployPhase++;
 				
@@ -175,5 +197,41 @@ package com.xgame.godwar.core.room.views
 		{
 			_cardFormation.setCard(position, card);
 		}
+		
+		public function setOtherRoleDeployComplete(guid: String): void
+		{
+			var role: BattleGameOtherRoleComponent;
+			for(var i: int = 0; i<componentList.length; i++)
+			{
+				role = componentList[i];
+				if(role.player.guid == guid)
+				{
+					role.setDeploy(true);
+					break;
+				}
+			}
+		}
+
+		public function get cardDefenser():String
+		{
+			return _cardDefenser;
+		}
+
+		public function get cardAttacker1():String
+		{
+			return _cardAttacker1;
+		}
+
+		public function get cardAttacker2():String
+		{
+			return _cardAttacker2;
+		}
+
+		public function get cardAttacker3():String
+		{
+			return _cardAttacker3;
+		}
+
+
 	}
 }

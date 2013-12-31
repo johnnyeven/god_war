@@ -16,6 +16,7 @@ package com.xgame.godwar.core.room.views
 		private var healthMy: MovieClip;
 		private var healthOther: MovieClip;
 		private var healthBar: MovieClip;
+		private var deploy: MovieClip;
 		private var _player: Player;
 		
 		public function BattleGameOtherRoleComponent(_skin:DisplayObjectContainer=null)
@@ -26,12 +27,14 @@ package com.xgame.godwar.core.room.views
 			avatarMask = getSkin("avatarMask") as MovieClip;
 			healthMy = getSkin("healthMy") as MovieClip;
 			healthOther = getSkin("healthOther") as MovieClip;
+			deploy = getSkin("deploy") as MovieClip;
 			
 			sortChildIndex();
 			
 			avatarContainer.mask = avatarMask;
 			healthMy.gotoAndStop(1000);
 			healthOther.gotoAndStop(1000);
+			deploy.visible = false;
 			
 			healthBar = healthMy;
 		}
@@ -64,6 +67,16 @@ package com.xgame.godwar.core.room.views
 			avatarContainer.source = _player.heroCardPath;
 		}
 
-
+		public function setDeploy(value: Boolean): void
+		{
+			if(value)
+			{
+				deploy.visible = true;
+			}
+			else
+			{
+				deploy.visible = false;
+			}
+		}
 	}
 }

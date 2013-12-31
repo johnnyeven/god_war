@@ -1,12 +1,14 @@
 package com.xgame.godwar.core.room.proxy
 {
 	import com.xgame.godwar.common.commands.CommandList;
+	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_DeployComplete;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_FirstChouPai;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_InitRoomDataLogicServer;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerEnterRoomLogicServer;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_RequestStartGame;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_StartGameTimer;
 	import com.xgame.godwar.common.commands.receiving.Receive_Hall_RequestEnterRoomLogicServer;
+	import com.xgame.godwar.common.commands.sending.Send_BattleRoom_DeployComplete;
 	import com.xgame.godwar.common.commands.sending.Send_Hall_RequestEnterRoomLogicServer;
 	import com.xgame.godwar.common.object.Card;
 	import com.xgame.godwar.common.object.Player;
@@ -52,6 +54,9 @@ package com.xgame.godwar.core.room.proxy
 			//第一次抽牌
 			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_FIRST_CHOUPAI, Receive_BattleRoom_FirstChouPai);
 			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_FIRST_CHOUPAI, onFirstChouPai);
+			//部署完毕
+			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_DEPLOY_COMPLETE, Receive_BattleRoom_DeployComplete);
+			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_DEPLOY_COMPLETE, onDeployComplete);
 		}
 		
 		public function requestEnterRoom(): void
@@ -159,6 +164,24 @@ package com.xgame.godwar.core.room.proxy
 				
 				facade.sendNotification(BattleGameMediator.START_CARD_ANIMATE_NOTE);
 			}
+		}
+		
+		public function deployComplete(defenser: String, attacker1: String, attacker2: String, attacker3: String): void
+		{
+			if(CommandCenter.instance.connected)
+			{
+				var protocol: Send_BattleRoom_DeployComplete = new Send_BattleRoom_DeployComplete();
+				protocol.defenser = defenser;
+				protocol.attacker1 = attacker1;
+				protocol.attacker2 = attacker2;
+				protocol.attacker3 = attacker3;
+				CommandCenter.instance.send(protocol);
+			}
+		}
+		
+		private function onDeployComplete(protocol: Receive_BattleRoom_DeployComplete): void
+		{
+			facade.sendNotification(BattleGameMediator.DEPLOY_COMPLETE_NOTE, protocol.guid);
 		}
 	}
 }
