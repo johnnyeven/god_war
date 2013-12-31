@@ -8,6 +8,7 @@ package com.xgame.godwar.events
 		public static const CHOUPAI_EVENT: String = NAME + ".ChouPaiEvent";
 		public static const CHOUPAI_COMPLETE_EVENT: String = NAME + "ChouPaiCompleteEvent";
 		public static const DEPLOY_PHASE_EVENT: String = NAME + "DeployPhaseEvent";
+		public static const FIGHT_EVENT: String = NAME + "FightEvent";
 		
 		public var value: Object;
 		

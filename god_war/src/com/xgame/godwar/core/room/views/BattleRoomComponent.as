@@ -17,6 +17,7 @@ package com.xgame.godwar.core.room.views
 	
 	import flash.display.DisplayObjectContainer;
 	import flash.events.MouseEvent;
+	import flash.utils.Dictionary;
 	
 	public class BattleRoomComponent extends Component
 	{
@@ -32,6 +33,7 @@ package com.xgame.godwar.core.room.views
 		private var playerList: Vector.<Player>;
 		private var componentList: Vector.<BattleRoomPlayerComponent>;
 		private var _heroComponentList: Vector.<BattleRoomHeroComponent>;
+		private var _heroComponentIndex: Dictionary;
 		private var _ready: Boolean = false;
 		public var currentGroup: int;
 		public var isOwner: Boolean = false;
@@ -64,6 +66,7 @@ package com.xgame.godwar.core.room.views
 			playerList = new Vector.<Player>();
 			componentList = new Vector.<BattleRoomPlayerComponent>();
 			_heroComponentList = new Vector.<BattleRoomHeroComponent>();
+			_heroComponentIndex = new Dictionary();
 			
 			btnCardConfig.addEventListener(MouseEvent.CLICK, onBtnCardConfigClick);
 			_btnReady.addEventListener(MouseEvent.CLICK, onBtnReadyClick);
@@ -129,6 +132,7 @@ package com.xgame.godwar.core.room.views
 		{
 			if(value != null)
 			{
+				_heroComponentIndex[value.heroCardParameter.id] = value;
 				_heroComponentList.push(value);
 				heroList.add(value);
 				heroList.layout.update();
@@ -250,6 +254,11 @@ package com.xgame.godwar.core.room.views
 		public function get ready():Boolean
 		{
 			return _ready;
+		}
+
+		public function get heroComponentIndex():Dictionary
+		{
+			return _heroComponentIndex;
 		}
 
 

@@ -105,72 +105,10 @@ package com.xgame.godwar.core.room.mediators
 					removePlayer(String(notification.getBody()));
 					break;
 				case PLAYER_READY_NOTE:
-					var protocol: Receive_BattleRoom_PlayerReady = notification.getBody() as Receive_BattleRoom_PlayerReady;
-					var ready: Boolean = Boolean(protocol.ready);
-					component.setPlayerReady(protocol.guid, ready);
-					
-					var roleProxy: RequestRoleProxy = facade.retrieveProxy(RequestRoleProxy.NAME) as RequestRoleProxy;
-					if(roleProxy != null)
-					{
-						var protocolRole: Receive_Info_AccountRole = roleProxy.getData() as Receive_Info_AccountRole;
-						if(protocolRole != null)
-						{
-							if(protocolRole.guid == protocol.guid)
-							{
-								isReady = ready;
-								component.switchReady(ready);
-								
-								var cardProxy: CardProxy = facade.retrieveProxy(CardProxy.NAME) as CardProxy;
-								var heroComponentList: Vector.<BattleRoomHeroComponent> = component.heroComponentList;
-								var i: int;
-								if(ready)
-								{
-									for(i = 0; i<heroComponentList.length; i++)
-									{
-										heroComponentList[i].enabled = false;
-									}
-								}
-								else
-								{
-									var soulCardIndex: Dictionary = cardProxy.soulCardIndex;
-									var heroComponent: BattleRoomHeroComponent;
-									for(i = 0; i<heroComponentList.length; i++)
-									{
-										heroComponent = heroComponentList[i];
-										if(soulCardIndex.hasOwnProperty(heroComponent.heroCardParameter.id))
-										{
-											heroComponent.enabled = true;
-										}
-									}
-								}
-							}
-						}
-					}
+					playerReady(notification.getBody() as Receive_BattleRoom_PlayerReady);
 					break;
 				case PLAYER_SELECT_HERO_NOTE:
-					var proto: Receive_BattleRoom_PlayerSelectHero = notification.getBody() as Receive_BattleRoom_PlayerSelectHero;
-					var avatar: AvatarConfigProxy = facade.retrieveProxy(AvatarConfigProxy.NAME) as AvatarConfigProxy;
-					var heroCardParameter: HeroCardParameter = HeroCardParameterPool.instance.get(proto.cardId) as HeroCardParameter;
-					if(heroCardParameter != null)
-					{
-						component.setPlayerHero(proto.guid, avatar.avatarBasePath + heroCardParameter.resourceId + ".png");
-					}
-					
-					var hero: BattleRoomHeroComponent;
-					var roleProxy: RequestRoleProxy = facade.retrieveProxy(RequestRoleProxy.NAME) as RequestRoleProxy;
-					var protocolRole: Receive_Info_AccountRole = roleProxy.getData() as Receive_Info_AccountRole;
-					if(protocolRole != null && protocolRole.guid != proto.guid)
-					{
-						for(var j: int = 0; j<component.heroComponentList.length; j++)
-						{
-							hero = component.heroComponentList[j];
-							if(hero.heroCardParameter.id == proto.cardId)
-							{
-								hero.enabled = false;
-								break;
-							}
-						}
-					}
+					playerSelectHero(notification.getBody() as Receive_BattleRoom_PlayerSelectHero);
 					break;
 			}
 		}
@@ -294,6 +232,12 @@ package com.xgame.godwar.core.room.mediators
 					{
 						heroParameter = HeroCardParameterPool.instance.get(parameter.heroCardId) as HeroCardParameter;
 						player.heroCardPath = proxy.avatarBasePath + heroParameter.resourceId + ".png";
+						
+						if(component.heroComponentIndex.hasOwnProperty(parameter.heroCardId))
+						{
+							heroComponent = component.heroComponentIndex[parameter.heroCardId];
+							heroComponent.enabled = false;
+						}
 					}
 				}
 				
@@ -322,6 +266,101 @@ package com.xgame.godwar.core.room.mediators
 						isOwner = true;
 						component.isOwner = true;
 //						component.btnReady.caption = "开始游戏";
+					}
+				}
+			}
+		}
+		
+		private function playerReady(protocol: Receive_BattleRoom_PlayerReady): void
+		{
+			var ready: Boolean = Boolean(protocol.ready);
+			component.setPlayerReady(protocol.guid, ready);
+			
+			var roleProxy: RequestRoleProxy = facade.retrieveProxy(RequestRoleProxy.NAME) as RequestRoleProxy;
+			if(roleProxy != null)
+			{
+				var protocolRole: Receive_Info_AccountRole = roleProxy.getData() as Receive_Info_AccountRole;
+				if(protocolRole != null)
+				{
+					if(protocolRole.guid == protocol.guid)
+					{
+						isReady = ready;
+						component.switchReady(ready);
+						
+						var cardProxy: CardProxy = facade.retrieveProxy(CardProxy.NAME) as CardProxy;
+						var heroComponentList: Vector.<BattleRoomHeroComponent> = component.heroComponentList;
+						var i: int;
+						if(ready)
+						{
+							for(i = 0; i<heroComponentList.length; i++)
+							{
+								heroComponentList[i].enabled = false;
+							}
+						}
+						else
+						{
+							var soulCardIndex: Dictionary = cardProxy.soulCardIndex;
+							var heroComponent: BattleRoomHeroComponent;
+							for(i = 0; i<heroComponentList.length; i++)
+							{
+								heroComponent = heroComponentList[i];
+								if(soulCardIndex.hasOwnProperty(heroComponent.heroCardParameter.id))
+								{
+									heroComponent.enabled = true;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		private function playerSelectHero(proto: Receive_BattleRoom_PlayerSelectHero): void
+		{
+			var avatar: AvatarConfigProxy = facade.retrieveProxy(AvatarConfigProxy.NAME) as AvatarConfigProxy;
+			var heroCardParameter: HeroCardParameter = HeroCardParameterPool.instance.get(proto.cardId) as HeroCardParameter;
+			if(heroCardParameter != null)
+			{
+				component.setPlayerHero(proto.guid, avatar.avatarBasePath + heroCardParameter.resourceId + ".png");
+			}
+			
+			var hero: BattleRoomHeroComponent;
+			var protocolRole: Receive_Info_AccountRole = (facade.retrieveProxy(RequestRoleProxy.NAME) as RequestRoleProxy).getData() as Receive_Info_AccountRole;
+			if(protocolRole != null && protocolRole.guid != proto.guid)
+			{
+				var lastFlag: Boolean = false;
+				var currentFlag: Boolean = false;
+				for(var j: int = 0; j<component.heroComponentList.length; j++)
+				{
+					
+					hero = component.heroComponentList[j];
+					if(proto.lastCardId == "")
+					{
+						if(hero.heroCardParameter.id == proto.cardId)
+						{
+							hero.enabled = false;
+							break;
+						}
+					}
+					else
+					{
+						if(lastFlag && currentFlag)
+						{
+							break;
+						}
+						
+						if(hero.heroCardParameter.id == proto.lastCardId)
+						{
+							hero.enabled = true;
+							lastFlag = true;
+							continue;
+						}
+						else if(hero.heroCardParameter.id == proto.cardId)
+						{
+							hero.enabled = false;
+							currentFlag = true;
+							continue;
+						}
 					}
 				}
 			}

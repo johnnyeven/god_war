@@ -3,6 +3,7 @@ package com.xgame.godwar.core.room.views
 	import com.xgame.godwar.common.object.Card;
 	import com.xgame.godwar.common.pool.ResourcePool;
 	import com.xgame.godwar.enum.ScrollBarOrientation;
+	import com.xgame.godwar.events.BattleGameEvent;
 	import com.xgame.godwar.liteui.component.Button;
 	import com.xgame.godwar.liteui.component.Container;
 	import com.xgame.godwar.liteui.component.ScrollBar;
@@ -10,6 +11,7 @@ package com.xgame.godwar.core.room.views
 	import com.xgame.godwar.liteui.layouts.FlowLayout;
 	
 	import flash.display.DisplayObjectContainer;
+	import flash.events.MouseEvent;
 	
 	public class BattleGamePanalComponent extends Component
 	{
@@ -39,6 +41,8 @@ package com.xgame.godwar.core.room.views
 			
 			btnFight.enabled = false;
 			btnPass.enabled = false;
+			
+			btnFight.addEventListener(MouseEvent.CLICK, onBtnFightClick);
 		}
 		
 		public function get mainRoleComponent(): BattleGameMainRoleComponent
@@ -68,6 +72,14 @@ package com.xgame.godwar.core.room.views
 		public function btnPassEnabled(value: Boolean): void
 		{
 			btnPass.enabled = value;
+		}
+		
+		private function onBtnFightClick(evt: MouseEvent): void
+		{
+			evt.stopImmediatePropagation();
+			
+			var event: BattleGameEvent = new BattleGameEvent(BattleGameEvent.FIGHT_EVENT, true);
+			dispatchEvent(event);
 		}
 	}
 }

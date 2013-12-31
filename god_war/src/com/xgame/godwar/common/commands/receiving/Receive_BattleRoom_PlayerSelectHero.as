@@ -8,6 +8,7 @@ package com.xgame.godwar.common.commands.receiving
 	public class Receive_BattleRoom_PlayerSelectHero extends ReceivingBase
 	{
 		public var guid: String;
+		public var lastCardId: String;
 		public var cardId: String;
 		
 		public function Receive_BattleRoom_PlayerSelectHero()
@@ -33,6 +34,10 @@ package com.xgame.godwar.common.commands.receiving
 							if (StringUtils.empty(guid))
 							{
 								guid = data.readUTFBytes(length);
+							}
+							else if(lastCardId == null)
+							{
+								lastCardId = data.readUTFBytes(length);
 							}
 							else if(StringUtils.empty(cardId))
 							{
