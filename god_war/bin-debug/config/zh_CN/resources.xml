@@ -15,6 +15,7 @@
 		<SWFLoader name="numeric_ui" url="assets/swf/ui/numeric_ui.swf" autoPlay="false" version="1.0.0" />
 		<SWFLoader name="battle_room_ui" url="assets/swf/ui/room/battle_room_ui.swf" autoPlay="false" version="1.0.0" />
 		<SWFLoader name="battle_game_ui" url="assets/swf/ui/room/battle_game_ui.swf" autoPlay="false" version="1.0.0" />
+		<SWFLoader name="dice" url="assets/swf/ui/dice.swf" autoPlay="false" version="1.0.0" />
 	</LoaderMax>
 	
 	<SWFLoader name='demon_deladiya' url='assets/swf/cards/hero/demon_deladiya.swf' autoPlay= "false" version="1.0.0"/>
