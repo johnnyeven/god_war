@@ -10,14 +10,19 @@ package com.xgame.godwar.core.room.mediators
 	import com.xgame.godwar.common.parameters.PlayerParameter;
 	import com.xgame.godwar.common.parameters.card.HeroCardParameter;
 	import com.xgame.godwar.common.pool.HeroCardParameterPool;
+	import com.xgame.godwar.core.GameManager;
 	import com.xgame.godwar.core.general.mediators.BaseMediator;
 	import com.xgame.godwar.core.general.proxy.AvatarConfigProxy;
 	import com.xgame.godwar.core.login.proxy.RequestRoleProxy;
 	import com.xgame.godwar.core.room.proxy.BattleGameProxy;
 	import com.xgame.godwar.core.room.views.BattleGameComponent;
 	import com.xgame.godwar.core.room.views.BattleGameOtherRoleComponent;
+	import com.xgame.godwar.core.room.views.GameDiceComponent;
 	import com.xgame.godwar.events.BattleGameEvent;
 	import com.xgame.godwar.utils.StringUtils;
+	import com.xgame.godwar.utils.UIUtils;
+	
+	import flash.utils.Dictionary;
 	
 	import org.puremvc.as3.interfaces.INotification;
 	
@@ -32,6 +37,7 @@ package com.xgame.godwar.core.room.mediators
 		public static const ADD_CARD_ANIMATE_NOTE: String = NAME + ".AddCardAnimateNote";
 		public static const START_CARD_ANIMATE_NOTE: String = NAME + ".StartCardAnimateNote";
 		public static const DEPLOY_COMPLETE_NOTE: String = NAME + ".DeployCompleteNote";
+		public static const START_DICE_NOTE: String = NAME + ".StartDiceNote";
 		
 		public function BattleGameMediator()
 		{
@@ -52,7 +58,7 @@ package com.xgame.godwar.core.room.mediators
 		override public function listNotificationInterests():Array
 		{
 			return [SHOW_NOTE, HIDE_NOTE, DISPOSE_NOTE, SHOW_ROOM_DATA_NOTE, ADD_PLAYER_NOTE,
-				ADD_CARD_ANIMATE_NOTE, START_CARD_ANIMATE_NOTE, DEPLOY_COMPLETE_NOTE];
+				ADD_CARD_ANIMATE_NOTE, START_CARD_ANIMATE_NOTE, DEPLOY_COMPLETE_NOTE, START_DICE_NOTE];
 		}
 		
 		override public function handleNotification(notification:INotification):void
@@ -99,6 +105,9 @@ package com.xgame.godwar.core.room.mediators
 					break;
 				case DEPLOY_COMPLETE_NOTE:
 					deployComplete(String(notification.getBody()));
+					break;
+				case START_DICE_NOTE:
+					startDice(notification.getBody() as Dictionary);
 					break;
 			}
 		}
@@ -255,6 +264,42 @@ package com.xgame.godwar.core.room.mediators
 					else
 					{
 						component.setOtherRoleDeployComplete(guid);
+					}
+				}
+			}
+		}
+		
+		private function startDice(parameter: Dictionary): void
+		{
+			var comp: GameDiceComponent;
+			var componentIndex: Dictionary = component.componentIndex;
+			var otherRoleComponent: BattleGameOtherRoleComponent;
+			var roleProxy: RequestRoleProxy = facade.retrieveProxy(RequestRoleProxy.NAME) as RequestRoleProxy;
+			if(roleProxy != null)
+			{
+				var protocolRole: Receive_Info_AccountRole = roleProxy.getData() as Receive_Info_AccountRole;
+				if(protocolRole != null)
+				{
+					for(var guid: String in parameter)
+					{
+						comp = new GameDiceComponent();
+						
+						if(protocolRole.guid == guid)
+						{
+							UIUtils.center(comp);
+							comp.y += 150;
+						}
+						else
+						{
+							otherRoleComponent = componentIndex[guid];
+							if(otherRoleComponent != null)
+							{
+								comp.x = otherRoleComponent.x;
+								comp.y = otherRoleComponent.y;
+							}
+						}
+						GameManager.instance.addView(comp);
+						comp.dice(int(parameter[guid]));
 					}
 				}
 			}

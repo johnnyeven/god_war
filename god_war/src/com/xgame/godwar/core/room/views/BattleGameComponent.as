@@ -15,6 +15,7 @@ package com.xgame.godwar.core.room.views
 	
 	import flash.display.DisplayObjectContainer;
 	import flash.events.MouseEvent;
+	import flash.utils.Dictionary;
 	
 	public class BattleGameComponent extends Component
 	{
@@ -37,7 +38,8 @@ package com.xgame.godwar.core.room.views
 		private var _cardFormation: BattleGameCardFormationComponent;
 		private var chatComponent: BattleGameChatComponent;
 		private var _panelComponent: BattleGamePanalComponent;
-		private var componentList: Vector.<BattleGameOtherRoleComponent>;
+		private var _componentList: Vector.<BattleGameOtherRoleComponent>;
+		private var _componentIndex: Dictionary;
 		private var myGroupContainer: Container;
 		private var otherGroupContainer: Container;
 		private var _choupaiComponent: BattleGameChouPaiComponent;
@@ -73,7 +75,8 @@ package com.xgame.godwar.core.room.views
 			otherGroupContainer.layout.hGap = 0;
 			otherGroupContainer.layout.vGap = 0;
 			
-			componentList = new Vector.<BattleGameOtherRoleComponent>();
+			_componentList = new Vector.<BattleGameOtherRoleComponent>();
+			_componentIndex = new Dictionary();
 			_choupaiComponent.addEventListener(BattleGameEvent.CHOUPAI_EVENT, onChouPai);
 			_choupaiComponent.addEventListener(BattleGameEvent.CHOUPAI_COMPLETE_EVENT, onChouPaiComplete);
 		}
@@ -153,11 +156,12 @@ package com.xgame.godwar.core.room.views
 		
 		public function addPlayer(component: BattleGameOtherRoleComponent): void
 		{
-			if(componentList.indexOf(component) >= 0)
+			if(_componentList.indexOf(component) >= 0)
 			{
 				return;
 			}
-			componentList.push(component);
+			_componentList.push(component);
+			_componentIndex[component.player.guid] = component;
 			
 			if(component.player.group == playerGroup)
 			{
@@ -201,9 +205,9 @@ package com.xgame.godwar.core.room.views
 		public function setOtherRoleDeployComplete(guid: String): void
 		{
 			var role: BattleGameOtherRoleComponent;
-			for(var i: int = 0; i<componentList.length; i++)
+			for(var i: int = 0; i<_componentList.length; i++)
 			{
-				role = componentList[i];
+				role = _componentList[i];
 				if(role.player.guid == guid)
 				{
 					role.setDeploy(true);
@@ -230,6 +234,16 @@ package com.xgame.godwar.core.room.views
 		public function get cardAttacker3():String
 		{
 			return _cardAttacker3;
+		}
+
+		public function get componentList():Vector.<BattleGameOtherRoleComponent>
+		{
+			return _componentList;
+		}
+
+		public function get componentIndex():Dictionary
+		{
+			return _componentIndex;
 		}
 
 

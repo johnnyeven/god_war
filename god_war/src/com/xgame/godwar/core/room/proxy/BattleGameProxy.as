@@ -6,6 +6,7 @@ package com.xgame.godwar.core.room.proxy
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_InitRoomDataLogicServer;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerEnterRoomLogicServer;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_RequestStartGame;
+	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_StartDice;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_StartGameTimer;
 	import com.xgame.godwar.common.commands.receiving.Receive_Hall_RequestEnterRoomLogicServer;
 	import com.xgame.godwar.common.commands.sending.Send_BattleRoom_DeployComplete;
@@ -21,6 +22,7 @@ package com.xgame.godwar.core.room.proxy
 	import com.xgame.godwar.core.loading.mediators.LoadingIconMediator;
 	import com.xgame.godwar.core.room.mediators.BattleGameMediator;
 	import com.xgame.godwar.core.room.mediators.BattlePhaseMediator;
+	import com.xgame.godwar.core.room.views.GameDiceComponent;
 	
 	import flash.utils.Dictionary;
 	
@@ -57,6 +59,9 @@ package com.xgame.godwar.core.room.proxy
 			//部署完毕
 			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_DEPLOY_COMPLETE, Receive_BattleRoom_DeployComplete);
 			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_DEPLOY_COMPLETE, onDeployComplete);
+			//掷骰子
+			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_START_DICE, Receive_BattleRoom_StartDice);
+			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_START_DICE, onStartDice);
 		}
 		
 		public function requestEnterRoom(): void
@@ -182,6 +187,11 @@ package com.xgame.godwar.core.room.proxy
 		private function onDeployComplete(protocol: Receive_BattleRoom_DeployComplete): void
 		{
 			facade.sendNotification(BattleGameMediator.DEPLOY_COMPLETE_NOTE, protocol.guid);
+		}
+		
+		private function onStartDice(protocol: Receive_BattleRoom_StartDice): void
+		{
+			facade.sendNotification(BattleGameMediator.START_DICE_NOTE, protocol.parameter);
 		}
 	}
 }
