@@ -76,6 +76,10 @@ package com.xgame.godwar.common.commands.receiving
 							{
 								parameter.group = data.readInt();
 							}
+							else if(parameter.position == int.MIN_VALUE)
+							{
+								parameter.position = data.readInt();
+							}
 							break;
 						case SocketContextConfig.TYPE_LONG:
 							if (accountId == null)
@@ -132,7 +136,8 @@ package com.xgame.godwar.common.commands.receiving
 						!StringUtils.empty(parameter.name) &&
 						parameter.level != int.MIN_VALUE &&
 						parameter.heroCardId != null &&
-						parameter.group != int.MIN_VALUE)
+						parameter.group != int.MIN_VALUE &&
+						parameter.position != int.MIN_VALUE)
 					{
 						playerList.push(parameter);
 						parameter = new PlayerParameter();

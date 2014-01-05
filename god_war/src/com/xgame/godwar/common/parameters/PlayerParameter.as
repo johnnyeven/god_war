@@ -16,6 +16,7 @@ package com.xgame.godwar.common.parameters
 		public var honor: int = int.MIN_VALUE;
 		public var playerStatus: int = int.MIN_VALUE;
 		public var group: int = int.MIN_VALUE;
+		public var position: int = int.MIN_VALUE;
 		
 		public function PlayerParameter()
 		{
