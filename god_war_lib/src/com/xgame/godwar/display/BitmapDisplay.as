@@ -71,7 +71,7 @@ package com.xgame.godwar.display
 			}
 		}
 		
-		public function updateController(): void
+		private function updateController(): void
 		{
 			if(_behavior != null)
 			{
@@ -81,6 +81,8 @@ package com.xgame.godwar.display
 		
 		public function update(): void
 		{
+			updateController();
+			
 			updateActionPre();
 			if(_buffer != null && _render != null)
 			{
