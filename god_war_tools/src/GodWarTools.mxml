@@ -266,6 +266,16 @@
 			<s:TextInput id="iptSoulOutputConfig" x="133" y="223" width="342"/>
 			<s:TextInput id="iptHeroOutputConfig" x="133" y="254" width="342"/>
 		</s:NavigatorContent>
+		<s:NavigatorContent width="100%" height="100%" label="生成精灵">
+			<s:Label x="31" y="25" text="技能文件夹"/>
+			<s:Label x="31" y="62" text="精灵名称"/>
+			<s:Label x="31" y="97" text="精灵类名"/>
+			<s:TextInput x="99" y="20" width="375"/>
+			<s:TextInput x="99" y="56" width="375"/>
+			<s:TextInput x="99" y="91" width="375"/>
+			<s:Button x="494" y="20" label="浏览"/>
+			<s:Button x="471" y="375" width="116" height="31" label="开始生成"/>
+		</s:NavigatorContent>
 	</mx:ViewStack>
 	<s:TabBar left="5" top="5" dataProvider="{viewstack1}"/>
 </s:WindowedApplication>
