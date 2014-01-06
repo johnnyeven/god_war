@@ -109,5 +109,7 @@
 	<SWFLoader name='nature_4_dadinvshen' url='assets/swf/cards/nature_4_dadinvshen.swf' autoPlay= "false" version="1.0.0"/>
 	<SWFLoader name='nature_4_feicuilinglong' url='assets/swf/cards/nature_4_feicuilinglong.swf' autoPlay= "false" version="1.0.0"/>
 	<SWFLoader name='nature_5_xiannvshenglong' url='assets/swf/cards/nature_5_xiannvshenglong.swf' autoPlay= "false" version="1.0.0"/>
+	
+	<SWFLoader name='effect_fire1' url='assets/swf/effects/effect_fire1.swf' autoPlay= "false" version="1.0.0"/>
 
 </root>

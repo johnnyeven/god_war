@@ -27,7 +27,7 @@ package com.xgame.godwar.core.center
 			}
 		}
 		
-		public function get instance(): EffectCenter
+		public static function get instance(): EffectCenter
 		{
 			if(_instance == null)
 			{

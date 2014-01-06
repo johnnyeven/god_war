@@ -10,7 +10,10 @@ package com.xgame.godwar.core.room.mediators
 	import com.xgame.godwar.common.parameters.PlayerParameter;
 	import com.xgame.godwar.common.parameters.card.HeroCardParameter;
 	import com.xgame.godwar.common.pool.HeroCardParameterPool;
+	import com.xgame.godwar.common.pool.ResourcePool;
 	import com.xgame.godwar.core.GameManager;
+	import com.xgame.godwar.core.center.EffectCenter;
+	import com.xgame.godwar.core.center.ResourceCenter;
 	import com.xgame.godwar.core.general.mediators.BaseMediator;
 	import com.xgame.godwar.core.general.proxy.AvatarConfigProxy;
 	import com.xgame.godwar.core.login.proxy.RequestRoleProxy;
@@ -18,6 +21,8 @@ package com.xgame.godwar.core.room.mediators
 	import com.xgame.godwar.core.room.views.BattleGameComponent;
 	import com.xgame.godwar.core.room.views.BattleGameOtherRoleComponent;
 	import com.xgame.godwar.core.room.views.GameDiceComponent;
+	import com.xgame.godwar.display.BitmapMovieDispaly;
+	import com.xgame.godwar.display.renders.Render;
 	import com.xgame.godwar.events.BattleGameEvent;
 	import com.xgame.godwar.utils.StringUtils;
 	import com.xgame.godwar.utils.UIUtils;
@@ -303,6 +308,14 @@ package com.xgame.godwar.core.room.mediators
 					}
 				}
 			}
+//			ResourceCenter.instance.load("effect_fire1", null, function(): void {
+//				EffectCenter.instance.start();
+//				var _player: BitmapMovieDispaly = new BitmapMovieDispaly();
+//				_player.graphic = ResourcePool.instance.getResourceData("assets.effect.fire.Fire1");
+//				var _render: Render = new Render();
+//				_player.render = _render;
+//				EffectCenter.instance.addEffect(_player);
+//			});
 		}
 	}
 }

@@ -116,7 +116,11 @@ package com.xgame.godwar.common.pool
 			else
 			{
 				_resourceData = new ResourceData();
-				var _bitmapData: BitmapData;
+				var _bitmapData: BitmapData = getBitmapData(name);
+				if(_bitmapData != null)
+				{
+					_resourceData.getResource(_bitmapData, i, _bitmapData["frameLine"], _bitmapData["frameTotal"], _bitmapData["fps"]);
+				}
 				for(var i: int = 0; i < 9; i++)
 				{
 					_bitmapData = getBitmapData(name + "_" + i);
