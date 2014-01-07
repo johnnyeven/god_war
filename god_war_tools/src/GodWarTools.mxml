@@ -12,6 +12,13 @@
 			import com.as3xls.xls.Cell;
 			import com.as3xls.xls.ExcelFile;
 			import com.as3xls.xls.Sheet;
+			
+			import mx.graphics.codec.PNGEncoder;
+			
+			private var loaderIndex: Vector.<LoaderInfo>;
+			private var bitmapData: BitmapData;
+			private var fileCount: int;
+			
 			protected function button1_clickHandler(event:MouseEvent):void
 			{
 				var _file: File = new File();
@@ -242,6 +249,126 @@
 				iptHeroOutputConfig.text = (evt.target as File).nativePath;
 			}
 			
+			protected function button6_clickHandler(event:MouseEvent):void
+			{
+				var _file: File = new File();
+				_file.addEventListener(Event.SELECT, onSkillDirSelected);
+				_file.browseForDirectory("选择目录");
+			}
+			
+			private function onSkillDirSelected(evt: Event): void
+			{
+				iptSkillInput.text = (evt.target as File).nativePath;
+			}
+			
+			protected function button7_clickHandler(event:MouseEvent):void
+			{
+				var _file: File = new File();
+				_file.addEventListener(Event.SELECT, onSkillOutputDirSelected);
+				_file.browseForDirectory("选择目录");
+			}
+			
+			private function onSkillOutputDirSelected(evt: Event): void
+			{
+				iptSaveDir.text = (evt.target as File).nativePath;
+			}
+			
+			private function btnStartGenerateSkill_clickHandler(event:MouseEvent):void
+			{
+				if(iptSkillInput.text != "" &&
+					iptSaveDir.text != "" &&
+					iptSpriteName.text != "" &&
+					iptSpriteClassName.text != "")
+				{
+					var _file: File = new File(iptSkillInput.text);
+					var _fileList: Array = _file.getDirectoryListing();
+					
+					var _fileStream: FileStream = new FileStream();
+					var _bytes: ByteArray;
+					var _loader: Loader;
+					
+					var child: File;
+					fileCount = _fileList.length;
+					if(bitmapData != null)
+					{
+						bitmapData.dispose();
+						bitmapData = null;
+					}
+					if(loaderIndex != null)
+					{
+						loaderIndex.splice(0, loaderIndex.length);
+					}
+					loaderIndex = new Vector.<LoaderInfo>();
+					for(var i: int = 0; i<_fileList.length; i++)
+					{
+						child = _fileList[i];
+						if(child.name.slice(-3, child.name.length) != "png")
+						{
+							fileCount--;
+						}
+					}
+					
+					for(var i: int = 0; i<_fileList.length; i++)
+					{
+						child = _fileList[i];
+						
+						if(child.name.slice(-3, child.name.length) != "png")
+						{
+							continue;
+						}
+						
+						_bytes = new ByteArray();
+						_fileStream.open(child, FileMode.READ);
+						_fileStream.readBytes(_bytes, 0, _fileStream.bytesAvailable);
+						_fileStream.close();
+						
+						_loader = new Loader();
+						_loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onImgLoadComplete);
+						loaderIndex.push(_loader.contentLoaderInfo);
+						_loader.loadBytes(_bytes);
+					}
+				}
+			} 
+			
+			private function onImgLoadComplete(evt: Event): void
+			{
+				var _loaderInfo: LoaderInfo = evt.target as LoaderInfo;
+				var index: int = loaderIndex.indexOf(_loaderInfo);
+				if(index >= 0)
+				{
+					loaderIndex[index] = null;
+				}
+				
+				var _bitmapData: BitmapData = (_loaderInfo.content as Bitmap).bitmapData;
+				if(bitmapData == null)
+				{
+					bitmapData = new BitmapData(_bitmapData.width * fileCount, _bitmapData.height, true, 0);
+					img.source = bitmapData;
+				}
+				
+				bitmapData.copyPixels(_bitmapData, new Rectangle(0, 0, _bitmapData.width, _bitmapData.height), new Point(_bitmapData.width * index, 0));
+				
+				for(var i: int = 0; i<loaderIndex.length; i++)
+				{
+					if(loaderIndex[i] != null)
+					{
+						return;
+					}
+				}
+				
+				var _fileStream: FileStream = new FileStream();
+				var file: File = new File(iptSaveDir.text);
+				file = file.resolvePath(iptSpriteName.text + "-" + iptSpriteClassName.text + ".png");
+				_fileStream.open(file, FileMode.WRITE);
+				
+				var _encoder: PNGEncoder = new PNGEncoder();
+				var _bitmapBytes: ByteArray = _encoder.encode(bitmapData);
+				_fileStream.writeBytes(_bitmapBytes, 0, _bitmapBytes.bytesAvailable);
+				_fileStream.close();
+				
+				file.openWithDefaultApplication();
+			}
+			
 		]]>
 	</fx:Script>
 	
@@ -250,16 +377,16 @@
 	</fx:Declarations>
 	<mx:ViewStack id="viewstack1" left="0" right="0" top="31" bottom="0">
 		<s:NavigatorContent width="100%" height="100%" label="生成配置">
-			<s:Button x="491" y="387" width="99" height="31" label="开始生成"
+			<s:Button id="btnStartGenerateConfig" x="491" y="387" width="99" height="31" label="开始生成"
 					  click="button3_clickHandler(event)"/>
 			<s:Label x="22" y="26" text="英灵卡牌配置"/>
-			<s:TextInput id="iptSoulCardConfig" x="103" y="21" width="372" editable="false"/>
+			<s:TextInput id="iptSoulCardConfig" x="103" y="21" width="372"/>
 			<s:Button x="491" y="21" label="浏览" click="button1_clickHandler(event)"/>
 			<s:Button x="491" y="224" label="浏览" click="button2_clickHandler(event)"/>
 			<s:Button x="491" y="255" label="浏览" click="button5_clickHandler(event)"/>
 			<s:Button x="491" y="52" label="浏览" click="button4_clickHandler(event)"/>
 			<s:Label x="22" y="57" text="英雄卡牌配置"/>
-			<s:TextInput id="iptHeroCardConfig" x="103" y="51" width="372" editable="false"/>
+			<s:TextInput id="iptHeroCardConfig" x="103" y="51" width="372"/>
 			<mx:HRule x="8" y="202" width="582" height="1"/>
 			<s:Label x="22" y="228" text="英灵卡牌配置输出"/>
 			<s:Label x="22" y="260" text="英雄卡牌配置输出"/>
@@ -270,11 +397,16 @@
 			<s:Label x="31" y="25" text="技能文件夹"/>
 			<s:Label x="31" y="62" text="精灵名称"/>
 			<s:Label x="31" y="97" text="精灵类名"/>
-			<s:TextInput x="99" y="20" width="375"/>
-			<s:TextInput x="99" y="56" width="375"/>
-			<s:TextInput x="99" y="91" width="375"/>
-			<s:Button x="494" y="20" label="浏览"/>
-			<s:Button x="471" y="375" width="116" height="31" label="开始生成"/>
+			<s:TextInput id="iptSkillInput" x="99" y="20" width="375"/>
+			<s:TextInput id="iptSaveDir" x="99" y="125" width="375"/>
+			<s:TextInput id="iptSpriteName" x="99" y="56" width="375"/>
+			<s:TextInput id="iptSpriteClassName" x="99" y="91" width="375"/>
+			<s:Button x="494" y="20" label="浏览" click="button6_clickHandler(event)"/>
+			<s:Button x="495" y="125" label="浏览" click="button7_clickHandler(event)"/>
+			<s:Button id="btnStartGenerateSkill" x="471" y="375" width="116" height="31"
+					  label="开始生成" click="btnStartGenerateSkill_clickHandler(event)"/>
+			<s:Label x="30" y="130" text="保存位置"/>
+			<s:Image id="img" x="11" y="154" width="579" height="214"  smooth="false" smoothingQuality="high"/>
 		</s:NavigatorContent>
 	</mx:ViewStack>
 	<s:TabBar left="5" top="5" dataProvider="{viewstack1}"/>
