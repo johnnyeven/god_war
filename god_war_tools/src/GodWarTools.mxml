@@ -358,15 +358,55 @@
 				
 				var _fileStream: FileStream = new FileStream();
 				var file: File = new File(iptSaveDir.text);
-				file = file.resolvePath(iptSpriteName.text + "-" + iptSpriteClassName.text + ".png");
-				_fileStream.open(file, FileMode.WRITE);
+				var result: File = file.resolvePath(iptSpriteName.text + "-" + iptSpriteClassName.text + ".png");
+				_fileStream.open(result, FileMode.WRITE);
 				
 				var _encoder: PNGEncoder = new PNGEncoder();
 				var _bitmapBytes: ByteArray = _encoder.encode(bitmapData);
 				_fileStream.writeBytes(_bitmapBytes, 0, _bitmapBytes.bytesAvailable);
 				_fileStream.close();
 				
-				file.openWithDefaultApplication();
+				result.openWithDefaultApplication();
+				
+				var classpathTmp: String = iptSpriteClassName.text;
+				var classpathArray: Array = classpathTmp.split(".");
+				var classpath: String = "";
+				var className: String = "";
+				for(i = 0; i<classpathArray.length; i++)
+				{
+					if(i == classpathArray.length - 1)
+					{
+						className = classpathArray[i];
+						break;
+					}
+					classpath += (classpathArray[i] + "\\");
+				}
+				classpathTmp = classpathTmp.replace("." + className, "");
+				file = file.resolvePath(classpath);
+				if(!file.exists)
+				{
+					file.createDirectory();
+				}
+				
+				var content: String = "package " + classpathTmp + "\n";
+				content += "{\n";
+				content += "	import flash.display.BitmapData\n\n";
+				content += "	public class " + className + " extends BitmapData\n";
+				content += "	{\n";
+				content += "		public var frameLine: uint = 1;\n";
+				content += "		public var frameTotal: uint = " + fileCount + ";\n";
+				content += "		public var fps: Number = " + iptFrameRate.text + ";\n\n";
+				content += "		public function " + className + "(_width: uint, _height: uint)\n";
+				content += "		{\n";
+				content += "			super(_width, _height);\n";
+				content += "		}\n";
+				content += "	}\n\n";
+				content += "}";
+				
+				file = file.resolvePath(className + ".as");
+				_fileStream.open(file, FileMode.WRITE);
+				_fileStream.writeUTFBytes(content);
+				_fileStream.close();
 			}
 			
 		]]>
@@ -399,6 +439,7 @@
 			<s:Label x="31" y="97" text="精灵类名"/>
 			<s:TextInput id="iptSkillInput" x="99" y="20" width="375"/>
 			<s:TextInput id="iptSaveDir" x="99" y="125" width="375"/>
+			<s:TextInput id="iptFrameRate" x="99" y="159" width="375"/>
 			<s:TextInput id="iptSpriteName" x="99" y="56" width="375"/>
 			<s:TextInput id="iptSpriteClassName" x="99" y="91" width="375"/>
 			<s:Button x="494" y="20" label="浏览" click="button6_clickHandler(event)"/>
@@ -406,7 +447,8 @@
 			<s:Button id="btnStartGenerateSkill" x="471" y="375" width="116" height="31"
 					  label="开始生成" click="btnStartGenerateSkill_clickHandler(event)"/>
 			<s:Label x="30" y="130" text="保存位置"/>
-			<s:Image id="img" x="11" y="154" width="579" height="214"  smooth="false" smoothingQuality="high"/>
+			<s:Label x="30" y="164" text="帧频"/>
+			<s:Image id="img" x="11" y="243" width="579" height="125"  smooth="false" smoothingQuality="high"/>
 		</s:NavigatorContent>
 	</mx:ViewStack>
 	<s:TabBar left="5" top="5" dataProvider="{viewstack1}"/>
