@@ -7,6 +7,7 @@ package com.xgame.godwar.display
 	import com.xgame.godwar.ns.NSCamera;
 	
 	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.geom.Rectangle;
@@ -155,6 +156,13 @@ package com.xgame.godwar.display
 		
 		protected function rebuild(): void
 		{
+			if(_graphic != null)
+			{
+				if(_buffer.bitmapData == null)
+				{
+					_buffer.bitmapData = new BitmapData(_graphic.frameWidth, _graphic.frameHeight, true, 0);
+				}
+			}
 			setBufferPos();
 		}
 		

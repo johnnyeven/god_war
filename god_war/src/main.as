@@ -5,7 +5,7 @@ package
 	import flash.events.Event;
 	import flash.system.Security;
 	
-	import test.TestDice;
+	import test.TestApplicationFacade;
 	
 	[SWF(width="1028", height="600", backgroundColor="0xffffff",frameRate="30")]
 	public class main extends GameManager
@@ -21,8 +21,8 @@ package
 			{
 				removeEventListener(Event.ADDED_TO_STAGE, init);
 			}
-			ApplicationFacade.getInstance().start(this);
-//			TestDice.getInstance().start(this);
+//			ApplicationFacade.getInstance().start(this);
+			TestApplicationFacade.getInstance().start(this);
 		}
 	}
 }

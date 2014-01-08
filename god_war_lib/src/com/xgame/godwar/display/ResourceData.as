@@ -183,7 +183,6 @@ package com.xgame.godwar.display
 		{
 			if(_bitmap != null)
 			{
-//				_bitmap.dispose();
 				_bitmap = null;
 			}
 			for(var i: String in _bitmapDictionary)

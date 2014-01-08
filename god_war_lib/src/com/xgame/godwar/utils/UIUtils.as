@@ -27,8 +27,8 @@ package com.xgame.godwar.utils
 		public static function center(target: DisplayObject): void
 		{
 			var _stageCenter: Point = stageCenter;
-			target.x = _stageCenter.x - (target.width * target.scaleX) / 2;
-			target.y = _stageCenter.y - (target.height * target.scaleY) / 2;
+			target.x = _stageCenter.x - target.width / 2;
+			target.y = _stageCenter.y - target.height / 2;
 		}
 		
 		public static function getSkinSize(target: DisplayObject): Point
