@@ -36,7 +36,7 @@ package test.controllers
 		private function onLoadComplete(evt: LoaderEvent): void
 		{
 			ResourceCenter.instance.load("chaos_5_leitingjushou", null, onCardLoaded);
-			ResourceCenter.instance.load("effect_positive1", null, onResourceLoaded);
+			ResourceCenter.instance.load("effect_hero_human_jiasite1", null, onResourceLoaded);
 		}
 		
 		private function onCardLoaded(evt: LoaderEvent): void
@@ -51,7 +51,7 @@ package test.controllers
 		private function onResourceLoaded(evt: LoaderEvent): void
 		{
 			var effect: BitmapMovieDispaly = new BitmapMovieDispaly();
-			effect.graphic = ResourcePool.instance.getResourceData("assets.effect.status.Positive1");
+			effect.graphic = ResourcePool.instance.getResourceData("assets.effect.hero.human.Jiasite1");
 			var _render: Render = new Render();
 			effect.render = _render;
 			EffectCenter.instance.addEffect(effect);

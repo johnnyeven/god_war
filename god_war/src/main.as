@@ -21,8 +21,8 @@ package
 			{
 				removeEventListener(Event.ADDED_TO_STAGE, init);
 			}
-//			ApplicationFacade.getInstance().start(this);
-			TestApplicationFacade.getInstance().start(this);
+			ApplicationFacade.getInstance().start(this);
+//			TestApplicationFacade.getInstance().start(this);
 		}
 	}
 }
