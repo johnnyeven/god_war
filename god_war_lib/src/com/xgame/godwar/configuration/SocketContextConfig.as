@@ -62,6 +62,8 @@ package com.xgame.godwar.configuration
 		public static const ACTION_PLAYER_READY_ERROR: int = 11;
 		public static const ACTION_DEPLOY_COMPLETE: int = 12;
 		public static const ACTION_START_DICE: int = 13;
+		public static const ACTION_ROUND_STANDBY: int = 14;
+		public static const ACTION_ROUND_STANDBY_CONFIRM: int = 15;
 		
 		public static const TYPE_INT: int = 0;
 		public static const TYPE_LONG: int = 1;
@@ -112,6 +114,8 @@ package com.xgame.godwar.configuration
 		public static const BATTLEROOM_FIRST_CHOUPAI: int = ACTION_FIRST_CHOUPAI << 8 | CONTROLLER_BATTLEROOM;
 		public static const BATTLEROOM_DEPLOY_COMPLETE: int = ACTION_DEPLOY_COMPLETE << 8 | CONTROLLER_BATTLEROOM;
 		public static const BATTLEROOM_START_DICE: int = ACTION_START_DICE << 8 | CONTROLLER_BATTLEROOM;
+		public static const BATTLEROOM_ROUND_STANDBY: int = ACTION_ROUND_STANDBY << 8 | CONTROLLER_BATTLEROOM;
+		public static const BATTLEROOM_ROUND_STANDBY_CONFIRM: int = ACTION_ROUND_STANDBY_CONFIRM << 8 | CONTROLLER_BATTLEROOM;
 		
 		public function SocketContextConfig() 
 		{

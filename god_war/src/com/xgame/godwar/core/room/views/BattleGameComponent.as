@@ -43,6 +43,7 @@ package com.xgame.godwar.core.room.views
 		private var myGroupContainer: Container;
 		private var otherGroupContainer: Container;
 		private var _choupaiComponent: BattleGameChouPaiComponent;
+		private var _paiduiComponent: GamePaiduiContainerComponent;
 		
 		private var deployPhase: int = 0;
 		
@@ -64,6 +65,10 @@ package com.xgame.godwar.core.room.views
 			_choupaiComponent = new BattleGameChouPaiComponent();
 			GameManager.instance.addView(_choupaiComponent);
 			_choupaiComponent.visible = false;
+			_paiduiComponent = new GamePaiduiContainerComponent();
+			UIUtils.center(_paiduiComponent);
+			GameManager.instance.addView(_paiduiComponent);
+			_paiduiComponent.visible = false;
 			
 			sortChildIndex();
 			
@@ -189,12 +194,22 @@ package com.xgame.godwar.core.room.views
 			GameManager.instance.removeView(_choupaiComponent);
 			_choupaiComponent.dispose();
 			_choupaiComponent = null;
+			
+			GameManager.instance.removeView(_paiduiComponent);
+			_paiduiComponent.dispose();
+			_paiduiComponent = null;
+			
 			super.dispose();
 		}
 
 		public function get choupaiComponent():BattleGameChouPaiComponent
 		{
 			return _choupaiComponent;
+		}
+		
+		public function get paiduiComponent(): GamePaiduiContainerComponent
+		{
+			return _paiduiComponent;
 		}
 
 		public function setCardFormation(position: int, card: SoulCard): void

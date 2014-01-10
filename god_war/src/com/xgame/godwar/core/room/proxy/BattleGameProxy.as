@@ -4,12 +4,14 @@ package com.xgame.godwar.core.room.proxy
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_DeployComplete;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_FirstChouPai;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_InitRoomDataLogicServer;
+	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PhaseRoundStandby;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerEnterRoomLogicServer;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_RequestStartGame;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_StartDice;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_StartGameTimer;
 	import com.xgame.godwar.common.commands.receiving.Receive_Hall_RequestEnterRoomLogicServer;
 	import com.xgame.godwar.common.commands.sending.Send_BattleRoom_DeployComplete;
+	import com.xgame.godwar.common.commands.sending.Send_BattleRoom_PhaseRoundStandbyConfirm;
 	import com.xgame.godwar.common.commands.sending.Send_Hall_RequestEnterRoomLogicServer;
 	import com.xgame.godwar.common.object.Card;
 	import com.xgame.godwar.common.object.Player;
@@ -62,6 +64,9 @@ package com.xgame.godwar.core.room.proxy
 			//掷骰子
 			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_START_DICE, Receive_BattleRoom_StartDice);
 			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_START_DICE, onStartDice);
+			//摸牌阶段开始摸牌
+			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_ROUND_STANDBY, Receive_BattleRoom_PhaseRoundStandby);
+			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_ROUND_STANDBY, onPhaseRoundStandby);
 		}
 		
 		public function requestEnterRoom(): void
@@ -192,6 +197,22 @@ package com.xgame.godwar.core.room.proxy
 		private function onStartDice(protocol: Receive_BattleRoom_StartDice): void
 		{
 			facade.sendNotification(BattleGameMediator.START_DICE_NOTE, protocol.parameter);
+		}
+		
+		private function onPhaseRoundStandby(protocol: Receive_BattleRoom_PhaseRoundStandby): void
+		{
+			facade.sendNotification(BattleGameMediator.PHASE_ROUND_STANDBY_NOTE, protocol);
+		}
+		
+		public function roundStandbyComplete(soulCount: int, supplyCount: int): void
+		{
+			if(CommandCenter.instance.connected)
+			{
+				var protocol: Send_BattleRoom_PhaseRoundStandbyConfirm = new Send_BattleRoom_PhaseRoundStandbyConfirm();
+				protocol.soulCount = soulCount;
+				protocol.supplyCount = supplyCount;
+				CommandCenter.instance.send(protocol);
+			}
 		}
 	}
 }

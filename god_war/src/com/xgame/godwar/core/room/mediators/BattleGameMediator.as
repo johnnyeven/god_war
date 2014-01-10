@@ -3,6 +3,7 @@ package com.xgame.godwar.core.room.mediators
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Strong;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_InitRoomDataLogicServer;
+	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PhaseRoundStandby;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerEnterRoomLogicServer;
 	import com.xgame.godwar.common.commands.receiving.Receive_Info_AccountRole;
 	import com.xgame.godwar.common.object.Card;
@@ -43,6 +44,7 @@ package com.xgame.godwar.core.room.mediators
 		public static const START_CARD_ANIMATE_NOTE: String = NAME + ".StartCardAnimateNote";
 		public static const DEPLOY_COMPLETE_NOTE: String = NAME + ".DeployCompleteNote";
 		public static const START_DICE_NOTE: String = NAME + ".StartDiceNote";
+		public static const PHASE_ROUND_STANDBY_NOTE: String = NAME + ".PhaseRoundStandbyNote";
 		
 		public function BattleGameMediator()
 		{
@@ -63,7 +65,8 @@ package com.xgame.godwar.core.room.mediators
 		override public function listNotificationInterests():Array
 		{
 			return [SHOW_NOTE, HIDE_NOTE, DISPOSE_NOTE, SHOW_ROOM_DATA_NOTE, ADD_PLAYER_NOTE,
-				ADD_CARD_ANIMATE_NOTE, START_CARD_ANIMATE_NOTE, DEPLOY_COMPLETE_NOTE, START_DICE_NOTE];
+				ADD_CARD_ANIMATE_NOTE, START_CARD_ANIMATE_NOTE, DEPLOY_COMPLETE_NOTE, START_DICE_NOTE,
+				PHASE_ROUND_STANDBY_NOTE];
 		}
 		
 		override public function handleNotification(notification:INotification):void
@@ -113,6 +116,9 @@ package com.xgame.godwar.core.room.mediators
 					break;
 				case START_DICE_NOTE:
 					startDice(notification.getBody() as Dictionary);
+					break;
+				case PHASE_ROUND_STANDBY_NOTE:
+					phaseRoundStandy((notification.getBody() as Receive_BattleRoom_PhaseRoundStandby).guid);
 					break;
 			}
 		}
@@ -308,14 +314,32 @@ package com.xgame.godwar.core.room.mediators
 					}
 				}
 			}
-//			ResourceCenter.instance.load("effect_fire1", null, function(): void {
-//				EffectCenter.instance.start();
-//				var _player: BitmapMovieDispaly = new BitmapMovieDispaly();
-//				_player.graphic = ResourcePool.instance.getResourceData("assets.effect.fire.Fire1");
-//				var _render: Render = new Render();
-//				_player.render = _render;
-//				EffectCenter.instance.addEffect(_player);
-//			});
+		}
+		
+		private function phaseRoundStandy(guid: String): void
+		{
+			var roleProxy: RequestRoleProxy = facade.retrieveProxy(RequestRoleProxy.NAME) as RequestRoleProxy;
+			if(roleProxy != null)
+			{
+				var protocolRole: Receive_Info_AccountRole = roleProxy.getData() as Receive_Info_AccountRole;
+				if(protocolRole != null)
+				{
+					if(protocolRole.guid == guid)
+					{
+						component.paiduiComponent.visible = true;
+					}
+					else
+					{
+						var componentIndex: Dictionary = component.componentIndex;
+						var otherRoleComponent: BattleGameOtherRoleComponent;
+						otherRoleComponent = componentIndex[guid];
+						if(otherRoleComponent != null)
+						{
+							
+						}
+					}
+				}
+			}
 		}
 	}
 }
