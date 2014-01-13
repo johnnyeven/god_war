@@ -5,6 +5,7 @@ package com.xgame.godwar.core.room.views
 	import com.xgame.godwar.common.object.Card;
 	import com.xgame.godwar.common.pool.ResourcePool;
 	import com.xgame.godwar.core.GameManager;
+	import com.xgame.godwar.events.BattleGameEvent;
 	import com.xgame.godwar.liteui.component.CaptionButton;
 	import com.xgame.godwar.liteui.component.Label;
 	import com.xgame.godwar.liteui.core.Component;
@@ -22,8 +23,9 @@ package com.xgame.godwar.core.room.views
 		private var _supplyPaidui: GamePaiDuiComponent;
 		private var _soulCount: int;
 		private var _supplyCount: int;
-		
 		private var _countLimit: int = 3;
+		private var _bitmapContainer: Vector.<Bitmap>;
+		private var _cardContainer: Vector.<Card>;
 		
 		public function GamePaiduiContainerComponent(_skin:DisplayObjectContainer=null)
 		{
@@ -47,6 +49,35 @@ package com.xgame.godwar.core.room.views
 			_soulPaidui.addEventListener(MouseEvent.CLICK, onSoulPaiduiClick);
 			_supplyPaidui.addEventListener(MouseEvent.CLICK, onSupplyPaiduiClick);
 			_btnOk.addEventListener(MouseEvent.CLICK, onBtnOkClick);
+			
+			_bitmapContainer = new Vector.<Bitmap>();
+			_cardContainer = new Vector.<Card>();
+		}
+		
+		public function addCard(card: Card): void
+		{
+			_cardContainer.push(card);
+		}
+		
+		public function showCards(): void
+		{
+			if(_bitmapContainer.length > 0)
+			{
+				var bitmap: Bitmap = _bitmapContainer[0];
+				if(bitmap != null)
+				{
+					var startX: int = 200;
+					for(var i: int = 0; i<_bitmapContainer.length; i++)
+					{
+						bitmap = _bitmapContainer[i];
+						if(bitmap != null)
+						{
+							TweenLite.to(bitmap, .5, {rotationY: 180, y: bitmap.y - 100, x: startX});
+							startX += bitmap.width + 25;
+						}
+					}
+				}
+			}
 		}
 		
 		private function onSoulPaiduiClick(evt: MouseEvent): void
@@ -55,11 +86,12 @@ package com.xgame.godwar.core.room.views
 			{
 				var bd: BitmapData = ResourcePool.instance.getBitmapData("assets.resource.card.BackCard_Small");
 				var bitmap: Bitmap = new Bitmap(bd);
-				GameManager.instance.addView(bitmap);
+				addChild(bitmap);
+				_bitmapContainer.push(bitmap);
 				bitmap.x = _soulPaidui.x;
 				bitmap.y = _soulPaidui.y;
 				
-				TweenLite.to(bitmap, .3, {x: 500, y: 600, ease: Strong.easeIn});
+				TweenLite.to(bitmap, .5, {x: (width - bitmap.width) / 2, y: bitmap.y + 200, ease: Strong.easeOut});
 				_countLimit--;
 				_soulCount++;
 			}
@@ -71,11 +103,12 @@ package com.xgame.godwar.core.room.views
 			{
 				var bd: BitmapData = ResourcePool.instance.getBitmapData("assets.resource.card.BackCard_Small");
 				var bitmap: Bitmap = new Bitmap(bd);
-				GameManager.instance.addView(bitmap);
+				addChild(bitmap);
+				_bitmapContainer.push(bitmap);
 				bitmap.x = _supplyPaidui.x;
 				bitmap.y = _supplyPaidui.y;
 				
-				TweenLite.to(bitmap, .5, {x: 500, y: 600, ease: Strong.easeOut});
+				TweenLite.to(bitmap, .5, {x: (width - bitmap.width) / 2, y: bitmap.y + 200, ease: Strong.easeOut});
 				_countLimit--;
 				_supplyCount++;
 			}
@@ -89,7 +122,11 @@ package com.xgame.godwar.core.room.views
 			}
 			else
 			{
+				var event: BattleGameEvent = new BattleGameEvent(BattleGameEvent.ROUND_STANDBY_EVENT);
+				event.value = [_soulCount, _supplyCount];
+				dispatchEvent(event);
 				
+				_btnOk.enabled = false;
 			}
 		}
 

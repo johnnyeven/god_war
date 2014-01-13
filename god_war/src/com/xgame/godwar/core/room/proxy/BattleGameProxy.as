@@ -5,6 +5,7 @@ package com.xgame.godwar.core.room.proxy
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_FirstChouPai;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_InitRoomDataLogicServer;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PhaseRoundStandby;
+	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PhaseRoundStandbyConfirm;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerEnterRoomLogicServer;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_RequestStartGame;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_StartDice;
@@ -67,6 +68,9 @@ package com.xgame.godwar.core.room.proxy
 			//摸牌阶段开始摸牌
 			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_ROUND_STANDBY, Receive_BattleRoom_PhaseRoundStandby);
 			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_ROUND_STANDBY, onPhaseRoundStandby);
+			//摸牌阶段完成
+			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_ROUND_STANDBY_CONFIRM, Receive_BattleRoom_PhaseRoundStandbyConfirm);
+			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_ROUND_STANDBY_CONFIRM, onPhaseRoundStandbyConfirm);
 		}
 		
 		public function requestEnterRoom(): void
@@ -130,6 +134,7 @@ package com.xgame.godwar.core.room.proxy
 			}
 			
 			player = p;
+			facade.sendNotification(BattleGameMediator.DEFINE_PLAYER_NOTE, player);
 			
 			setData(protocol);
 			facade.sendNotification(BattleGameMediator.SHOW_ROOM_DATA_NOTE, protocol);
@@ -213,6 +218,11 @@ package com.xgame.godwar.core.room.proxy
 				protocol.supplyCount = supplyCount;
 				CommandCenter.instance.send(protocol);
 			}
+		}
+		
+		private function onPhaseRoundStandbyConfirm(protocol: Receive_BattleRoom_PhaseRoundStandbyConfirm): void
+		{
+			facade.sendNotification(BattleGameMediator.PHASE_ROUND_STANDBY_COMPLETE_NOTE, protocol);
 		}
 	}
 }

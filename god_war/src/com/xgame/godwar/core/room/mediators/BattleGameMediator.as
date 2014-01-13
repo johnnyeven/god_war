@@ -4,11 +4,14 @@ package com.xgame.godwar.core.room.mediators
 	import com.greensock.easing.Strong;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_InitRoomDataLogicServer;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PhaseRoundStandby;
+	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PhaseRoundStandbyConfirm;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerEnterRoomLogicServer;
 	import com.xgame.godwar.common.commands.receiving.Receive_Info_AccountRole;
 	import com.xgame.godwar.common.object.Card;
 	import com.xgame.godwar.common.object.Player;
+	import com.xgame.godwar.common.object.SoulCard;
 	import com.xgame.godwar.common.parameters.PlayerParameter;
+	import com.xgame.godwar.common.parameters.card.CardContainerParameter;
 	import com.xgame.godwar.common.parameters.card.HeroCardParameter;
 	import com.xgame.godwar.common.pool.HeroCardParameterPool;
 	import com.xgame.godwar.common.pool.ResourcePool;
@@ -17,6 +20,7 @@ package com.xgame.godwar.core.room.mediators
 	import com.xgame.godwar.core.center.ResourceCenter;
 	import com.xgame.godwar.core.general.mediators.BaseMediator;
 	import com.xgame.godwar.core.general.proxy.AvatarConfigProxy;
+	import com.xgame.godwar.core.general.proxy.CardProxy;
 	import com.xgame.godwar.core.login.proxy.RequestRoleProxy;
 	import com.xgame.godwar.core.room.proxy.BattleGameProxy;
 	import com.xgame.godwar.core.room.views.BattleGameComponent;
@@ -27,6 +31,7 @@ package com.xgame.godwar.core.room.mediators
 	import com.xgame.godwar.events.BattleGameEvent;
 	import com.xgame.godwar.utils.StringUtils;
 	import com.xgame.godwar.utils.UIUtils;
+	import com.xgame.godwar.utils.manager.TimerManager;
 	
 	import flash.utils.Dictionary;
 	
@@ -38,6 +43,7 @@ package com.xgame.godwar.core.room.mediators
 		public static const SHOW_NOTE: String = NAME + ".ShowNote";
 		public static const HIDE_NOTE: String = NAME + ".HideNote";
 		public static const DISPOSE_NOTE: String = NAME + ".DisposeNote";
+		public static const DEFINE_PLAYER_NOTE: String = NAME + ".DefinePlayerNote";
 		public static const SHOW_ROOM_DATA_NOTE: String = NAME + ".ShowRoomDataNote";
 		public static const ADD_PLAYER_NOTE: String = NAME + ".AddPlayerNote";
 		public static const ADD_CARD_ANIMATE_NOTE: String = NAME + ".AddCardAnimateNote";
@@ -45,6 +51,9 @@ package com.xgame.godwar.core.room.mediators
 		public static const DEPLOY_COMPLETE_NOTE: String = NAME + ".DeployCompleteNote";
 		public static const START_DICE_NOTE: String = NAME + ".StartDiceNote";
 		public static const PHASE_ROUND_STANDBY_NOTE: String = NAME + ".PhaseRoundStandbyNote";
+		public static const PHASE_ROUND_STANDBY_COMPLETE_NOTE: String = NAME + ".PhaseRoundStandbyCompleteNote";
+		
+		private var player: Player;
 		
 		public function BattleGameMediator()
 		{
@@ -55,6 +64,7 @@ package com.xgame.godwar.core.room.mediators
 			component.addEventListener(BattleGameEvent.CHOUPAI_COMPLETE_EVENT, onChouPaiComplete);
 			component.addEventListener(BattleGameEvent.DEPLOY_PHASE_EVENT, onDeployPhase);
 			component.addEventListener(BattleGameEvent.FIGHT_EVENT, onFight);
+			component.addEventListener(BattleGameEvent.ROUND_STANDBY_EVENT, onRoundStandby);
 		}
 		
 		public function get component(): BattleGameComponent
@@ -64,9 +74,9 @@ package com.xgame.godwar.core.room.mediators
 		
 		override public function listNotificationInterests():Array
 		{
-			return [SHOW_NOTE, HIDE_NOTE, DISPOSE_NOTE, SHOW_ROOM_DATA_NOTE, ADD_PLAYER_NOTE,
+			return [SHOW_NOTE, HIDE_NOTE, DISPOSE_NOTE, DEFINE_PLAYER_NOTE, SHOW_ROOM_DATA_NOTE, ADD_PLAYER_NOTE,
 				ADD_CARD_ANIMATE_NOTE, START_CARD_ANIMATE_NOTE, DEPLOY_COMPLETE_NOTE, START_DICE_NOTE,
-				PHASE_ROUND_STANDBY_NOTE];
+				PHASE_ROUND_STANDBY_NOTE, PHASE_ROUND_STANDBY_COMPLETE_NOTE];
 		}
 		
 		override public function handleNotification(notification:INotification):void
@@ -99,6 +109,9 @@ package com.xgame.godwar.core.room.mediators
 						}
 					});
 					break;
+				case DEFINE_PLAYER_NOTE:
+					player = notification.getBody() as Player;
+					break;
 				case SHOW_ROOM_DATA_NOTE:
 					showRoomData(notification.getBody() as Receive_BattleRoom_InitRoomDataLogicServer);
 					break;
@@ -118,7 +131,10 @@ package com.xgame.godwar.core.room.mediators
 					startDice(notification.getBody() as Dictionary);
 					break;
 				case PHASE_ROUND_STANDBY_NOTE:
-					phaseRoundStandy((notification.getBody() as Receive_BattleRoom_PhaseRoundStandby).guid);
+					phaseRoundStandby((notification.getBody() as Receive_BattleRoom_PhaseRoundStandby).guid);
+					break;
+				case PHASE_ROUND_STANDBY_COMPLETE_NOTE:
+					phaseRoundStandbyComplete(notification.getBody() as Receive_BattleRoom_PhaseRoundStandbyConfirm);
 					break;
 			}
 		}
@@ -282,7 +298,6 @@ package com.xgame.godwar.core.room.mediators
 		
 		private function startDice(parameter: Dictionary): void
 		{
-			var comp: GameDiceComponent;
 			var componentIndex: Dictionary = component.componentIndex;
 			var otherRoleComponent: BattleGameOtherRoleComponent;
 			var roleProxy: RequestRoleProxy = facade.retrieveProxy(RequestRoleProxy.NAME) as RequestRoleProxy;
@@ -293,30 +308,40 @@ package com.xgame.godwar.core.room.mediators
 				{
 					for(var guid: String in parameter)
 					{
-						comp = new GameDiceComponent();
-						
 						if(protocolRole.guid == guid)
 						{
-							UIUtils.center(comp);
-							comp.y += 150;
+							component.panelComponent.mainRoleComponent.startDice(int(parameter[guid]));
 						}
 						else
 						{
 							otherRoleComponent = componentIndex[guid];
 							if(otherRoleComponent != null)
 							{
-								comp.x = otherRoleComponent.x;
-								comp.y = otherRoleComponent.y;
+								otherRoleComponent.startDice(int(parameter[guid]));
 							}
 						}
-						GameManager.instance.addView(comp);
-						comp.dice(int(parameter[guid]));
 					}
+					
+					TimerManager.instance.add(5000, clearDice);
 				}
 			}
 		}
 		
-		private function phaseRoundStandy(guid: String): void
+		private function clearDice(): void
+		{
+			var otherRoleComponent: BattleGameOtherRoleComponent;
+			var componentIndex: Dictionary = component.componentIndex;
+			
+			for each(otherRoleComponent in componentIndex)
+			{
+				otherRoleComponent.removeDice();
+			}
+			component.panelComponent.mainRoleComponent.removeDice();
+			
+			TimerManager.instance.remove(clearDice);
+		}
+		
+		private function phaseRoundStandby(guid: String): void
 		{
 			var roleProxy: RequestRoleProxy = facade.retrieveProxy(RequestRoleProxy.NAME) as RequestRoleProxy;
 			if(roleProxy != null)
@@ -338,6 +363,44 @@ package com.xgame.godwar.core.room.mediators
 							
 						}
 					}
+				}
+			}
+		}
+		
+		private function onRoundStandby(evt: BattleGameEvent): void
+		{
+			var tmp: Array = evt.value as Array;
+			var proxy: BattleGameProxy = facade.retrieveProxy(BattleGameProxy.NAME) as BattleGameProxy;
+			if(tmp != null && proxy != null)
+			{
+				proxy.roundStandbyComplete(tmp[0], tmp[1]);
+			}
+		}
+		
+		private function phaseRoundStandbyComplete(protocol: Receive_BattleRoom_PhaseRoundStandbyConfirm): void
+		{
+			if(protocol != null)
+			{
+				var cardProxy: CardProxy = facade.retrieveProxy(CardProxy.NAME) as CardProxy;
+				if(cardProxy != null)
+				{
+					var parameter: CardContainerParameter = cardProxy.container;
+					var cardIndex: Dictionary = cardProxy.soulCardIndex;
+					var index: int;
+					var card: SoulCard;
+					
+					for(var i: int = 0; i < protocol.soulCardList.length; i++)
+					{
+						if(cardIndex.hasOwnProperty(protocol.soulCardList[i]))
+						{
+							index = cardIndex[protocol.soulCardList[i]];
+							card = parameter.soulCardList[index];
+							player.removeSoulCard(card);
+							player.addCardHand(card);
+							component.paiduiComponent.addCard(card);
+						}
+					}
+					component.paiduiComponent.showCards();
 				}
 			}
 		}

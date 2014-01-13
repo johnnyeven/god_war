@@ -18,6 +18,7 @@ package com.xgame.godwar.core.room.views
 		private var healthBar: MovieClip;
 		private var deploy: MovieClip;
 		private var _player: Player;
+		private var _dice: GameDiceComponent;
 		
 		public function BattleGameOtherRoleComponent(_skin:DisplayObjectContainer=null)
 		{
@@ -76,6 +77,29 @@ package com.xgame.godwar.core.room.views
 			else
 			{
 				deploy.visible = false;
+			}
+		}
+		
+		public function startDice(value: int): void
+		{
+			if(_dice == null)
+			{
+				_dice = new GameDiceComponent();
+			}
+			addChild(_dice);
+			_dice.dice(value);
+		}
+		
+		public function removeDice(): void
+		{
+			if(_dice != null)
+			{
+				if(contains(_dice))
+				{
+					removeChild(_dice);
+				}
+				_dice.dispose();
+				_dice = null;
 			}
 		}
 	}

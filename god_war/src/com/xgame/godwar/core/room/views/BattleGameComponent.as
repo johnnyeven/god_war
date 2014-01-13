@@ -84,6 +84,7 @@ package com.xgame.godwar.core.room.views
 			_componentIndex = new Dictionary();
 			_choupaiComponent.addEventListener(BattleGameEvent.CHOUPAI_EVENT, onChouPai);
 			_choupaiComponent.addEventListener(BattleGameEvent.CHOUPAI_COMPLETE_EVENT, onChouPaiComplete);
+			_paiduiComponent.addEventListener(BattleGameEvent.ROUND_STANDBY_EVENT, onRoundStandby);
 		}
 		
 		private function onChouPai(evt: BattleGameEvent): void
@@ -99,6 +100,13 @@ package com.xgame.godwar.core.room.views
 			{
 				_panelComponent.addCard(card);
 			}
+		}
+		
+		private function onRoundStandby(evt: BattleGameEvent): void
+		{
+			var event: BattleGameEvent = new BattleGameEvent(BattleGameEvent.ROUND_STANDBY_EVENT);
+			event.value = evt.value;
+			dispatchEvent(event);
 		}
 		
 		private function onHandCardClick(evt: MouseEvent): void

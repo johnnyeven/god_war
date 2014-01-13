@@ -12,6 +12,7 @@ package com.xgame.godwar.core.room.views
 		private var avatarMask: MovieClip;
 		private var avatarContainer: ImageContainer;
 		private var healthBar: MovieClip;
+		private var _dice: GameDiceComponent;
 		
 		public function BattleGameMainRoleComponent(_skin:DisplayObjectContainer=null)
 		{
@@ -30,6 +31,29 @@ package com.xgame.godwar.core.room.views
 		public function setMainRoleAvatar(path: String): void
 		{
 			avatarContainer.source = path;
+		}
+		
+		public function startDice(value: int): void
+		{
+			if(_dice == null)
+			{
+				_dice = new GameDiceComponent();
+			}
+			addChild(_dice);
+			_dice.dice(value);
+		}
+		
+		public function removeDice(): void
+		{
+			if(_dice != null)
+			{
+				if(contains(_dice))
+				{
+					removeChild(_dice);
+				}
+				_dice.dispose();
+				_dice = null;
+			}
 		}
 	}
 }
