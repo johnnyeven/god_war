@@ -13,6 +13,7 @@ package com.xgame.godwar.core.room.views
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.DisplayObjectContainer;
+	import flash.display.Sprite;
 	import flash.events.MouseEvent;
 	
 	public class GamePaiduiContainerComponent extends Component
@@ -24,7 +25,7 @@ package com.xgame.godwar.core.room.views
 		private var _soulCount: int;
 		private var _supplyCount: int;
 		private var _countLimit: int = 3;
-		private var _bitmapContainer: Vector.<Bitmap>;
+		private var _bitmapContainer: Vector.<Sprite>;
 		private var _cardContainer: Vector.<Card>;
 		
 		public function GamePaiduiContainerComponent(_skin:DisplayObjectContainer=null)
@@ -50,7 +51,7 @@ package com.xgame.godwar.core.room.views
 			_supplyPaidui.addEventListener(MouseEvent.CLICK, onSupplyPaiduiClick);
 			_btnOk.addEventListener(MouseEvent.CLICK, onBtnOkClick);
 			
-			_bitmapContainer = new Vector.<Bitmap>();
+			_bitmapContainer = new Vector.<Sprite>();
 			_cardContainer = new Vector.<Card>();
 		}
 		
@@ -63,21 +64,63 @@ package com.xgame.godwar.core.room.views
 		{
 			if(_bitmapContainer.length > 0)
 			{
-				var bitmap: Bitmap = _bitmapContainer[0];
+				var bitmap: Sprite = _bitmapContainer[0];
 				if(bitmap != null)
 				{
-					var startX: int = 200;
+					var indent: int = 25;
+					var startX: int = (width - ( 3 * bitmap.width + 2 * indent)) / 2 + bitmap.width / 2;
+					var card: Card;
+					var sp: Sprite;
 					for(var i: int = 0; i<_bitmapContainer.length; i++)
 					{
 						bitmap = _bitmapContainer[i];
 						if(bitmap != null)
 						{
-							TweenLite.to(bitmap, .5, {rotationY: 180, y: bitmap.y - 100, x: startX});
-							startX += bitmap.width + 25;
+							if(_cardContainer[0] != null)
+							{
+								card = _cardContainer[0];
+								_cardContainer.splice(0, 1);
+								sp = new Sprite();
+								sp.addChild(card);
+								card.x = -card.width / 2;
+								sp.x = bitmap.x;
+								sp.y = bitmap.y;
+								sp.rotationY = -180;
+								sp.visible = false;
+								addChild(sp);
+							}
+							
+							TweenLite.to(bitmap, .5, {rotationY: 180, y: bitmap.y - 150, x: startX, onUpdate: onBitmapAnimateProgress, onUpdateParams: [bitmap, sp]});
+							TweenLite.to(sp, .5, {rotationY: 0, y: sp.y - 150, x: startX, onComplete: onBitmapAnimateComplete, onCompleteParams: [sp]});
+							startX += bitmap.width + indent;
 						}
 					}
 				}
 			}
+		}
+		
+		private function onBitmapAnimateProgress(bitmap: Sprite, sp: Sprite): void
+		{
+			if(bitmap.rotationY >= 90)
+			{
+				sp.visible = true;
+				bitmap.visible = false;
+				TweenLite.killTweensOf(bitmap);
+				
+				removeChild(bitmap);
+				var index: int = _bitmapContainer.indexOf(bitmap);
+				if(index >= 0)
+				{
+					_bitmapContainer.splice(index, 1);
+				}
+				bitmap.removeChildren();
+				bitmap = null;
+			}
+		}
+		
+		private function onBitmapAnimateComplete(sp: Sprite): void
+		{
+			
 		}
 		
 		private function onSoulPaiduiClick(evt: MouseEvent): void
@@ -86,12 +129,16 @@ package com.xgame.godwar.core.room.views
 			{
 				var bd: BitmapData = ResourcePool.instance.getBitmapData("assets.resource.card.BackCard_Small");
 				var bitmap: Bitmap = new Bitmap(bd);
-				addChild(bitmap);
-				_bitmapContainer.push(bitmap);
-				bitmap.x = _soulPaidui.x;
-				bitmap.y = _soulPaidui.y;
+				var sp: Sprite = new Sprite();
+				sp.addChild(bitmap);
+				bitmap.x = -bitmap.width / 2;
 				
-				TweenLite.to(bitmap, .5, {x: (width - bitmap.width) / 2, y: bitmap.y + 200, ease: Strong.easeOut});
+				addChild(sp);
+				_bitmapContainer.push(sp);
+				sp.x = _soulPaidui.x + sp.width / 2;
+				sp.y = _soulPaidui.y;
+				
+				TweenLite.to(sp, .5, {x: width / 2, y: sp.y + 250, ease: Strong.easeOut});
 				_countLimit--;
 				_soulCount++;
 			}
@@ -103,12 +150,16 @@ package com.xgame.godwar.core.room.views
 			{
 				var bd: BitmapData = ResourcePool.instance.getBitmapData("assets.resource.card.BackCard_Small");
 				var bitmap: Bitmap = new Bitmap(bd);
-				addChild(bitmap);
-				_bitmapContainer.push(bitmap);
-				bitmap.x = _supplyPaidui.x;
-				bitmap.y = _supplyPaidui.y;
+				var sp: Sprite = new Sprite();
+				sp.addChild(bitmap);
+				bitmap.x = -bitmap.width / 2;
 				
-				TweenLite.to(bitmap, .5, {x: (width - bitmap.width) / 2, y: bitmap.y + 200, ease: Strong.easeOut});
+				addChild(sp);
+				_bitmapContainer.push(sp);
+				sp.x = _supplyPaidui.x + sp.width / 2;
+				sp.y = _supplyPaidui.y;
+				
+				TweenLite.to(sp, .5, {x: width / 2, y: sp.y + 250, ease: Strong.easeOut});
 				_countLimit--;
 				_supplyCount++;
 			}

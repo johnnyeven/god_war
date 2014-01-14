@@ -11,6 +11,7 @@ package test
 	import org.puremvc.as3.patterns.command.SimpleCommand;
 	
 	import test.controllers.TestEffectCommand;
+	import test.controllers.TestRotationCommand;
 	
 	public class TestApplicationCommand extends SimpleCommand
 	{
@@ -35,12 +36,13 @@ package test
 			initMediator();
 			initProxy();
 			
-			facade.sendNotification(TestEffectCommand.NAME);
+			facade.sendNotification(TestRotationCommand.NAME);
 		}
 		
 		private function initCommand(): void
 		{
 			facade.registerCommand(TestEffectCommand.NAME, TestEffectCommand);
+			facade.registerCommand(TestRotationCommand.NAME, TestRotationCommand);
 		}
 		
 		private function initMediator(): void

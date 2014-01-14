@@ -38,7 +38,14 @@ package com.xgame.godwar.common.object
 		public function Card(id: String = null, displayMode: int = 0)
 		{
 			_displayMode = displayMode;
-			_cardResourceBuffer = new Bitmap(null, "auto", true);
+			var nullBd: BitmapData;
+			switch(_displayMode)
+			{
+				case CardDisplayModeEnum.SMALL:
+					nullBd = new BitmapData(94, 143, true, 0);
+					break;
+			}
+			_cardResourceBuffer = new Bitmap(nullBd, "auto", true);
 			_baseLayer = new Sprite();
 			_baseLayer.addChild(_cardResourceBuffer);
 			addChild(_baseLayer);
@@ -55,6 +62,7 @@ package com.xgame.godwar.common.object
 			
 			_id = id;
 			loadCardInfo();
+			fixSize();
 		}
 		
 		protected function onMouseOver(evt: MouseEvent): void
@@ -224,5 +232,11 @@ package com.xgame.godwar.common.object
 		{
 			return "CardId=" + _id;
 		}
+
+		public function get cardResourceBuffer():Bitmap
+		{
+			return _cardResourceBuffer;
+		}
+
 	}
 }
