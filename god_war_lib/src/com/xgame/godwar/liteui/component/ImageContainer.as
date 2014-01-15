@@ -76,7 +76,7 @@ package com.xgame.godwar.liteui.component
 			{
 				try
 				{
-					if(_loader.loaderInfo.content != null)
+					if(_loader.loaderInfo.content != null && contains(_loader.loaderInfo.content))
 					{
 						removeChild(_loader.loaderInfo.content);
 					}
