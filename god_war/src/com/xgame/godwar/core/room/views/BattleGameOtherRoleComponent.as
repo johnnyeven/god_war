@@ -19,6 +19,7 @@ package com.xgame.godwar.core.room.views
 		private var deploy: MovieClip;
 		private var _player: Player;
 		private var _dice: GameDiceComponent;
+		private var _cardContainer: GameOtherRoleCardContainerComponent;
 		
 		public function BattleGameOtherRoleComponent(_skin:DisplayObjectContainer=null)
 		{
@@ -29,6 +30,7 @@ package com.xgame.godwar.core.room.views
 			healthMy = getSkin("healthMy") as MovieClip;
 			healthOther = getSkin("healthOther") as MovieClip;
 			deploy = getSkin("deploy") as MovieClip;
+			_cardContainer = getUI(GameOtherRoleCardContainerComponent, "cardContainer") as GameOtherRoleCardContainerComponent;
 			
 			sortChildIndex();
 			
@@ -102,5 +104,11 @@ package com.xgame.godwar.core.room.views
 				_dice = null;
 			}
 		}
+
+		public function get cardContainer():GameOtherRoleCardContainerComponent
+		{
+			return _cardContainer;
+		}
+
 	}
 }

@@ -235,6 +235,10 @@ package com.xgame.godwar.core.room.views
 				if(role.player.guid == guid)
 				{
 					role.setDeploy(true);
+					role.cardContainer.addCardBack(0);
+					role.cardContainer.addCardBack(1);
+					role.cardContainer.addCardBack(2);
+					role.cardContainer.addCardBack(3);
 					break;
 				}
 			}
