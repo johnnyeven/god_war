@@ -13,13 +13,16 @@ package com.xgame.godwar.core.room.views
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.DisplayObjectContainer;
+	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
 	
 	public class GamePaiduiContainerComponent extends Component
 	{
+		private var _bg: MovieClip;
 		private var _lblCaption: Label;
 		private var _btnOk: CaptionButton;
+		private var _btnConfirm: CaptionButton;
 		private var _soulPaidui: GamePaiDuiComponent;
 		private var _supplyPaidui: GamePaiDuiComponent;
 		private var _soulCount: int;
@@ -32,10 +35,13 @@ package com.xgame.godwar.core.room.views
 		{
 			super(_skin ? _skin : ResourcePool.instance.getDisplayObject("assets.ui.room.GamePaiduiContainerComponent", null, false) as DisplayObjectContainer);
 			
+			_bg = getSkin("bg") as MovieClip;
 			_lblCaption = getUI(Label, "caption") as Label;
 			_btnOk = getUI(CaptionButton, "btnOk") as CaptionButton;
+			_btnConfirm = getUI(CaptionButton, "btnConfirm") as CaptionButton;
 			
 			sortChildIndex();
+			_btnConfirm.visible = false;
 			
 			_soulPaidui = new GamePaiDuiComponent();
 			_soulPaidui.x = 110;
@@ -50,6 +56,7 @@ package com.xgame.godwar.core.room.views
 			_soulPaidui.addEventListener(MouseEvent.CLICK, onSoulPaiduiClick);
 			_supplyPaidui.addEventListener(MouseEvent.CLICK, onSupplyPaiduiClick);
 			_btnOk.addEventListener(MouseEvent.CLICK, onBtnOkClick);
+			_btnConfirm.addEventListener(MouseEvent.CLICK, onBtnConfirmClick);
 			
 			_bitmapContainer = new Vector.<Sprite>();
 			_cardContainer = new Vector.<Card>();
@@ -65,6 +72,7 @@ package com.xgame.godwar.core.room.views
 			if(_bitmapContainer.length > 0)
 			{
 				var bitmap: Sprite = _bitmapContainer[0];
+				hidePanel();
 				if(bitmap != null)
 				{
 					var indent: int = 25;
@@ -76,10 +84,9 @@ package com.xgame.godwar.core.room.views
 						bitmap = _bitmapContainer[i];
 						if(bitmap != null)
 						{
-							if(_cardContainer[0] != null)
+							if(_cardContainer[i] != null)
 							{
-								card = _cardContainer[0];
-								_cardContainer.splice(0, 1);
+								card = _cardContainer[i];
 								sp = new Sprite();
 								sp.addChild(card);
 								card.x = -card.width / 2;
@@ -90,8 +97,8 @@ package com.xgame.godwar.core.room.views
 								addChild(sp);
 							}
 							
-							TweenLite.to(bitmap, .5, {rotationY: 180, y: bitmap.y - 150, x: startX, onUpdate: onBitmapAnimateProgress, onUpdateParams: [bitmap, sp]});
-							TweenLite.to(sp, .5, {rotationY: 0, y: sp.y - 150, x: startX, onComplete: onBitmapAnimateComplete, onCompleteParams: [sp]});
+							TweenLite.to(bitmap, .5, {rotationY: 180, y: bitmap.y - 250, x: startX, onUpdate: onBitmapAnimateProgress, onUpdateParams: [bitmap, sp]});
+							TweenLite.to(sp, .5, {rotationY: 0, y: sp.y - 250, x: startX, onComplete: onBitmapAnimateComplete, onCompleteParams: [sp]});
 							startX += bitmap.width + indent;
 						}
 					}
@@ -120,7 +127,7 @@ package com.xgame.godwar.core.room.views
 		
 		private function onBitmapAnimateComplete(sp: Sprite): void
 		{
-			
+			_btnConfirm.visible = true;
 		}
 		
 		private function onSoulPaiduiClick(evt: MouseEvent): void
@@ -179,6 +186,83 @@ package com.xgame.godwar.core.room.views
 				
 				_btnOk.enabled = false;
 			}
+		}
+		
+		private function onBtnConfirmClick(evt: MouseEvent): void
+		{
+			var card: Card;
+			var delay: Number = 0;
+			var targetY: int = GameManager.container.stageHeight - y;
+			for(var i: int = 0; i<_cardContainer.length; i++)
+			{
+				card = _cardContainer[i];
+				card.interactive = false;
+				
+				TweenLite.to(card, .5, {y: targetY, delay: delay, ease: Strong.easeIn, onComplete: onCardComplete, onCompleteParams: [card]});
+				delay += .1;
+			}
+		}
+		
+		private function onCardComplete(card: Card): void
+		{
+			card.interactive = true;
+			
+			var index: int = _cardContainer.indexOf(card);
+			if(index >= 0)
+			{
+				_cardContainer.splice(index, 1);
+			}
+			
+			var event: BattleGameEvent = new BattleGameEvent(BattleGameEvent.CHOUPAI_EVENT);
+			event.value = card;
+			dispatchEvent(event);
+			
+			if(_cardContainer.length == 0)
+			{
+				visible = false;
+				_btnConfirm.visible = false;
+				showPanel();
+//				event = new BattleGameEvent(BattleGameEvent.CHOUPAI_COMPLETE_EVENT);
+//				dispatchEvent(event);
+			}
+		}
+		
+		private function hidePanel(): void
+		{
+			TweenLite.to(_bg, .5, {alpha: 0, onComplete: function(): void
+			{
+				_bg.visible = false;
+				_bg.alpha = 1;
+			}});
+			TweenLite.to(_lblCaption, .5, {alpha: 0, onComplete: function(): void
+			{
+				_lblCaption.visible = false;
+				_lblCaption.alpha = 1;
+			}});
+			TweenLite.to(_btnOk, .5, {alpha: 0, onComplete: function(): void
+			{
+				_btnOk.visible = false;
+				_btnOk.alpha = 1;
+			}});
+			TweenLite.to(_soulPaidui, .5, {alpha: 0, onComplete: function(): void
+			{
+				_soulPaidui.visible = false;
+				_soulPaidui.alpha = 1;
+			}});
+			TweenLite.to(_supplyPaidui, .5, {alpha: 0, onComplete: function(): void
+			{
+				_supplyPaidui.visible = false;
+				_supplyPaidui.alpha = 1;
+			}});
+		}
+		
+		private function showPanel(): void
+		{
+			_bg.visible = true;
+			_lblCaption.visible = true;
+			_btnOk.visible = true;
+			_soulPaidui.visible = true;
+			_supplyPaidui.visible = true;
 		}
 
 		public function get soulCount():int
