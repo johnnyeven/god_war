@@ -105,11 +105,11 @@ package com.xgame.godwar.common.object
 			{
 				if(_inHand)
 				{
-					TweenLite.to(_cardController, .5, {x: 0, ease: Strong.easeOut})
+					showController();
 				}
 				else if(_inGame)
 				{
-					TweenLite.to(_cardController, .5, {x: 0, ease: Strong.easeOut})
+					showController();
 				}
 			}
 		}
