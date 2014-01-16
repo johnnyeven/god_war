@@ -35,7 +35,6 @@ package com.xgame.godwar.core.room.views
 		private var myStartX: int;
 		private var otherStartX: int;
 		private var lblZhenxing: Label;
-		private var _cardFormation: BattleGameCardFormationComponent;
 		private var chatComponent: BattleGameChatComponent;
 		private var _panelComponent: BattleGamePanalComponent;
 		private var _componentList: Vector.<BattleGameOtherRoleComponent>;
@@ -59,7 +58,6 @@ package com.xgame.godwar.core.room.views
 			myGroupContainer = getUI(Container, "myGroupContainer") as Container;
 			otherGroupContainer = getUI(Container, "otherGroupContainer") as Container;
 			lblZhenxing = getUI(Label, "lblZhenxing") as Label;
-			_cardFormation = getUI(BattleGameCardFormationComponent, "cardFormation") as BattleGameCardFormationComponent;
 			chatComponent = getUI(BattleGameChatComponent, "chatComponent") as BattleGameChatComponent;
 			_panelComponent = getUI(BattleGamePanalComponent, "panelComponent") as BattleGamePanalComponent;
 			_choupaiComponent = new BattleGameChouPaiComponent();
@@ -223,7 +221,7 @@ package com.xgame.godwar.core.room.views
 
 		public function setCardFormation(position: int, card: SoulCard): void
 		{
-			_cardFormation.setCard(position, card);
+			panelComponent.cardFormation.setCard(position, card);
 		}
 		
 		public function setOtherRoleDeployComplete(guid: String): void

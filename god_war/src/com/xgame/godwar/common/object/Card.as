@@ -14,9 +14,12 @@ package com.xgame.godwar.common.object
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
+	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.filters.GlowFilter;
+	import flash.geom.Rectangle;
 
 	public class Card extends SpriteEx
 	{
@@ -30,8 +33,13 @@ package com.xgame.godwar.common.object
 		private var _baseLayer: Sprite;
 		private var _effectLayer: Sprite;
 		private var _infoLayer: Sprite;
+		private var _scrollRect: Rectangle;
 		
+		protected var _bgGlowFilter: GlowFilter;
+		protected var _cardController: Sprite;
 		protected var _parameter: CardParameter;
+		protected var _inGame: Boolean = false;
+		protected var _inHand: Boolean = false;
 		
 		public static const DISPLAY_MODE: Array = ["Small", "Medium", "Big"];
 		
@@ -43,8 +51,10 @@ package com.xgame.godwar.common.object
 			{
 				case CardDisplayModeEnum.SMALL:
 					nullBd = new BitmapData(94, 143, true, 0);
+					_scrollRect = new Rectangle(0, 0, 94, 143);
 					break;
 			}
+			_bgGlowFilter = new GlowFilter(0xffff00);
 			_cardResourceBuffer = new Bitmap(nullBd, "auto", true);
 			_baseLayer = new Sprite();
 			_baseLayer.addChild(_cardResourceBuffer);
@@ -55,10 +65,16 @@ package com.xgame.godwar.common.object
 			
 			_infoLayer = new Sprite();
 			addChild(_infoLayer);
+			_infoLayer.scrollRect = _scrollRect;
+			_cardController = new Sprite();
+			_infoLayer.addChild(_cardController);
+			_cardController.x = -width;
+			_cardController.visible = false;
 			
 			addEventListener(Event.ADDED_TO_STAGE, onAddToStage);
 			addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
 			addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);
+			addEventListener(MouseEvent.CLICK, onMouseClick);
 			
 			_id = id;
 			loadCardInfo();
@@ -69,7 +85,8 @@ package com.xgame.godwar.common.object
 		{
 			if(_enabled)
 			{
-				TweenLite.to(this, .3, { transformAroundCenter: { scaleX: 1.1, scaleY: 1.1 }, ease: Strong.easeOut });
+//				TweenLite.to(this, .3, { transformAroundCenter: { scaleX: 1.1, scaleY: 1.1 }, ease: Strong.easeOut });
+				this.filters = [_bgGlowFilter];
 			}
 		}
 		
@@ -77,13 +94,38 @@ package com.xgame.godwar.common.object
 		{
 			if(_enabled)
 			{
-				TweenLite.to(this, .3, { transformAroundCenter: { scaleX: 1, scaleY: 1 }, ease: Strong.easeOut });
+//				TweenLite.to(this, .3, { transformAroundCenter: { scaleX: 1, scaleY: 1 }, ease: Strong.easeOut });
+				this.filters = [];
+			}
+		}
+		
+		protected function onMouseClick(evt: MouseEvent): void
+		{
+			if(_enabled && _inHand)
+			{
+				
 			}
 		}
 		
 		protected function onAddToStage(evt: Event): void
 		{
 			loadCardResource();
+			loadCardController();
+			removeEventListener(Event.ADDED_TO_STAGE, onAddToStage);
+		}
+		
+		protected function showController(): void
+		{
+			TweenLite.to(_cardController, .5, {x: 0, ease: Strong.easeOut});
+		}
+		
+		protected function hideController(): void
+		{
+			
+		}
+		
+		protected function loadCardController(): void
+		{
 		}
 		
 		protected function loadCardInfo(): void
@@ -237,6 +279,27 @@ package com.xgame.godwar.common.object
 		{
 			return _cardResourceBuffer;
 		}
+
+		public function get inGame():Boolean
+		{
+			return _inGame;
+		}
+
+		public function set inGame(value:Boolean):void
+		{
+			_inGame = value;
+		}
+
+		public function get inHand():Boolean
+		{
+			return _inHand;
+		}
+
+		public function set inHand(value:Boolean):void
+		{
+			_inHand = value;
+		}
+
 
 	}
 }

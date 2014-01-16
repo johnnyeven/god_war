@@ -19,6 +19,7 @@ package com.xgame.godwar.core.room.views
 		private var cardScroll: ScrollBar;
 		private var btnFight: Button;
 		private var btnPass: Button;
+		private var _cardFormation: BattleGameCardFormationComponent;
 		private var _mainRoleComponent: BattleGameMainRoleComponent;
 		
 		public function BattleGamePanalComponent(_skin:DisplayObjectContainer=null)
@@ -29,6 +30,7 @@ package com.xgame.godwar.core.room.views
 			cardScroll = getUI(ScrollBar, "cardScroll") as ScrollBar;
 			btnFight = getUI(Button, "btnFight") as Button;
 			btnPass = getUI(Button, "btnPass") as Button;
+			_cardFormation = getUI(BattleGameCardFormationComponent, "cardFormation") as BattleGameCardFormationComponent;
 			_mainRoleComponent = getUI(BattleGameMainRoleComponent, "mainRoleComponent") as BattleGameMainRoleComponent;
 			
 			sortChildIndex();
@@ -81,5 +83,11 @@ package com.xgame.godwar.core.room.views
 			var event: BattleGameEvent = new BattleGameEvent(BattleGameEvent.FIGHT_EVENT, true);
 			dispatchEvent(event);
 		}
+
+		public function get cardFormation():BattleGameCardFormationComponent
+		{
+			return _cardFormation;
+		}
+
 	}
 }

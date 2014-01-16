@@ -18,6 +18,7 @@
 		<SWFLoader name="dice" url="assets/swf/ui/dice.swf" autoPlay="false" version="1.0.0" />
 		<SWFLoader name='paidui' url='assets/swf/cards/paidui.swf' autoPlay= "false" version="1.0.0"/>
 		<SWFLoader name="paidui_ui" url="assets/swf/ui/room/paidui_ui.swf" autoPlay="false" version="1.0.0" />
+		<SWFLoader name="card_control_ui" url="assets/swf/ui/room/card_control_ui.swf" autoPlay="false" version="1.0.0" />
 	</LoaderMax>
 	
 	<SWFLoader name='demon_deladiya' url='assets/swf/cards/hero/demon_deladiya.swf' autoPlay= "false" version="1.0.0"/>

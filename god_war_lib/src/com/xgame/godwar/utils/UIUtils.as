@@ -4,6 +4,7 @@ package com.xgame.godwar.utils
 	import com.xgame.godwar.liteui.core.Component;
 	
 	import flash.display.DisplayObject;
+	import flash.display.DisplayObjectContainer;
 	import flash.display.Stage;
 	import flash.filters.ColorMatrixFilter;
 	import flash.geom.ColorTransform;
@@ -24,9 +25,17 @@ package com.xgame.godwar.utils
 			}
 		}
 		
-		public static function center(target: DisplayObject): void
+		public static function center(target: DisplayObject, container: DisplayObject = null): void
 		{
-			var _stageCenter: Point = stageCenter;
+			var _stageCenter: Point;
+			if(container != null)
+			{
+				_stageCenter = new Point(container.width / 2, container.height / 2);
+			}
+			else
+			{
+				_stageCenter = stageCenter;
+			}
 			target.x = _stageCenter.x - target.width / 2;
 			target.y = _stageCenter.y - target.height / 2;
 		}

@@ -1,6 +1,7 @@
 package com.xgame.godwar.core.room.views
 {
 	import com.greensock.TweenLite;
+	import com.xgame.godwar.common.object.Card;
 	import com.xgame.godwar.common.object.SoulCard;
 	import com.xgame.godwar.common.pool.ResourcePool;
 	import com.xgame.godwar.liteui.core.Component;
@@ -10,6 +11,7 @@ package com.xgame.godwar.core.room.views
 	
 	public class BattleGameCardFormationComponent extends Component
 	{
+		private var container: MovieClip;
 		private var card0: MovieClip;
 		private var card1: MovieClip;
 		private var card2: MovieClip;
@@ -23,10 +25,11 @@ package com.xgame.godwar.core.room.views
 		{
 			super(_skin ? _skin : ResourcePool.instance.getDisplayObject("assets.ui.room.BattleGameCardFormationComponent", null, false) as DisplayObjectContainer);
 			
-			card0 = getSkin("card0") as MovieClip;
-			card1 = getSkin("card1") as MovieClip;
-			card2 = getSkin("card2") as MovieClip;
-			card3 = getSkin("card3") as MovieClip;
+			container = getSkin("container") as MovieClip;
+			card0 = container.getChildByName("card0") as MovieClip;
+			card1 = container.getChildByName("card1") as MovieClip;
+			card2 = container.getChildByName("card2") as MovieClip;
+			card3 = container.getChildByName("card3") as MovieClip;
 		}
 		
 		public function setCard(position: int, card: SoulCard): void
@@ -61,14 +64,55 @@ package com.xgame.godwar.core.room.views
 				}
 				
 				TweenLite.killTweensOf(card);
-				card.interactive = false;
-				card.width = current.width;
-				card.height = current.height;
+				card.interactive = true;
 				card.x = current.x;
 				card.y = current.y;
+				container.addChild(card);
 				current.visible = false;
-				addChild(card);
 			}
+		}
+		
+		public function removeCard(position: int): Card
+		{
+			if(position >= 0 && position <= 3)
+			{
+				var current: MovieClip;
+				var card: Card;
+				
+				if(position == 0)
+				{
+					card = soulCard0;
+					current = card0;
+				}
+				else if(position == 1)
+				{
+					card = soulCard1;
+					current = card1;
+				}
+				else if(position == 2)
+				{
+					card = soulCard2;
+					current = card2;
+				}
+				else if(position == 3)
+				{
+					card = soulCard3;
+					current = card3;
+				}
+				
+				TweenLite.killTweensOf(card);
+				card.interactive = false;
+				card.inGame = false;
+				if(container.contains(card))
+				{
+					container.removeChild(card);
+				}
+				current.visible = true;
+				
+				return card;
+			}
+			
+			return null;
 		}
 	}
 }
