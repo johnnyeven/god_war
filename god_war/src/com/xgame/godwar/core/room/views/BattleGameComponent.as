@@ -90,10 +90,10 @@ package com.xgame.godwar.core.room.views
 		{
 			var card: Card = evt.value as Card;
 			
-			if(card.hasEventListener(MouseEvent.CLICK))
-			{
-				card.removeEventListenerType(MouseEvent.CLICK);
-			}
+//			if(card.hasEventListener(MouseEvent.CLICK))
+//			{
+//				card.removeEventListenerType(MouseEvent.CLICK);
+//			}
 			card.addEventListener(MouseEvent.CLICK, onHandCardClick);
 			if(card != null)
 			{
@@ -113,7 +113,7 @@ package com.xgame.godwar.core.room.views
 			if(deployPhase > 0 && deployPhase < 5)
 			{
 				var card: Card = evt.currentTarget as Card;
-				card.removeEventListenerType(MouseEvent.CLICK);
+//				card.removeEventListenerType(MouseEvent.CLICK);
 				_panelComponent.removeCard(card);
 				setCardFormation(deployPhase - 1, card as SoulCard);
 				
@@ -133,7 +133,7 @@ package com.xgame.godwar.core.room.views
 				{
 					_cardAttacker3 = card.id;
 				}
-					
+				
 				deployPhase++;
 				
 				var event: BattleGameEvent = new BattleGameEvent(BattleGameEvent.DEPLOY_PHASE_EVENT);

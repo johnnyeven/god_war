@@ -68,7 +68,7 @@ package com.xgame.godwar.common.object
 			_infoLayer.scrollRect = _scrollRect;
 			_cardController = new Sprite();
 			_infoLayer.addChild(_cardController);
-			_cardController.x = -width;
+			_cardController.x = -_scrollRect.width;
 			_cardController.visible = false;
 			
 			addEventListener(Event.ADDED_TO_STAGE, onAddToStage);
@@ -101,9 +101,16 @@ package com.xgame.godwar.common.object
 		
 		protected function onMouseClick(evt: MouseEvent): void
 		{
-			if(_enabled && _inHand)
+			if(_enabled)
 			{
-				
+				if(_inHand)
+				{
+					TweenLite.to(_cardController, .5, {x: 0, ease: Strong.easeOut})
+				}
+				else if(_inGame)
+				{
+					TweenLite.to(_cardController, .5, {x: 0, ease: Strong.easeOut})
+				}
 			}
 		}
 		

@@ -65,6 +65,7 @@ package com.xgame.godwar.core.room.views
 				
 				TweenLite.killTweensOf(card);
 				card.interactive = true;
+				card.inGame = true;
 				card.x = current.x;
 				card.y = current.y;
 				container.addChild(card);

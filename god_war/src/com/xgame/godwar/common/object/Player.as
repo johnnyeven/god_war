@@ -52,7 +52,6 @@ package com.xgame.godwar.common.object
 		public function addCardHand(card: Card): void
 		{
 			_cardHandList.push(card);
-			card.inHand = true;
 		}
 		
 		public function removeHandCard(card: SoulCard): Boolean
@@ -61,7 +60,6 @@ package com.xgame.godwar.common.object
 			if(i >= 0)
 			{
 				_cardHandList.splice(i, 1);
-				card.inHand = false;
 				return true;
 			}
 			return false;
