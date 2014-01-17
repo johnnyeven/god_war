@@ -25,7 +25,10 @@ package com.xgame.godwar.display.renders
 			{
 				target = _target;
 			}
-			_target.graphic.render(target.buffer, line, frame);
+			if(_target.graphic != null && target.buffer != null)
+			{
+				_target.graphic.render(target.buffer, line, frame);
+			}
 		}
 		
 		public function set target(value: BitmapDisplay): void

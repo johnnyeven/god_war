@@ -12,24 +12,24 @@ package com.xgame.godwar.core.room.views
 	public class BattleGameCardFormationComponent extends Component
 	{
 		private var container: MovieClip;
-		private var card0: MovieClip;
-		private var card1: MovieClip;
-		private var card2: MovieClip;
-		private var card3: MovieClip;
-		private var soulCard0: SoulCard;
-		private var soulCard1: SoulCard;
-		private var soulCard2: SoulCard;
-		private var soulCard3: SoulCard;
+		private var _card0: MovieClip;
+		private var _card1: MovieClip;
+		private var _card2: MovieClip;
+		private var _card3: MovieClip;
+		private var _soulCard0: SoulCard;
+		private var _soulCard1: SoulCard;
+		private var _soulCard2: SoulCard;
+		private var _soulCard3: SoulCard;
 		
 		public function BattleGameCardFormationComponent(_skin:DisplayObjectContainer=null)
 		{
 			super(_skin ? _skin : ResourcePool.instance.getDisplayObject("assets.ui.room.BattleGameCardFormationComponent", null, false) as DisplayObjectContainer);
 			
 			container = getSkin("container") as MovieClip;
-			card0 = container.getChildByName("card0") as MovieClip;
-			card1 = container.getChildByName("card1") as MovieClip;
-			card2 = container.getChildByName("card2") as MovieClip;
-			card3 = container.getChildByName("card3") as MovieClip;
+			_card0 = container.getChildByName("card0") as MovieClip;
+			_card1 = container.getChildByName("card1") as MovieClip;
+			_card2 = container.getChildByName("card2") as MovieClip;
+			_card3 = container.getChildByName("card3") as MovieClip;
 		}
 		
 		public function setCard(position: int, card: SoulCard): void
@@ -40,23 +40,23 @@ package com.xgame.godwar.core.room.views
 				
 				if(position == 0)
 				{
-					soulCard0 = card;
-					current = card0;
+					_soulCard0 = card;
+					current = _card0;
 				}
 				else if(position == 1)
 				{
-					soulCard1 = card;
-					current = card1;
+					_soulCard1 = card;
+					current = _card1;
 				}
 				else if(position == 2)
 				{
-					soulCard2 = card;
-					current = card2;
+					_soulCard2 = card;
+					current = _card2;
 				}
 				else if(position == 3)
 				{
-					soulCard3 = card;
-					current = card3;
+					_soulCard3 = card;
+					current = _card3;
 				}
 				else
 				{
@@ -82,23 +82,27 @@ package com.xgame.godwar.core.room.views
 				
 				if(position == 0)
 				{
-					card = soulCard0;
-					current = card0;
+					card = _soulCard0;
+					_soulCard0 = null;
+					current = _card0;
 				}
 				else if(position == 1)
 				{
-					card = soulCard1;
-					current = card1;
+					card = _soulCard1;
+					_soulCard1 = null;
+					current = _card1;
 				}
 				else if(position == 2)
 				{
-					card = soulCard2;
-					current = card2;
+					card = _soulCard2;
+					_soulCard2 = null;
+					current = _card2;
 				}
 				else if(position == 3)
 				{
-					card = soulCard3;
-					current = card3;
+					card = _soulCard3;
+					_soulCard3 = null;
+					current = _card3;
 				}
 				
 				TweenLite.killTweensOf(card);
@@ -114,6 +118,46 @@ package com.xgame.godwar.core.room.views
 			}
 			
 			return null;
+		}
+
+		public function get soulCard0():SoulCard
+		{
+			return _soulCard0;
+		}
+
+		public function get soulCard1():SoulCard
+		{
+			return _soulCard1;
+		}
+
+		public function get soulCard2():SoulCard
+		{
+			return _soulCard2;
+		}
+
+		public function get soulCard3():SoulCard
+		{
+			return _soulCard3;
+		}
+
+		public function get card0():MovieClip
+		{
+			return _card0;
+		}
+		
+		public function get card1():MovieClip
+		{
+			return _card1;
+		}
+		
+		public function get card2():MovieClip
+		{
+			return _card2;
+		}
+		
+		public function get card3():MovieClip
+		{
+			return _card3;
 		}
 	}
 }

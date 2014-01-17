@@ -65,6 +65,8 @@ package com.xgame.godwar.core.room.mediators
 			component.addEventListener(BattleGameEvent.DEPLOY_PHASE_EVENT, onDeployPhase);
 			component.addEventListener(BattleGameEvent.FIGHT_EVENT, onFight);
 			component.addEventListener(BattleGameEvent.ROUND_STANDBY_EVENT, onRoundStandby);
+			
+			EffectCenter.instance.start();
 		}
 		
 		public function get component(): BattleGameComponent
@@ -224,7 +226,7 @@ package com.xgame.godwar.core.room.mediators
 		
 		private function onChouPaiComplete(evt: BattleGameEvent): void
 		{
-			facade.sendNotification(BattleGuideMediator.CHANGE_CONTENT_NOTE, "请选择一张英灵牌放置在守护灵位置");
+			facade.sendNotification(BattleGuideMediator.CHANGE_CONTENT_NOTE, "请选择出四张英灵牌放置在阵形位置");
 			facade.sendNotification(BattleGuideMediator.SHOW_NOTE);
 		}
 		
@@ -232,38 +234,11 @@ package com.xgame.godwar.core.room.mediators
 		{
 			var phase: int = int(evt.value);
 			
-			if(phase == 2)
+			if(phase == 5)
 			{
-//				facade.sendNotification(BattleGuideMediator.HIDE_NOTE, function(): void
-//				{
-					facade.sendNotification(BattleGuideMediator.CHANGE_CONTENT_NOTE, "请选择一张英灵牌放置在进攻灵#1位置");
-					facade.sendNotification(BattleGuideMediator.SHOW_NOTE);
-//				});
-			}
-			else if(phase == 3)
-			{
-//				facade.sendNotification(BattleGuideMediator.HIDE_NOTE, function(): void
-//				{
-					facade.sendNotification(BattleGuideMediator.CHANGE_CONTENT_NOTE, "请选择一张英灵牌放置在进攻灵#2位置");
-					facade.sendNotification(BattleGuideMediator.SHOW_NOTE);
-//				});
-			}
-			else if(phase == 4)
-			{
-//				facade.sendNotification(BattleGuideMediator.HIDE_NOTE, function(): void
-//				{
-					facade.sendNotification(BattleGuideMediator.CHANGE_CONTENT_NOTE, "请选择一张英灵牌放置在进攻灵#3位置");
-					facade.sendNotification(BattleGuideMediator.SHOW_NOTE);
-//				});
-			}
-			else if(phase == 5)
-			{
-//				facade.sendNotification(BattleGuideMediator.HIDE_NOTE, function(): void
-//				{
-					facade.sendNotification(BattleGuideMediator.CHANGE_CONTENT_NOTE, "部署完毕，点击“开始战斗”按钮！");
-					facade.sendNotification(BattleGuideMediator.SHOW_NOTE);
-					component.panelComponent.btnFightEnabled(true);
-//				});
+				facade.sendNotification(BattleGuideMediator.CHANGE_CONTENT_NOTE, "部署完毕，点击“开始战斗”按钮！");
+				facade.sendNotification(BattleGuideMediator.SHOW_NOTE);
+				component.panelComponent.btnFightEnabled(true);
 			}
 		}
 		

@@ -121,6 +121,10 @@ package com.xgame.godwar.common.pool
 				{
 					_resourceData.getResource(_bitmapData, i, _bitmapData["frameLine"], _bitmapData["frameTotal"], _bitmapData["fps"]);
 				}
+				else
+				{
+					return null;
+				}
 				for(var i: int = 0; i < 9; i++)
 				{
 					_bitmapData = getBitmapData(name + "_" + i);

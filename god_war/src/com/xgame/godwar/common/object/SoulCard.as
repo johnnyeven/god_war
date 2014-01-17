@@ -2,6 +2,9 @@ package com.xgame.godwar.common.object
 {
 	import com.xgame.godwar.common.parameters.card.SoulCardParameter;
 	import com.xgame.godwar.common.pool.ResourcePool;
+	import com.xgame.godwar.core.center.EffectCenter;
+	import com.xgame.godwar.core.room.views.BattleGameCardFormationComponent;
+	import com.xgame.godwar.display.BitmapMovieDispaly;
 	import com.xgame.godwar.liteui.component.Button;
 	import com.xgame.godwar.utils.UIUtils;
 	
@@ -75,6 +78,32 @@ package com.xgame.godwar.common.object
 		
 		private function onBtnFightClick(evt: MouseEvent): void
 		{
+			var formationComponent: BattleGameCardFormationComponent = CardManager.instance.battleGameComponent.panelComponent.cardFormation;
+			var bitmapMovie: BitmapMovieDispaly;
+			if(formationComponent.soulCard0 == null)
+			{
+				bitmapMovie = EffectCenter.instance.getEffect("effect_highlight1", "assets.effect.highlight.Highlight1");
+				formationComponent.card0.addChild(bitmapMovie);
+				EffectCenter.instance.addEffect(bitmapMovie);
+			}
+			if(formationComponent.soulCard1 == null)
+			{
+				bitmapMovie = EffectCenter.instance.getEffect("effect_highlight1", "assets.effect.highlight.Highlight1");
+				formationComponent.card1.addChild(bitmapMovie);
+				EffectCenter.instance.addEffect(bitmapMovie);
+			}
+			if(formationComponent.soulCard2 == null)
+			{
+				bitmapMovie = EffectCenter.instance.getEffect("effect_highlight1", "assets.effect.highlight.Highlight1");
+				formationComponent.card2.addChild(bitmapMovie);
+				EffectCenter.instance.addEffect(bitmapMovie);
+			}
+			if(formationComponent.soulCard3 == null)
+			{
+				bitmapMovie = EffectCenter.instance.getEffect("effect_highlight1", "assets.effect.highlight.Highlight1");
+				formationComponent.card3.addChild(bitmapMovie);
+				EffectCenter.instance.addEffect(bitmapMovie);
+			}
 			evt.stopImmediatePropagation();
 		}
 		

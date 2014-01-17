@@ -13,6 +13,7 @@ package com.xgame.godwar.core.center
 	{
 		private var _showProgressBarIndex: Dictionary;
 		private var _progressBarTitle: Dictionary;
+		private var _paramIndex: Dictionary;
 		private static var _instance: ResourceCenter;
 		private static var _allowInstance: Boolean = false;
 		
@@ -22,7 +23,10 @@ package com.xgame.godwar.core.center
 			if(!_allowInstance)
 			{
 				throw new IllegalOperationError("不能直接实例化");
+				return;
 			}
+			
+			_paramIndex = new Dictionary();
 		}
 		
 		public static function get instance(): ResourceCenter
@@ -64,13 +68,22 @@ package com.xgame.godwar.core.center
 				{
 					_item.autoDispose = true;
 					_item.name = name;
-					_item.vars = vars;
 				}
 				else
 				{
 					return;
 				}
 			}
+			
+			if(vars != null)
+			{
+				if(_paramIndex[name] == null)
+				{
+					_paramIndex[name] = new Array();
+				}
+				_paramIndex[name].push(vars);
+			}
+			
 			_item.addEventListener(LoaderEvent.COMPLETE, onLoadComplete);
 			_item.addEventListener(LoaderEvent.PROGRESS, onLoadProgress);
 			_item.addEventListener(LoaderEvent.IO_ERROR, onLoadIOError);
@@ -81,6 +94,12 @@ package com.xgame.godwar.core.center
 		{
 			var _item: LoaderCore = evt.target as LoaderCore;
 			var _name: String = _item.name;
+			var vars: Array = _paramIndex[_name];
+			if(vars != null && vars[0] != null)
+			{
+				_item.vars.vars = vars[0];
+				vars.splice(0, 1);
+			}
 			riseTrigger(_name + "_complete", evt);
 			removeTrigger(_name + "_complete", onLoadComplete);
 			removeTrigger(_name + "_progress", onLoadProgress);

@@ -8,7 +8,10 @@ package com.xgame.godwar.common.object
 	import com.xgame.godwar.common.pool.CardParameterPool;
 	import com.xgame.godwar.common.pool.HeroCardParameterPool;
 	import com.xgame.godwar.common.pool.ResourcePool;
+	import com.xgame.godwar.core.center.EffectCenter;
 	import com.xgame.godwar.core.center.ResourceCenter;
+	import com.xgame.godwar.display.BitmapMovieDispaly;
+	import com.xgame.godwar.display.renders.Render;
 	import com.xgame.godwar.enum.CardDisplayModeEnum;
 	import com.xgame.godwar.utils.UIUtils;
 	
@@ -80,6 +83,12 @@ package com.xgame.godwar.common.object
 			_id = id;
 			loadCardInfo();
 			fixSize();
+		}
+		
+		public function addEffect(effect: BitmapMovieDispaly): void
+		{
+			EffectCenter.instance.addEffect(effect);
+			_effectLayer.addChild(effect);
 		}
 		
 		public function clearClickListener(): void
