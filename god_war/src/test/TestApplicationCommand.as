@@ -36,7 +36,7 @@ package test
 			initMediator();
 			initProxy();
 			
-			facade.sendNotification(TestRotationCommand.NAME);
+			facade.sendNotification(TestEffectCommand.NAME);
 		}
 		
 		private function initCommand(): void

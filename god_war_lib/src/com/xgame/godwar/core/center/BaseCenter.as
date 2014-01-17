@@ -72,6 +72,11 @@ package com.xgame.godwar.core.center
 			}
 		}
 		
+		protected function get trigger(): Dictionary
+		{
+			return _trigger;
+		}
+		
 		protected function getTrigger(key: Object): Array
 		{
 			return _trigger[key] as Array;

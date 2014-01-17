@@ -94,12 +94,6 @@ package com.xgame.godwar.core.center
 		{
 			var _item: LoaderCore = evt.target as LoaderCore;
 			var _name: String = _item.name;
-			var vars: Array = _paramIndex[_name];
-			if(vars != null && vars[0] != null)
-			{
-				_item.vars.vars = vars[0];
-				vars.splice(0, 1);
-			}
 			riseTrigger(_name + "_complete", evt);
 			removeTrigger(_name + "_complete", onLoadComplete);
 			removeTrigger(_name + "_progress", onLoadProgress);
@@ -122,6 +116,44 @@ package com.xgame.godwar.core.center
 			removeTrigger(_name + "_complete", onLoadComplete);
 			removeTrigger(_name + "_progress", onLoadProgress);
 			removeTrigger(_name + "_error", onLoadIOError);
+		}
+		
+		override protected function riseTrigger(key:Object, param:Object=null):void
+		{
+			var _evt: LoaderEvent = param as LoaderEvent;
+			if(_evt == null)
+			{
+				return;
+			}
+			var _loader: LoaderCore = _evt.currentTarget as LoaderCore;
+			if(_loader == null)
+			{
+				return;
+			}
+			var vars: Array = _paramIndex[_loader.name];
+			var _item: Array = trigger[key] as Array;
+			if(_item == null)
+			{
+				return;
+			}
+			
+			var func: Function;
+			for(var i: int = 0; i<_item.length; i++)
+			{
+				func = _item[i];
+				if(vars != null && i < vars.length)
+				{
+					_loader.vars.vars = vars[i];
+				}
+				if(_evt != null)
+				{
+					func(_evt);
+				}
+				else
+				{
+					func();
+				}
+			}
 		}
 	}
 }

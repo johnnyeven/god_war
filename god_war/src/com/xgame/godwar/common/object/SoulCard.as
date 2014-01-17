@@ -2,6 +2,7 @@ package com.xgame.godwar.common.object
 {
 	import com.xgame.godwar.common.parameters.card.SoulCardParameter;
 	import com.xgame.godwar.common.pool.ResourcePool;
+	import com.xgame.godwar.core.GameManager;
 	import com.xgame.godwar.core.center.EffectCenter;
 	import com.xgame.godwar.core.room.views.BattleGameCardFormationComponent;
 	import com.xgame.godwar.display.BitmapMovieDispaly;
@@ -131,11 +132,19 @@ package com.xgame.godwar.common.object
 				}
 				
 				CardManager.instance.currentSelectedCard = this;
+				GameManager.container.addEventListener(MouseEvent.CLICK, onCancelSelect);
 			}
 			else
 			{
 				return;
 			}
+			evt.stopImmediatePropagation();
+		}
+		
+		protected function onCancelSelect(evt: MouseEvent): void
+		{
+			GameManager.container.removeEventListener(MouseEvent.CLICK, onCancelSelect);
+			CardManager.instance.currentSelectedCard = null;
 		}
 		
 //		override public function hideController(): void

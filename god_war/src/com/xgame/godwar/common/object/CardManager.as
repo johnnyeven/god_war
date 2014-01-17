@@ -48,7 +48,11 @@ package com.xgame.godwar.common.object
 				_currentSelectedCard.hideController();
 			}
 			_currentSelectedCard = value;
-			_currentSelectedCard.showController();
+			
+			if(_currentSelectedCard != null)
+			{
+				_currentSelectedCard.showController();
+			}
 		}
 
 		public function get battleGameComponent():BattleGameComponent
