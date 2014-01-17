@@ -16,6 +16,7 @@ package com.xgame.godwar.core.room.views
 		
 		private var bd: BitmapData;
 		private var bitmap: Bitmap;
+		private var _phase: int;
 		
 		public function BattlePhaseComponent()
 		{
@@ -29,6 +30,7 @@ package com.xgame.godwar.core.room.views
 		{
 			phase = Math.max(0, phase);
 			phase = Math.min(6, phase);
+			_phase = phase;
 			
 			bd = ResourcePool.instance.getBitmapData("assets.ui.phase." + arr[phase]);
 			if(bd != null)
@@ -51,5 +53,11 @@ package com.xgame.godwar.core.room.views
 			bd = null;
 			super.dispose();
 		}
+
+		public function get phase():int
+		{
+			return _phase;
+		}
+
 	}
 }

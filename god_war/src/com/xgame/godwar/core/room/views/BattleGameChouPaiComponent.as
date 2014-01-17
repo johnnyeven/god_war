@@ -66,7 +66,7 @@ package com.xgame.godwar.core.room.views
 					container.addChild(card);
 					card.y = GameManager.container.stageHeight - y;
 					TweenLite.to(card, .5, {x: targetX, y: 0, delay: delay, ease: Strong.easeOut, onComplete: onCardAnimateComplete, onCompleteParams: [card]});
-					targetX += card.width;
+					targetX += card.cardResourceBuffer.width;
 					delay += .1;
 				}
 			}
@@ -106,6 +106,7 @@ package com.xgame.godwar.core.room.views
 			
 			var event: BattleGameEvent = new BattleGameEvent(BattleGameEvent.CHOUPAI_EVENT);
 			event.value = card;
+			card.inRound = true;
 			dispatchEvent(event);
 			
 			if(cardAnimateContainer.length == 0)

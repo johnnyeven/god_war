@@ -88,7 +88,7 @@ package com.xgame.godwar.common.pool
 			return _cache;
 		}
 		
-		public function getDisplayObject(name: String, domain: ApplicationDomain = null, cached: Boolean = true): DisplayObject
+		public function getDisplayObject(name: String, domain: ApplicationDomain = null, cached: Boolean = false): DisplayObject
 		{
 			var _cache: DisplayObject;
 			if(cached)

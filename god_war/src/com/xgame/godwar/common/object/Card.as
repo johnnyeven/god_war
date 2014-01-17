@@ -38,8 +38,9 @@ package com.xgame.godwar.common.object
 		protected var _bgGlowFilter: GlowFilter;
 		protected var _cardController: Sprite;
 		protected var _parameter: CardParameter;
-		protected var _inGame: Boolean = false;
-		protected var _inHand: Boolean = false;
+		protected var _inRound: Boolean = false;		//是否轮到自己
+		protected var _inGame: Boolean = false;			//是否已出战
+		protected var _inHand: Boolean = false;			//是否在手牌里
 		
 		public static const DISPLAY_MODE: Array = ["Small", "Medium", "Big"];
 		
@@ -81,6 +82,12 @@ package com.xgame.godwar.common.object
 			fixSize();
 		}
 		
+		public function clearClickListener(): void
+		{
+			removeEventListenerType(MouseEvent.CLICK);
+			addEventListener(MouseEvent.CLICK, onMouseClick);
+		}
+		
 		protected function onMouseOver(evt: MouseEvent): void
 		{
 			if(_enabled)
@@ -101,15 +108,11 @@ package com.xgame.godwar.common.object
 		
 		protected function onMouseClick(evt: MouseEvent): void
 		{
-			if(_enabled)
+			if(_enabled && _inRound)
 			{
-				if(_inHand)
+				if(_inHand || _inGame)
 				{
-					showController();
-				}
-				else if(_inGame)
-				{
-					showController();
+					CardManager.instance.currentSelectedCard = this;
 				}
 			}
 		}
@@ -121,14 +124,21 @@ package com.xgame.godwar.common.object
 			removeEventListener(Event.ADDED_TO_STAGE, onAddToStage);
 		}
 		
-		protected function showController(): void
+		public function showController(): void
 		{
+			UIUtils.setBrightness(_cardResourceBuffer, -0.8);
+			_cardController.visible = true;
 			TweenLite.to(_cardController, .5, {x: 0, ease: Strong.easeOut});
 		}
 		
-		protected function hideController(): void
+		public function hideController(): void
 		{
-			
+			UIUtils.setBrightness(_cardResourceBuffer, 0);
+			TweenLite.to(_cardController, .5, {x: _cardResourceBuffer.width, ease: Strong.easeOut, onComplete: function(): void
+			{
+				_cardController.x = -_cardResourceBuffer.width;
+				_cardController.visible = false;
+			}});
 		}
 		
 		protected function loadCardController(): void
@@ -305,6 +315,16 @@ package com.xgame.godwar.common.object
 		public function set inHand(value:Boolean):void
 		{
 			_inHand = value;
+		}
+
+		public function get inRound():Boolean
+		{
+			return _inRound;
+		}
+
+		public function set inRound(value:Boolean):void
+		{
+			_inRound = value;
 		}
 
 

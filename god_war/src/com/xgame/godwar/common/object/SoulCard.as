@@ -6,6 +6,7 @@ package com.xgame.godwar.common.object
 	import com.xgame.godwar.utils.UIUtils;
 	
 	import flash.display.DisplayObjectContainer;
+	import flash.events.MouseEvent;
 
 	public class SoulCard extends RoleCard
 	{
@@ -56,16 +57,61 @@ package com.xgame.godwar.common.object
 			btnRest = new Button(ResourcePool.instance.getDisplayObject("assets.ui.card.RestButton", null, false) as DisplayObjectContainer);
 			
 			_cardController.addChild(btnFight);
-			UIUtils.center(btnFight, this);
+			btnFight.x = (cardResourceBuffer.width - btnFight.width) / 2;
+			btnFight.y = (cardResourceBuffer.height - btnFight.height) / 2;
 			
 			_cardController.addChild(btnAttack);
-			UIUtils.center(btnAttack, this);
-			btnAttack.y -= 40;
+			btnAttack.x = (cardResourceBuffer.width - btnAttack.width) / 2;
+			btnAttack.y = (cardResourceBuffer.height - btnAttack.height) / 2 - 35;
 			_cardController.addChild(btnSpell);
-			UIUtils.center(btnSpell, this);
+			btnSpell.x = (cardResourceBuffer.width - btnSpell.width) / 2;
+			btnSpell.y = (cardResourceBuffer.height - btnSpell.height) / 2;
 			_cardController.addChild(btnRest);
-			UIUtils.center(btnRest, this);
-			btnRest.y += 40;
+			btnRest.x = (cardResourceBuffer.width - btnRest.width) / 2;
+			btnRest.y = (cardResourceBuffer.height - btnRest.height) / 2 + 35;
+			
+			btnFight.addEventListener(MouseEvent.CLICK, onBtnFightClick);
 		}
+		
+		private function onBtnFightClick(evt: MouseEvent): void
+		{
+			evt.stopImmediatePropagation();
+		}
+		
+		override protected function onMouseClick(evt: MouseEvent): void
+		{
+			if(enabled && _inRound)
+			{
+				if(_inHand)
+				{
+					btnFight.visible = true;
+					btnAttack.visible = false;
+					btnSpell.visible = false;
+					btnRest.visible = false;
+				}
+				else if(_inGame)
+				{
+					btnFight.visible = false;
+					btnAttack.visible = true;
+					btnSpell.visible = true;
+					btnRest.visible = true;
+				}
+				else
+				{
+					return;
+				}
+				
+				CardManager.instance.currentSelectedCard = this;
+			}
+			else
+			{
+				return;
+			}
+		}
+		
+//		override public function hideController(): void
+//		{
+//			
+//		}
 	}
 }

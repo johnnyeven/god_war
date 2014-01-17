@@ -18,10 +18,10 @@ package com.xgame.godwar.utils
 			if(_class != null)
 			{
 				var _do: * = new _class();
-				if(_do is Sprite)
-				{
-					_do.cacheAsBitmap = true;
-				}
+//				if(_do is Sprite)
+//				{
+//					_do.cacheAsBitmap = true;
+//				}
 				return _do;
 			}
 			return null;

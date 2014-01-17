@@ -3,6 +3,7 @@ package com.xgame.godwar.core.room.views
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Strong;
 	import com.xgame.godwar.common.object.Card;
+	import com.xgame.godwar.common.object.CardManager;
 	import com.xgame.godwar.common.object.SoulCard;
 	import com.xgame.godwar.common.pool.ResourcePool;
 	import com.xgame.godwar.core.GameManager;
@@ -84,17 +85,16 @@ package com.xgame.godwar.core.room.views
 			_choupaiComponent.addEventListener(BattleGameEvent.CHOUPAI_COMPLETE_EVENT, onChouPaiComplete);
 			_paiduiComponent.addEventListener(BattleGameEvent.ROUND_STANDBY_EVENT, onRoundStandby);
 			_paiduiComponent.addEventListener(BattleGameEvent.CHOUPAI_EVENT, onChouPai);
+			
+			CardManager.instance.battleGameComponent = this;
 		}
 		
 		private function onChouPai(evt: BattleGameEvent): void
 		{
 			var card: Card = evt.value as Card;
 			
-//			if(card.hasEventListener(MouseEvent.CLICK))
-//			{
-//				card.removeEventListenerType(MouseEvent.CLICK);
-//			}
-			card.addEventListener(MouseEvent.CLICK, onHandCardClick);
+//			card.clearClickListener();
+//			card.addEventListener(MouseEvent.CLICK, onHandCardClick);
 			if(card != null)
 			{
 				_panelComponent.addCard(card);
@@ -108,39 +108,39 @@ package com.xgame.godwar.core.room.views
 			dispatchEvent(event);
 		}
 		
-		private function onHandCardClick(evt: MouseEvent): void
-		{
-			if(deployPhase > 0 && deployPhase < 5)
-			{
-				var card: Card = evt.currentTarget as Card;
-//				card.removeEventListenerType(MouseEvent.CLICK);
-				_panelComponent.removeCard(card);
-				setCardFormation(deployPhase - 1, card as SoulCard);
-				
-				if(deployPhase == 1)
-				{
-					_cardDefenser = card.id;
-				}
-				else if(deployPhase == 2)
-				{
-					_cardAttacker1 = card.id;
-				}
-				else if(deployPhase == 3)
-				{
-					_cardAttacker2 = card.id;
-				}
-				else if(deployPhase == 4)
-				{
-					_cardAttacker3 = card.id;
-				}
-				
-				deployPhase++;
-				
-				var event: BattleGameEvent = new BattleGameEvent(BattleGameEvent.DEPLOY_PHASE_EVENT);
-				event.value = deployPhase;
-				dispatchEvent(event);
-			}
-		}
+//		private function onHandCardClick(evt: MouseEvent): void
+//		{
+//			if(deployPhase > 0 && deployPhase < 5)
+//			{
+//				var card: Card = evt.currentTarget as Card;
+//				card.removeEventListener(MouseEvent.CLICK, onHandCardClick);
+//				_panelComponent.removeCard(card);
+//				setCardFormation(deployPhase - 1, card as SoulCard);
+//				
+//				if(deployPhase == 1)
+//				{
+//					_cardDefenser = card.id;
+//				}
+//				else if(deployPhase == 2)
+//				{
+//					_cardAttacker1 = card.id;
+//				}
+//				else if(deployPhase == 3)
+//				{
+//					_cardAttacker2 = card.id;
+//				}
+//				else if(deployPhase == 4)
+//				{
+//					_cardAttacker3 = card.id;
+//				}
+//				
+//				deployPhase++;
+//				
+//				var event: BattleGameEvent = new BattleGameEvent(BattleGameEvent.DEPLOY_PHASE_EVENT);
+//				event.value = deployPhase;
+//				dispatchEvent(event);
+//			}
+//		}
 		
 		private function onChouPaiComplete(evt: BattleGameEvent): void
 		{

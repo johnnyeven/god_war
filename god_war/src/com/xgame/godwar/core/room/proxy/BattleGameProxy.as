@@ -207,6 +207,7 @@ package com.xgame.godwar.core.room.proxy
 		private function onPhaseRoundStandby(protocol: Receive_BattleRoom_PhaseRoundStandby): void
 		{
 			facade.sendNotification(BattleGameMediator.PHASE_ROUND_STANDBY_NOTE, protocol);
+			facade.sendNotification(BattlePhaseMediator.ADD_PHASE_NOTE, 2);
 		}
 		
 		public function roundStandbyComplete(soulCount: int, supplyCount: int): void

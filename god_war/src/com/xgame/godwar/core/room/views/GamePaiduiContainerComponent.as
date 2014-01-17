@@ -215,6 +215,7 @@ package com.xgame.godwar.core.room.views
 			
 			var event: BattleGameEvent = new BattleGameEvent(BattleGameEvent.CHOUPAI_EVENT);
 			event.value = card;
+			card.inRound = true;
 			dispatchEvent(event);
 			
 			if(_cardContainer.length == 0)

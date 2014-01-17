@@ -264,10 +264,8 @@ package com.xgame.godwar.core.setting.mediators
 				for(var i: String in list)
 				{
 					card = list[i];
-					if(!card.hasEventListener(MouseEvent.CLICK))
-					{
-						card.addEventListener(MouseEvent.CLICK, onCardListClick);
-					}
+					card.clearClickListener();
+					card.addEventListener(MouseEvent.CLICK, onCardListClick);
 					component.cardList.addCard(card);
 				}
 			}
