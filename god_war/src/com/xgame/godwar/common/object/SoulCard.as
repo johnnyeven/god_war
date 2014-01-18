@@ -10,6 +10,7 @@ package com.xgame.godwar.common.object
 	import com.xgame.godwar.utils.UIUtils;
 	
 	import flash.display.DisplayObjectContainer;
+	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
 
 	public class SoulCard extends RoleCard
@@ -106,6 +107,52 @@ package com.xgame.godwar.common.object
 				EffectCenter.instance.addEffect(bitmapMovie);
 			}
 			evt.stopImmediatePropagation();
+			
+			if(!formationComponent.card0.hasEventListener(MouseEvent.CLICK))
+			{
+				formationComponent.card0.addEventListener(MouseEvent.CLICK, onCardFormationClick);
+			}
+			if(!formationComponent.card1.hasEventListener(MouseEvent.CLICK))
+			{
+				formationComponent.card1.addEventListener(MouseEvent.CLICK, onCardFormationClick);
+			}
+			if(!formationComponent.card2.hasEventListener(MouseEvent.CLICK))
+			{
+				formationComponent.card2.addEventListener(MouseEvent.CLICK, onCardFormationClick);
+			}
+			if(!formationComponent.card3.hasEventListener(MouseEvent.CLICK))
+			{
+				formationComponent.card3.addEventListener(MouseEvent.CLICK, onCardFormationClick);
+			}
+		}
+		
+		private function onCardFormationClick(evt: MouseEvent): void
+		{
+			var formationComponent: BattleGameCardFormationComponent = CardManager.instance.battleGameComponent.panelComponent.cardFormation;
+			var card: MovieClip = evt.currentTarget as MovieClip;
+			card.removeEventListener(MouseEvent.CLICK, onCardFormationClick);
+			
+			var current: SoulCard = CardManager.instance.currentSelectedCard as SoulCard;
+			if(card == formationComponent.card0)
+			{
+				CardManager.instance.battleGameComponent.panelComponent.removeCard(current);
+				formationComponent.setCard(0, current);
+			}
+			else if(card == formationComponent.card1)
+			{
+				CardManager.instance.battleGameComponent.panelComponent.removeCard(current);
+				formationComponent.setCard(1, current);
+			}
+			else if(card == formationComponent.card2)
+			{
+				CardManager.instance.battleGameComponent.panelComponent.removeCard(current);
+				formationComponent.setCard(2, current);
+			}
+			else if(card == formationComponent.card3)
+			{
+				CardManager.instance.battleGameComponent.panelComponent.removeCard(current);
+				formationComponent.setCard(3, current);
+			}
 		}
 		
 		override protected function onMouseClick(evt: MouseEvent): void
