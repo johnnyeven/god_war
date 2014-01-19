@@ -153,6 +153,14 @@ package com.xgame.godwar.common.object
 				CardManager.instance.battleGameComponent.panelComponent.removeCard(current);
 				formationComponent.setCard(3, current);
 			}
+			
+			if(formationComponent.soulCard0 != null &&
+				formationComponent.soulCard1 != null &&
+				formationComponent.soulCard2 != null &&
+				formationComponent.soulCard3 != null)
+			{
+				
+			}
 		}
 		
 		override protected function onMouseClick(evt: MouseEvent): void
