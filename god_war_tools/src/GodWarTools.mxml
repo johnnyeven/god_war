@@ -78,6 +78,7 @@
 					var def: int;
 					var mdef: int;
 					var health: int;
+					var energy: int;
 					var race: int;
 					
 					xmlConfig = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n";
@@ -110,6 +111,7 @@
 							def = sheet.getCell(i, 9).value;
 							mdef = sheet.getCell(i, 10).value;
 							health = sheet.getCell(i, 11).value;
+							energy = sheet.getCell(i, 12).value;
 							
 							xmlConfig += "	<card>\n";
 							xmlConfig += "		<id>" + classId + "</id>\n";
@@ -119,6 +121,7 @@
 							xmlConfig += "		<def>" + def + "</def>\n";
 							xmlConfig += "		<mdef>" + mdef + "</mdef>\n";
 							xmlConfig += "		<health>" + health + "</health>\n";
+							xmlConfig += "		<energy>" + energy + "</energy>\n";
 							xmlConfig += "		<level>" + level + "</level>\n";
 							xmlConfig += "		<race>" + race + "</race>\n";
 							xmlConfig += "	</card>\n";

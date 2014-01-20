@@ -8,6 +8,7 @@ package com.xgame.godwar.core.room.mediators
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerEnterRoomLogicServer;
 	import com.xgame.godwar.common.commands.receiving.Receive_Info_AccountRole;
 	import com.xgame.godwar.common.object.Card;
+	import com.xgame.godwar.common.object.CardManager;
 	import com.xgame.godwar.common.object.Player;
 	import com.xgame.godwar.common.object.SoulCard;
 	import com.xgame.godwar.common.parameters.PlayerParameter;
@@ -23,16 +24,20 @@ package com.xgame.godwar.core.room.mediators
 	import com.xgame.godwar.core.general.proxy.CardProxy;
 	import com.xgame.godwar.core.login.proxy.RequestRoleProxy;
 	import com.xgame.godwar.core.room.proxy.BattleGameProxy;
+	import com.xgame.godwar.core.room.views.BattleGameCardFormationComponent;
 	import com.xgame.godwar.core.room.views.BattleGameComponent;
 	import com.xgame.godwar.core.room.views.BattleGameOtherRoleComponent;
 	import com.xgame.godwar.core.room.views.GameDiceComponent;
 	import com.xgame.godwar.display.BitmapMovieDispaly;
 	import com.xgame.godwar.display.renders.Render;
 	import com.xgame.godwar.events.BattleGameEvent;
+	import com.xgame.godwar.events.CardEvent;
 	import com.xgame.godwar.utils.StringUtils;
 	import com.xgame.godwar.utils.UIUtils;
 	import com.xgame.godwar.utils.manager.TimerManager;
 	
+	import flash.display.MovieClip;
+	import flash.events.MouseEvent;
 	import flash.utils.Dictionary;
 	
 	import org.puremvc.as3.interfaces.INotification;
@@ -53,6 +58,11 @@ package com.xgame.godwar.core.room.mediators
 		public static const PHASE_ROUND_STANDBY_NOTE: String = NAME + ".PhaseRoundStandbyNote";
 		public static const PHASE_ROUND_STANDBY_COMPLETE_NOTE: String = NAME + ".PhaseRoundStandbyCompleteNote";
 		
+		private var _cardDefenser: String;
+		private var _cardAttacker1: String;
+		private var _cardAttacker2: String;
+		private var _cardAttacker3: String;
+		
 		private var player: Player;
 		
 		public function BattleGameMediator()
@@ -62,9 +72,9 @@ package com.xgame.godwar.core.room.mediators
 			component.mediator = this;
 			
 			component.addEventListener(BattleGameEvent.CHOUPAI_COMPLETE_EVENT, onChouPaiComplete);
-			component.addEventListener(BattleGameEvent.DEPLOY_PHASE_EVENT, onDeployPhase);
 			component.addEventListener(BattleGameEvent.FIGHT_EVENT, onFight);
 			component.addEventListener(BattleGameEvent.ROUND_STANDBY_EVENT, onRoundStandby);
+			component.addEventListener(CardEvent.FIGHT_CLICK, onCardFightClick);
 			
 			EffectCenter.instance.start();
 		}
@@ -230,25 +240,13 @@ package com.xgame.godwar.core.room.mediators
 			facade.sendNotification(BattleGuideMediator.SHOW_NOTE);
 		}
 		
-		private function onDeployPhase(evt: BattleGameEvent): void
-		{
-			var phase: int = int(evt.value);
-			
-			if(phase == 5)
-			{
-				facade.sendNotification(BattleGuideMediator.CHANGE_CONTENT_NOTE, "部署完毕，点击“开始战斗”按钮！");
-				facade.sendNotification(BattleGuideMediator.SHOW_NOTE);
-				component.panelComponent.btnFightEnabled(true);
-			}
-		}
-		
 		private function onFight(evt: BattleGameEvent): void
 		{
 			facade.sendNotification(BattleGuideMediator.HIDE_NOTE);
 			component.panelComponent.btnFightEnabled(false);
 			
 			var proxy: BattleGameProxy = facade.retrieveProxy(BattleGameProxy.NAME) as BattleGameProxy;
-			proxy.deployComplete(component.cardDefenser, component.cardAttacker1, component.cardAttacker2, component.cardAttacker3);
+			proxy.deployComplete(_cardDefenser, _cardAttacker1, _cardAttacker2, _cardAttacker3);
 		}
 		
 		private function deployComplete(guid: String): void
@@ -376,6 +374,101 @@ package com.xgame.godwar.core.room.mediators
 						}
 					}
 					component.paiduiComponent.showCards();
+				}
+			}
+		}
+		
+		private function onCardFightClick(evt: CardEvent): void
+		{
+			var formationComponent: BattleGameCardFormationComponent = component.panelComponent.cardFormation;
+			var bitmapMovie: BitmapMovieDispaly;
+			if(formationComponent.soulCard0 == null)
+			{
+				bitmapMovie = EffectCenter.instance.getEffect("effect_highlight1", "assets.effect.highlight.Highlight1");
+				formationComponent.card0.addChild(bitmapMovie);
+				EffectCenter.instance.addEffect(bitmapMovie);
+			}
+			if(formationComponent.soulCard1 == null)
+			{
+				bitmapMovie = EffectCenter.instance.getEffect("effect_highlight1", "assets.effect.highlight.Highlight1");
+				formationComponent.card1.addChild(bitmapMovie);
+				EffectCenter.instance.addEffect(bitmapMovie);
+			}
+			if(formationComponent.soulCard2 == null)
+			{
+				bitmapMovie = EffectCenter.instance.getEffect("effect_highlight1", "assets.effect.highlight.Highlight1");
+				formationComponent.card2.addChild(bitmapMovie);
+				EffectCenter.instance.addEffect(bitmapMovie);
+			}
+			if(formationComponent.soulCard3 == null)
+			{
+				bitmapMovie = EffectCenter.instance.getEffect("effect_highlight1", "assets.effect.highlight.Highlight1");
+				formationComponent.card3.addChild(bitmapMovie);
+				EffectCenter.instance.addEffect(bitmapMovie);
+			}
+			
+			if(!formationComponent.card0.hasEventListener(MouseEvent.CLICK))
+			{
+				formationComponent.card0.addEventListener(MouseEvent.CLICK, onCardFormationClick);
+			}
+			if(!formationComponent.card1.hasEventListener(MouseEvent.CLICK))
+			{
+				formationComponent.card1.addEventListener(MouseEvent.CLICK, onCardFormationClick);
+			}
+			if(!formationComponent.card2.hasEventListener(MouseEvent.CLICK))
+			{
+				formationComponent.card2.addEventListener(MouseEvent.CLICK, onCardFormationClick);
+			}
+			if(!formationComponent.card3.hasEventListener(MouseEvent.CLICK))
+			{
+				formationComponent.card3.addEventListener(MouseEvent.CLICK, onCardFormationClick);
+			}
+		}
+		
+		private function onCardFormationClick(evt: MouseEvent): void
+		{
+			var formationComponent: BattleGameCardFormationComponent = component.panelComponent.cardFormation;
+			var card: MovieClip = evt.currentTarget as MovieClip;
+			card.removeEventListener(MouseEvent.CLICK, onCardFormationClick);
+			
+			var current: SoulCard = CardManager.instance.currentSelectedCard as SoulCard;
+			if(current != null)
+			{
+				if(card == formationComponent.card0)
+				{
+					CardManager.instance.battleGameComponent.panelComponent.removeCard(current);
+					formationComponent.setCard(0, current);
+					_cardDefenser = current.id;
+				}
+				else if(card == formationComponent.card1)
+				{
+					CardManager.instance.battleGameComponent.panelComponent.removeCard(current);
+					formationComponent.setCard(1, current);
+					_cardAttacker1 = current.id;
+				}
+				else if(card == formationComponent.card2)
+				{
+					CardManager.instance.battleGameComponent.panelComponent.removeCard(current);
+					formationComponent.setCard(2, current);
+					_cardAttacker2 = current.id;
+				}
+				else if(card == formationComponent.card3)
+				{
+					CardManager.instance.battleGameComponent.panelComponent.removeCard(current);
+					formationComponent.setCard(3, current);
+					_cardAttacker3 = current.id;
+				}
+				player.removeHandCard(current);
+				CardManager.instance.currentSelectedCard = null;
+				
+				if(formationComponent.soulCard0 != null &&
+					formationComponent.soulCard1 != null &&
+					formationComponent.soulCard2 != null &&
+					formationComponent.soulCard3 != null)
+				{
+					facade.sendNotification(BattleGuideMediator.CHANGE_CONTENT_NOTE, "部署完毕，点击“开始战斗”按钮！");
+					facade.sendNotification(BattleGuideMediator.SHOW_NOTE);
+					component.panelComponent.btnFightEnabled(true);
 				}
 			}
 		}

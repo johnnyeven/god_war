@@ -6,6 +6,7 @@ package com.xgame.godwar.common.object
 	import com.xgame.godwar.core.center.EffectCenter;
 	import com.xgame.godwar.core.room.views.BattleGameCardFormationComponent;
 	import com.xgame.godwar.display.BitmapMovieDispaly;
+	import com.xgame.godwar.events.CardEvent;
 	import com.xgame.godwar.liteui.component.Button;
 	import com.xgame.godwar.utils.UIUtils;
 	
@@ -17,6 +18,7 @@ package com.xgame.godwar.common.object
 	{
 		private var _level: int;
 		private var _race: int;
+		private var _isBack: Boolean = true;	//暗置状态
 		
 		private var btnFight: Button;
 		private var btnAttack: Button;
@@ -80,87 +82,10 @@ package com.xgame.godwar.common.object
 		
 		private function onBtnFightClick(evt: MouseEvent): void
 		{
-			var formationComponent: BattleGameCardFormationComponent = CardManager.instance.battleGameComponent.panelComponent.cardFormation;
-			var bitmapMovie: BitmapMovieDispaly;
-			if(formationComponent.soulCard0 == null)
-			{
-				bitmapMovie = EffectCenter.instance.getEffect("effect_highlight1", "assets.effect.highlight.Highlight1");
-				formationComponent.card0.addChild(bitmapMovie);
-				EffectCenter.instance.addEffect(bitmapMovie);
-			}
-			if(formationComponent.soulCard1 == null)
-			{
-				bitmapMovie = EffectCenter.instance.getEffect("effect_highlight1", "assets.effect.highlight.Highlight1");
-				formationComponent.card1.addChild(bitmapMovie);
-				EffectCenter.instance.addEffect(bitmapMovie);
-			}
-			if(formationComponent.soulCard2 == null)
-			{
-				bitmapMovie = EffectCenter.instance.getEffect("effect_highlight1", "assets.effect.highlight.Highlight1");
-				formationComponent.card2.addChild(bitmapMovie);
-				EffectCenter.instance.addEffect(bitmapMovie);
-			}
-			if(formationComponent.soulCard3 == null)
-			{
-				bitmapMovie = EffectCenter.instance.getEffect("effect_highlight1", "assets.effect.highlight.Highlight1");
-				formationComponent.card3.addChild(bitmapMovie);
-				EffectCenter.instance.addEffect(bitmapMovie);
-			}
+			var event: CardEvent = new CardEvent(CardEvent.FIGHT_CLICK, true);
+			event.value = this;
+			dispatchEvent(event);
 			evt.stopImmediatePropagation();
-			
-			if(!formationComponent.card0.hasEventListener(MouseEvent.CLICK))
-			{
-				formationComponent.card0.addEventListener(MouseEvent.CLICK, onCardFormationClick);
-			}
-			if(!formationComponent.card1.hasEventListener(MouseEvent.CLICK))
-			{
-				formationComponent.card1.addEventListener(MouseEvent.CLICK, onCardFormationClick);
-			}
-			if(!formationComponent.card2.hasEventListener(MouseEvent.CLICK))
-			{
-				formationComponent.card2.addEventListener(MouseEvent.CLICK, onCardFormationClick);
-			}
-			if(!formationComponent.card3.hasEventListener(MouseEvent.CLICK))
-			{
-				formationComponent.card3.addEventListener(MouseEvent.CLICK, onCardFormationClick);
-			}
-		}
-		
-		private function onCardFormationClick(evt: MouseEvent): void
-		{
-			var formationComponent: BattleGameCardFormationComponent = CardManager.instance.battleGameComponent.panelComponent.cardFormation;
-			var card: MovieClip = evt.currentTarget as MovieClip;
-			card.removeEventListener(MouseEvent.CLICK, onCardFormationClick);
-			
-			var current: SoulCard = CardManager.instance.currentSelectedCard as SoulCard;
-			if(card == formationComponent.card0)
-			{
-				CardManager.instance.battleGameComponent.panelComponent.removeCard(current);
-				formationComponent.setCard(0, current);
-			}
-			else if(card == formationComponent.card1)
-			{
-				CardManager.instance.battleGameComponent.panelComponent.removeCard(current);
-				formationComponent.setCard(1, current);
-			}
-			else if(card == formationComponent.card2)
-			{
-				CardManager.instance.battleGameComponent.panelComponent.removeCard(current);
-				formationComponent.setCard(2, current);
-			}
-			else if(card == formationComponent.card3)
-			{
-				CardManager.instance.battleGameComponent.panelComponent.removeCard(current);
-				formationComponent.setCard(3, current);
-			}
-			
-			if(formationComponent.soulCard0 != null &&
-				formationComponent.soulCard1 != null &&
-				formationComponent.soulCard2 != null &&
-				formationComponent.soulCard3 != null)
-			{
-				
-			}
 		}
 		
 		override protected function onMouseClick(evt: MouseEvent): void
@@ -201,10 +126,11 @@ package com.xgame.godwar.common.object
 			GameManager.container.removeEventListener(MouseEvent.CLICK, onCancelSelect);
 			CardManager.instance.currentSelectedCard = null;
 		}
-		
-//		override public function hideController(): void
-//		{
-//			
-//		}
+
+		public function get isBack():Boolean
+		{
+			return _isBack;
+		}
+
 	}
 }
