@@ -12,14 +12,14 @@ package com.xgame.godwar.common.commands.receiving
 		public var guid: String;
 		public var accountId: Int64;
 		public var nickName: String;
-		public var level: int;
+		public var level: int = int.MIN_VALUE;
 		public var accountCash: Int64;
+		public var energy: int = int.MIN_VALUE;
 		public var rolePicture: String;
 		
 		public function Receive_Info_AccountRole()
 		{
 			super(SocketContextConfig.REGISTER_ACCOUNT_ROLE);
-			level = int.MIN_VALUE;
 		}
 		
 		override public function fill(data:ByteArray):void
@@ -68,6 +68,10 @@ package com.xgame.godwar.common.commands.receiving
 							if(level == int.MIN_VALUE)
 							{
 								level = data.readInt();
+							}
+							else if(energy == int.MIN_VALUE)
+							{
+								energy = data.readInt();
 							}
 							break;
 					}

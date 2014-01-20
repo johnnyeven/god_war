@@ -18,6 +18,7 @@ package com.xgame.godwar.common.object
 	{
 		private var _level: int;
 		private var _race: int;
+		private var _energy: int;
 		private var _isBack: Boolean = true;	//暗置状态
 		
 		private var btnFight: Button;
@@ -38,6 +39,7 @@ package com.xgame.godwar.common.object
 			{
 				_level = _param.level;
 				_race = _param.race;
+				_energy = _param.energy;
 			}
 		}
 

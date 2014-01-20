@@ -103,40 +103,6 @@ package com.xgame.godwar.core.room.views
 			dispatchEvent(event);
 		}
 		
-//		private function onHandCardClick(evt: MouseEvent): void
-//		{
-//			if(deployPhase > 0 && deployPhase < 5)
-//			{
-//				var card: Card = evt.currentTarget as Card;
-//				card.removeEventListener(MouseEvent.CLICK, onHandCardClick);
-//				_panelComponent.removeCard(card);
-//				setCardFormation(deployPhase - 1, card as SoulCard);
-//				
-//				if(deployPhase == 1)
-//				{
-//					_cardDefenser = card.id;
-//				}
-//				else if(deployPhase == 2)
-//				{
-//					_cardAttacker1 = card.id;
-//				}
-//				else if(deployPhase == 3)
-//				{
-//					_cardAttacker2 = card.id;
-//				}
-//				else if(deployPhase == 4)
-//				{
-//					_cardAttacker3 = card.id;
-//				}
-//				
-//				deployPhase++;
-//				
-//				var event: BattleGameEvent = new BattleGameEvent(BattleGameEvent.DEPLOY_PHASE_EVENT);
-//				event.value = deployPhase;
-//				dispatchEvent(event);
-//			}
-//		}
-		
 		private function onChouPaiComplete(evt: BattleGameEvent): void
 		{
 			var event: BattleGameEvent = new BattleGameEvent(BattleGameEvent.CHOUPAI_COMPLETE_EVENT);

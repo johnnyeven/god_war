@@ -58,6 +58,7 @@ package com.xgame.godwar.core.general.proxy
 				parameter.def = _config.card[i].def;
 				parameter.mdef = _config.card[i].mdef;
 				parameter.health = _config.card[i].health;
+				parameter.energy = _config.card[i].energy;
 				parameter.level = _config.card[i].level;
 				parameter.race = _config.card[i].race;
 				CardParameterPool.instance.add(parameter.id, parameter);
