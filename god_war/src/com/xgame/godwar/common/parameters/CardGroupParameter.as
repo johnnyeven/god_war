@@ -10,6 +10,7 @@ package com.xgame.godwar.common.parameters
 		public var groupId: int = int.MIN_VALUE;
 		public var groupName: String = null;
 		public var cardList: Array = new Array();
+		public var energyCost: int;
 		public var cardListReady: Boolean = false;
 		public static const CARD_TYPE: Array = [SoulCard, HeroCard];
 		

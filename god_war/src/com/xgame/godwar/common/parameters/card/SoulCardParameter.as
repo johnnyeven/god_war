@@ -4,7 +4,6 @@ package com.xgame.godwar.common.parameters.card
 	{
 		public var level: int;
 		public var race: int;
-		public var energy: int;
 		
 		public function SoulCardParameter()
 		{

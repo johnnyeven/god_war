@@ -2,6 +2,7 @@ package com.xgame.godwar.core.setting.mediators
 {
 	import com.xgame.godwar.common.commands.CommandList;
 	import com.xgame.godwar.common.commands.receiving.Receive_Hall_RequestCardGroup;
+	import com.xgame.godwar.common.commands.receiving.Receive_Info_AccountRole;
 	import com.xgame.godwar.common.commands.receiving.Receive_Info_SaveCardConfig;
 	import com.xgame.godwar.common.commands.sending.Send_Info_SaveCardConfig;
 	import com.xgame.godwar.common.object.Card;
@@ -11,6 +12,7 @@ package com.xgame.godwar.core.setting.mediators
 	import com.xgame.godwar.core.general.mediators.BaseMediator;
 	import com.xgame.godwar.core.general.proxy.CardProxy;
 	import com.xgame.godwar.core.loading.mediators.LoadingIconMediator;
+	import com.xgame.godwar.core.login.proxy.RequestRoleProxy;
 	import com.xgame.godwar.core.setting.proxy.CardGroupProxy;
 	import com.xgame.godwar.core.setting.views.CardConfigComponent;
 	import com.xgame.godwar.enum.PopupEffect;
@@ -160,31 +162,51 @@ package com.xgame.godwar.core.setting.mediators
 					}
 				}
 				
-				var soulCardProxy: CardProxy = facade.retrieveProxy(CardProxy.NAME) as CardProxy;
-				var soulCardIndex: Dictionary = soulCardProxy.soulCardIndex;
-				var soulCardList: Array = soulCardProxy.container.soulCardList;
-				var j: String;
-				for(j in soulCardList)
+				var roleProxy: RequestRoleProxy = facade.retrieveProxy(RequestRoleProxy.NAME) as RequestRoleProxy;
+				if(roleProxy != null)
 				{
-					soulCardList[j].enabled = true;
-				}
-				component.cardCurrentList.emptyCards();
-				if(parameter != null)
-				{
-					var myCard: Card;
-					var card: Card;
-					for(j in parameter.cardList)
+					var roleProtocol: Receive_Info_AccountRole = roleProxy.getData() as Receive_Info_AccountRole;
+					if(roleProtocol != null)
 					{
-						card = parameter.cardList[j] as Card;
-						if(!card.hasEventListener(MouseEvent.CLICK))
+						var soulCardProxy: CardProxy = facade.retrieveProxy(CardProxy.NAME) as CardProxy;
+						var soulCardIndex: Dictionary = soulCardProxy.soulCardIndex;
+						var soulCardList: Array = soulCardProxy.container.soulCardList;
+						var j: String;
+						for(j in soulCardList)
 						{
-							card.addEventListener(MouseEvent.CLICK, onCurrentCardListClick);
+							soulCardList[j].enabled = true;
 						}
-						component.cardCurrentList.addCard(card);
-						if(soulCardIndex.hasOwnProperty(card.id))
+						component.cardCurrentList.emptyCards();
+						if(parameter != null)
 						{
-							myCard = soulCardList[soulCardIndex[card.id]];
-							myCard.enabled = false;
+							var myCard: Card;
+							var card: Card;
+							parameter.energyCost = 0;
+							for(j in parameter.cardList)
+							{
+								card = parameter.cardList[j] as Card;
+								parameter.energyCost += card.energy;
+								
+								if(!card.hasEventListener(MouseEvent.CLICK))
+								{
+									card.addEventListener(MouseEvent.CLICK, onCurrentCardListClick);
+								}
+								component.cardCurrentList.addCard(card);
+								if(soulCardIndex.hasOwnProperty(card.id))
+								{
+									myCard = soulCardList[soulCardIndex[card.id]];
+									myCard.enabled = false;
+								}
+							}
+							if(parameter.energyCost > roleProtocol.energy)
+							{
+								component.cardCurrentList.lblCost.color = 0xCC0000;
+							}
+							else
+							{
+								component.cardCurrentList.lblCost.color = 0x66CC00;
+							}
+							component.cardCurrentList.lblCost.text = String(parameter.energyCost);
 						}
 					}
 				}
@@ -193,6 +215,16 @@ package com.xgame.godwar.core.setting.mediators
 		
 		private function requestCard(): void
 		{
+			var roleProxy: RequestRoleProxy = facade.retrieveProxy(RequestRoleProxy.NAME) as RequestRoleProxy;
+			if(roleProxy != null)
+			{
+				var roleProtocol: Receive_Info_AccountRole = roleProxy.getData() as Receive_Info_AccountRole;
+				if(roleProtocol != null)
+				{
+					component.cardCurrentList.lblCost.text = "0";
+					component.cardCurrentList.lblTotal.text = "/" + roleProtocol.energy;
+				}
+			}
 			var proxy: CardGroupProxy = facade.retrieveProxy(CardGroupProxy.NAME) as CardGroupProxy;
 			if(proxy.getData() != null)
 			{
@@ -274,46 +306,6 @@ package com.xgame.godwar.core.setting.mediators
 		private function onCardListClick(evt: MouseEvent): void
 		{
 			var card: Card = evt.currentTarget as Card;
-			if(card.enabled && currentGroupId > 0)
-			{
-				card.enabled = false;
-				var clone: Card = card.clone();
-				component.cardCurrentList.addCard(clone);
-				
-				clone.addEventListener(MouseEvent.CLICK, onCurrentCardListClick);
-				
-				var proxy: CardGroupProxy = facade.retrieveProxy(CardGroupProxy.NAME) as CardGroupProxy;
-				var protocol: Receive_Hall_RequestCardGroup = proxy.getData() as Receive_Hall_RequestCardGroup;
-				var parameter: CardGroupParameter;
-				for(var i: int = 0; i < protocol.list.length; i++)
-				{
-					parameter = protocol.list[i];
-					if(currentGroupId == parameter.groupId)
-					{
-						break;
-					}
-				}
-				if(parameter != null)
-				{
-					parameter.cardList.push(clone);
-				}
-			}
-		}
-		
-		private function onCurrentCardListClick(evt: MouseEvent): void
-		{
-			var card: Card = evt.currentTarget as Card;
-			
-			var soulCardProxy: CardProxy = facade.retrieveProxy(CardProxy.NAME) as CardProxy;
-			var soulCardIndex: Dictionary = soulCardProxy.soulCardIndex;
-			var soulCardList: Array = soulCardProxy.container.soulCardList;
-			
-			if(soulCardIndex.hasOwnProperty(card.id))
-			{
-				var myCard: Card = soulCardList[soulCardIndex[card.id]];
-				myCard.enabled = true;
-			}
-			
 			var proxy: CardGroupProxy = facade.retrieveProxy(CardGroupProxy.NAME) as CardGroupProxy;
 			var protocol: Receive_Hall_RequestCardGroup = proxy.getData() as Receive_Hall_RequestCardGroup;
 			var parameter: CardGroupParameter;
@@ -324,6 +316,88 @@ package com.xgame.godwar.core.setting.mediators
 				{
 					break;
 				}
+			}
+			var roleProxy: RequestRoleProxy = facade.retrieveProxy(RequestRoleProxy.NAME) as RequestRoleProxy;
+			if(roleProxy != null)
+			{
+				var roleProtocol: Receive_Info_AccountRole = roleProxy.getData() as Receive_Info_AccountRole;
+				if(roleProtocol != null)
+				{
+					if(parameter.energyCost + card.energy > roleProtocol.energy)
+					{
+						return;
+					}
+				}
+			}
+			if(card.enabled && currentGroupId > 0)
+			{
+				card.enabled = false;
+				var clone: Card = card.clone();
+				component.cardCurrentList.addCard(clone);
+				clone.addEventListener(MouseEvent.CLICK, onCurrentCardListClick);
+				if(parameter != null)
+				{
+					parameter.cardList.push(clone);
+				}
+				
+				parameter.energyCost += card.energy;
+				if(parameter.energyCost > roleProtocol.energy)
+				{
+					component.cardCurrentList.lblCost.color = 0xCC0000;
+				}
+				else
+				{
+					component.cardCurrentList.lblCost.color = 0x66CC00;
+				}
+				component.cardCurrentList.lblCost.text = String(parameter.energyCost);
+			}
+		}
+		
+		private function onCurrentCardListClick(evt: MouseEvent): void
+		{
+			var card: Card = evt.currentTarget as Card;
+			var proxy: CardGroupProxy = facade.retrieveProxy(CardGroupProxy.NAME) as CardGroupProxy;
+			var protocol: Receive_Hall_RequestCardGroup = proxy.getData() as Receive_Hall_RequestCardGroup;
+			var parameter: CardGroupParameter;
+			for(var i: int = 0; i < protocol.list.length; i++)
+			{
+				parameter = protocol.list[i];
+				if(currentGroupId == parameter.groupId)
+				{
+					break;
+				}
+			}
+			var roleProxy: RequestRoleProxy = facade.retrieveProxy(RequestRoleProxy.NAME) as RequestRoleProxy;
+			if(roleProxy != null)
+			{
+				var roleProtocol: Receive_Info_AccountRole = roleProxy.getData() as Receive_Info_AccountRole;
+				if(roleProtocol != null)
+				{
+					if(parameter.energyCost > roleProtocol.energy)
+					{
+						return;
+					}
+				}
+			}
+			parameter.energyCost -= card.energy;
+			if(parameter.energyCost > roleProtocol.energy)
+			{
+				component.cardCurrentList.lblCost.color = 0xCC0000;
+			}
+			else
+			{
+				component.cardCurrentList.lblCost.color = 0x66CC00;
+			}
+			component.cardCurrentList.lblCost.text = String(parameter.energyCost);
+			
+			var soulCardProxy: CardProxy = facade.retrieveProxy(CardProxy.NAME) as CardProxy;
+			var soulCardIndex: Dictionary = soulCardProxy.soulCardIndex;
+			var soulCardList: Array = soulCardProxy.container.soulCardList;
+			
+			if(soulCardIndex.hasOwnProperty(card.id))
+			{
+				var myCard: Card = soulCardList[soulCardIndex[card.id]];
+				myCard.enabled = true;
 			}
 			if(parameter != null)
 			{

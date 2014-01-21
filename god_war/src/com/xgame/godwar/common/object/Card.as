@@ -29,6 +29,7 @@ package com.xgame.godwar.common.object
 		private var _id: String;
 		private var _resourceId: String;
 		private var _name: String;
+		private var _energy: int;
 		private var _enabled: Boolean = true;
 		
 		private var _cardResourceBuffer: Bitmap;
@@ -169,6 +170,7 @@ package com.xgame.godwar.common.object
 				
 				_resourceId = _parameter.resourceId;
 				_name = _parameter.name;
+				_energy = _parameter.energy;
 			}
 		}
 		
@@ -334,6 +336,11 @@ package com.xgame.godwar.common.object
 		public function set inRound(value:Boolean):void
 		{
 			_inRound = value;
+		}
+
+		public function get energy():int
+		{
+			return _energy;
 		}
 
 

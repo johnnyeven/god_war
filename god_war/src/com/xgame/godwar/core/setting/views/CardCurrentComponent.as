@@ -15,6 +15,8 @@ package com.xgame.godwar.core.setting.views
 	public class CardCurrentComponent extends Component
 	{
 		private var lblTitle: Label;
+		private var _lblCost: Label;
+		private var _lblTotal: Label;
 		private var btnViewSelect: Button;
 		private var scrollList: ScrollBar;
 		private var cardListContainer: Container;
@@ -24,6 +26,8 @@ package com.xgame.godwar.core.setting.views
 			super(_skin ? _skin : ResourcePool.instance.getDisplayObject("assets.ui.config.CardCurrentComponent", null, false) as DisplayObjectContainer);
 			
 			lblTitle = getUI(Label, "lblTitle") as Label;
+			_lblCost = getUI(Label, "monengCost") as Label;
+			_lblTotal = getUI(Label, "monengTotal") as Label;
 			btnViewSelect = getUI(Button, "btnViewSelect") as Button;
 			
 			cardListContainer = new Container();
@@ -62,5 +66,17 @@ package com.xgame.godwar.core.setting.views
 			cardListContainer.layout.update();
 			scrollList.rebuild();
 		}
+
+		public function get lblCost():Label
+		{
+			return _lblCost;
+		}
+
+		public function get lblTotal():Label
+		{
+			return _lblTotal;
+		}
+
+
 	}
 }
