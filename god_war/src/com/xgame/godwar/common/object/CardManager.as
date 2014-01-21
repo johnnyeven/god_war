@@ -10,7 +10,7 @@ package com.xgame.godwar.common.object
 		private static var _allowInstance: Boolean = false;
 		
 		private var _currentSelectedCard: Card;
-		private var _battleGameComponent: BattleGameComponent;
+		private var _currentFightCard: SoulCard;
 		
 		public function CardManager()
 		{
@@ -55,14 +55,14 @@ package com.xgame.godwar.common.object
 			}
 		}
 
-		public function get battleGameComponent():BattleGameComponent
+		public function get currentFightCard(): SoulCard
 		{
-			return _battleGameComponent;
+			return _currentFightCard;
 		}
 
-		public function set battleGameComponent(value:BattleGameComponent):void
+		public function set currentFightCard(value: SoulCard):void
 		{
-			_battleGameComponent = value;
+			_currentFightCard = value;
 		}
 
 

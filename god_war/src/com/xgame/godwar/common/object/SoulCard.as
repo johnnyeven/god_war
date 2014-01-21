@@ -112,19 +112,20 @@ package com.xgame.godwar.common.object
 				}
 				
 				CardManager.instance.currentSelectedCard = this;
-				GameManager.container.addEventListener(MouseEvent.CLICK, onCancelSelect);
+				GameManager.container.addEventListener(MouseEvent.CLICK, cancelSelect);
 			}
 			else
 			{
 				return;
 			}
-			evt.stopImmediatePropagation();
+			evt.stopPropagation();
 		}
 		
-		protected function onCancelSelect(evt: MouseEvent): void
+		public function cancelSelect(evt: MouseEvent = null): void
 		{
-			GameManager.container.removeEventListener(MouseEvent.CLICK, onCancelSelect);
+			GameManager.container.removeEventListener(MouseEvent.CLICK, cancelSelect);
 			CardManager.instance.currentSelectedCard = null;
+			CardManager.instance.currentFightCard = null;
 		}
 
 		public function get isBack():Boolean

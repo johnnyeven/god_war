@@ -245,6 +245,7 @@ package com.xgame.godwar.common.object
 			tabEnabled = value;
 			mouseChildren = value;
 			tabEnabled = value;
+			filters = [];
 			
 			if(value)
 			{
@@ -268,6 +269,7 @@ package com.xgame.godwar.common.object
 			tabEnabled = value;
 			mouseChildren = value;
 			tabEnabled = value;
+			filters = [];
 		}
 
 		public function clone(): Card
@@ -294,6 +296,7 @@ package com.xgame.godwar.common.object
 			_infoLayer = null;
 			_cardResourceBuffer.bitmapData = null;
 			_cardResourceBuffer = null;
+			filters = [];
 			
 			removeEventListeners();
 		}

@@ -23,6 +23,7 @@ package com.xgame.godwar.common.object
 		private var _soulCardList: Vector.<SoulCard>;
 //		private var _supplyCardList: Vector.<SupplyCard>;
 		private var _cardHandList: Vector.<Card>;
+		private var _cardGraveList: Vector.<Card>;
 		
 		public var soulCardCount: int;
 		public var supplyCardCount: int;
@@ -60,6 +61,22 @@ package com.xgame.godwar.common.object
 			if(i >= 0)
 			{
 				_cardHandList.splice(i, 1);
+				return true;
+			}
+			return false;
+		}
+		
+		public function addCardGrave(card: Card): void
+		{
+			_cardGraveList.push(card);
+		}
+		
+		public function removeGraveCard(card: SoulCard): Boolean
+		{
+			var i: int = _cardGraveList.indexOf(card);
+			if(i >= 0)
+			{
+				_cardGraveList.splice(i, 1);
 				return true;
 			}
 			return false;
@@ -235,6 +252,21 @@ package com.xgame.godwar.common.object
 		public function set heroCardPath(value:String):void
 		{
 			_heroCardPath = value;
+		}
+
+		public function get soulCardList():Vector.<SoulCard>
+		{
+			return _soulCardList;
+		}
+
+		public function get cardHandList():Vector.<Card>
+		{
+			return _cardHandList;
+		}
+		
+		public function get cardGraveList():Vector.<Card>
+		{
+			return _cardGraveList;
 		}
 
 

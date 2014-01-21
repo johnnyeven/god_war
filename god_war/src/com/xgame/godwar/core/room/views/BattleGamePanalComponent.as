@@ -54,6 +54,7 @@ package com.xgame.godwar.core.room.views
 		
 		public function addCard(card: Card): void
 		{
+			card.interactive = true;
 			card.inHand = true;
 			cardContainer.add(card);
 			cardContainer.layout.update();
@@ -62,6 +63,8 @@ package com.xgame.godwar.core.room.views
 		
 		public function removeCard(card: Card): void
 		{
+			card.clearClickListener();
+			card.interactive = false;
 			card.inHand = false;
 			cardContainer.remove(card);
 			cardContainer.layout.update();

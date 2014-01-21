@@ -325,6 +325,32 @@ package com.xgame.godwar.core.room.mediators
 					if(protocolRole.guid == guid)
 					{
 						component.paiduiComponent.visible = true;
+						
+						if(component.panelComponent.cardFormation.soulCard0 != null)
+						{
+							component.panelComponent.cardFormation.soulCard0.inRound = true;
+							component.panelComponent.cardFormation.soulCard0.addEventListener(MouseEvent.CLICK, onCardFormationChange, false, 100);
+						}
+						if(component.panelComponent.cardFormation.soulCard1 != null)
+						{
+							component.panelComponent.cardFormation.soulCard1.inRound = true;
+							component.panelComponent.cardFormation.soulCard1.addEventListener(MouseEvent.CLICK, onCardFormationChange, false, 100);
+						}
+						if(component.panelComponent.cardFormation.soulCard2 != null)
+						{
+							component.panelComponent.cardFormation.soulCard2.inRound = true;
+							component.panelComponent.cardFormation.soulCard2.addEventListener(MouseEvent.CLICK, onCardFormationChange, false, 100);
+						}
+						if(component.panelComponent.cardFormation.soulCard3 != null)
+						{
+							component.panelComponent.cardFormation.soulCard3.inRound = true;
+							component.panelComponent.cardFormation.soulCard3.addEventListener(MouseEvent.CLICK, onCardFormationChange, false, 100);
+						}
+						var handList: Vector.<Card> = player.cardHandList;
+						for(var i: int = 0; i<handList.length; i++)
+						{
+							handList[i].inRound = true;
+						}
 					}
 					else
 					{
@@ -380,6 +406,8 @@ package com.xgame.godwar.core.room.mediators
 		
 		private function onCardFightClick(evt: CardEvent): void
 		{
+			var card: SoulCard = evt.value as SoulCard;
+			CardManager.instance.currentFightCard = card;
 			var formationComponent: BattleGameCardFormationComponent = component.panelComponent.cardFormation;
 			var bitmapMovie: BitmapMovieDispaly;
 			if(formationComponent.soulCard0 == null)
@@ -431,30 +459,30 @@ package com.xgame.godwar.core.room.mediators
 			var card: MovieClip = evt.currentTarget as MovieClip;
 			card.removeEventListener(MouseEvent.CLICK, onCardFormationClick);
 			
-			var current: SoulCard = CardManager.instance.currentSelectedCard as SoulCard;
+			var current: SoulCard = CardManager.instance.currentFightCard as SoulCard;
 			if(current != null)
 			{
 				if(card == formationComponent.card0)
 				{
-					CardManager.instance.battleGameComponent.panelComponent.removeCard(current);
+					component.panelComponent.removeCard(current);
 					formationComponent.setCard(0, current);
 					_cardDefenser = current.id;
 				}
 				else if(card == formationComponent.card1)
 				{
-					CardManager.instance.battleGameComponent.panelComponent.removeCard(current);
+					component.panelComponent.removeCard(current);
 					formationComponent.setCard(1, current);
 					_cardAttacker1 = current.id;
 				}
 				else if(card == formationComponent.card2)
 				{
-					CardManager.instance.battleGameComponent.panelComponent.removeCard(current);
+					component.panelComponent.removeCard(current);
 					formationComponent.setCard(2, current);
 					_cardAttacker2 = current.id;
 				}
 				else if(card == formationComponent.card3)
 				{
-					CardManager.instance.battleGameComponent.panelComponent.removeCard(current);
+					component.panelComponent.removeCard(current);
 					formationComponent.setCard(3, current);
 					_cardAttacker3 = current.id;
 				}
@@ -469,6 +497,59 @@ package com.xgame.godwar.core.room.mediators
 					facade.sendNotification(BattleGuideMediator.CHANGE_CONTENT_NOTE, "部署完毕，点击“开始战斗”按钮！");
 					facade.sendNotification(BattleGuideMediator.SHOW_NOTE);
 					component.panelComponent.btnFightEnabled(true);
+				}
+			}
+		}
+		
+		private function onCardFormationChange(evt: MouseEvent): void
+		{
+			var currentCard: SoulCard = CardManager.instance.currentFightCard;
+			if(currentCard != null)
+			{
+				evt.stopImmediatePropagation();
+				var formationComponent: BattleGameCardFormationComponent = component.panelComponent.cardFormation;
+				var card: SoulCard = evt.currentTarget as SoulCard;
+				
+				if(currentCard.level > 3)
+				{
+					
+				}
+				else
+				{
+					component.panelComponent.removeCard(currentCard);
+					if(card == formationComponent.soulCard0)
+					{
+						formationComponent.removeCard(0);
+						formationComponent.setCard(0, currentCard);
+					}
+					else if(card == formationComponent.soulCard1)
+					{
+						formationComponent.removeCard(1);
+						formationComponent.setCard(1, currentCard);
+					}
+					else if(card == formationComponent.soulCard2)
+					{
+						formationComponent.removeCard(2);
+						formationComponent.setCard(2, currentCard);
+					}
+					else if(card == formationComponent.soulCard3)
+					{
+						formationComponent.removeCard(3);
+						formationComponent.setCard(3, currentCard);
+					}
+					currentCard.addEventListener(MouseEvent.CLICK, onCardFormationChange, false, 100);
+					
+					if(card.isBack)
+					{
+						player.addCardHand(card);
+						component.panelComponent.addCard(card);
+					}
+					else
+					{
+						player.addCardGrave(card);
+					}
+					
+					currentCard.cancelSelect();
 				}
 			}
 		}

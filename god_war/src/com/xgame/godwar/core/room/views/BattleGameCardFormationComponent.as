@@ -106,6 +106,7 @@ package com.xgame.godwar.core.room.views
 				}
 				
 				TweenLite.killTweensOf(card);
+				card.clearClickListener();
 				card.interactive = false;
 				card.inGame = false;
 				if(container.contains(card))

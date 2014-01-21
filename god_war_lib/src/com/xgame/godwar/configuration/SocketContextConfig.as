@@ -64,6 +64,9 @@ package com.xgame.godwar.configuration
 		public static const ACTION_START_DICE: int = 13;
 		public static const ACTION_ROUND_STANDBY: int = 14;
 		public static const ACTION_ROUND_STANDBY_CONFIRM: int = 15;
+		public static const ACTION_ROUND_STANDBY_CHANGE_FORMATION: int = 16;
+		public static const ACTION_ROUND_STANDBY_EQUIP: int = 17;
+		public static const ACTION_ROUND_ACTION: int = 25;
 		
 		public static const TYPE_INT: int = 0;
 		public static const TYPE_LONG: int = 1;
@@ -116,6 +119,9 @@ package com.xgame.godwar.configuration
 		public static const BATTLEROOM_START_DICE: int = ACTION_START_DICE << 8 | CONTROLLER_BATTLEROOM;
 		public static const BATTLEROOM_ROUND_STANDBY: int = ACTION_ROUND_STANDBY << 8 | CONTROLLER_BATTLEROOM;
 		public static const BATTLEROOM_ROUND_STANDBY_CONFIRM: int = ACTION_ROUND_STANDBY_CONFIRM << 8 | CONTROLLER_BATTLEROOM;
+		public static const BATTLEROOM_ROUND_STANDBY_CHANGE_FORMATION: int = ACTION_ROUND_STANDBY_CHANGE_FORMATION << 8 | CONTROLLER_BATTLEROOM;
+		public static const BATTLEROOM_ROUND_STANDBY_EQUIP: int = ACTION_ROUND_STANDBY_EQUIP << 8 | CONTROLLER_BATTLEROOM;
+		public static const BATTLEROOM_ROUND_ACTION: int = ACTION_ROUND_ACTION << 8 | CONTROLLER_BATTLEROOM;
 		
 		public function SocketContextConfig() 
 		{

@@ -80,8 +80,6 @@ package com.xgame.godwar.core.room.views
 			_choupaiComponent.addEventListener(BattleGameEvent.CHOUPAI_COMPLETE_EVENT, onChouPaiComplete);
 			_paiduiComponent.addEventListener(BattleGameEvent.ROUND_STANDBY_EVENT, onRoundStandby);
 			_paiduiComponent.addEventListener(BattleGameEvent.CHOUPAI_EVENT, onChouPai);
-			
-			CardManager.instance.battleGameComponent = this;
 		}
 		
 		private function onChouPai(evt: BattleGameEvent): void
