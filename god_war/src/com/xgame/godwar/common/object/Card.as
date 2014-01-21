@@ -31,6 +31,7 @@ package com.xgame.godwar.common.object
 		private var _name: String;
 		private var _energy: int;
 		private var _enabled: Boolean = true;
+		private var _action: Boolean = false;
 		
 		private var _cardResourceBuffer: Bitmap;
 		private var _displayMode: int;
@@ -344,6 +345,16 @@ package com.xgame.godwar.common.object
 		public function get energy():int
 		{
 			return _energy;
+		}
+
+		public function get action():Boolean
+		{
+			return _action;
+		}
+
+		public function set action(value:Boolean):void
+		{
+			_action = value;
 		}
 
 
