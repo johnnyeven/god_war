@@ -2,6 +2,7 @@ package com.xgame.godwar.core.room.mediators
 {
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Strong;
+	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_ChangeFormation;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_InitRoomDataLogicServer;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PhaseRoundStandby;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PhaseRoundStandbyConfirm;
@@ -57,6 +58,7 @@ package com.xgame.godwar.core.room.mediators
 		public static const START_DICE_NOTE: String = NAME + ".StartDiceNote";
 		public static const PHASE_ROUND_STANDBY_NOTE: String = NAME + ".PhaseRoundStandbyNote";
 		public static const PHASE_ROUND_STANDBY_COMPLETE_NOTE: String = NAME + ".PhaseRoundStandbyCompleteNote";
+		public static const PHASE_ROUND_STANDBY_CHANGE_FORMATION_NOTE: String = NAME + ".PhaseRoundStandbyChangeFormationNote";
 		
 		private var _cardDefenser: String;
 		private var _cardAttacker1: String;
@@ -88,7 +90,7 @@ package com.xgame.godwar.core.room.mediators
 		{
 			return [SHOW_NOTE, HIDE_NOTE, DISPOSE_NOTE, DEFINE_PLAYER_NOTE, SHOW_ROOM_DATA_NOTE, ADD_PLAYER_NOTE,
 				ADD_CARD_ANIMATE_NOTE, START_CARD_ANIMATE_NOTE, DEPLOY_COMPLETE_NOTE, START_DICE_NOTE,
-				PHASE_ROUND_STANDBY_NOTE, PHASE_ROUND_STANDBY_COMPLETE_NOTE];
+				PHASE_ROUND_STANDBY_NOTE, PHASE_ROUND_STANDBY_COMPLETE_NOTE,PHASE_ROUND_STANDBY_CHANGE_FORMATION_NOTE];
 		}
 		
 		override public function handleNotification(notification:INotification):void
@@ -147,6 +149,9 @@ package com.xgame.godwar.core.room.mediators
 					break;
 				case PHASE_ROUND_STANDBY_COMPLETE_NOTE:
 					phaseRoundStandbyComplete(notification.getBody() as Receive_BattleRoom_PhaseRoundStandbyConfirm);
+					break;
+				case PHASE_ROUND_STANDBY_CHANGE_FORMATION_NOTE:
+					changeFormation(notification.getBody() as Receive_BattleRoom_ChangeFormation);
 					break;
 			}
 		}
@@ -516,40 +521,91 @@ package com.xgame.godwar.core.room.mediators
 				}
 				else
 				{
-					component.panelComponent.removeCard(currentCard);
-					if(card == formationComponent.soulCard0)
+					var gameProxy: BattleGameProxy = facade.retrieveProxy(BattleGameProxy.NAME) as BattleGameProxy;
+					gameProxy.changeFormation(currentCard.id, card.id);
+				}
+			}
+		}
+		
+		private function changeFormation(protocol: Receive_BattleRoom_ChangeFormation): void
+		{
+			var roleProxy: RequestRoleProxy = facade.retrieveProxy(RequestRoleProxy.NAME) as RequestRoleProxy;
+			if(roleProxy != null)
+			{
+				var roleProtocol: Receive_Info_AccountRole = roleProxy.getData() as Receive_Info_AccountRole;
+				if(roleProtocol != null && protocol != null)
+				{
+					if(roleProtocol.guid == protocol.guid)
 					{
-						formationComponent.removeCard(0);
-						formationComponent.setCard(0, currentCard);
-					}
-					else if(card == formationComponent.soulCard1)
-					{
-						formationComponent.removeCard(1);
-						formationComponent.setCard(1, currentCard);
-					}
-					else if(card == formationComponent.soulCard2)
-					{
-						formationComponent.removeCard(2);
-						formationComponent.setCard(2, currentCard);
-					}
-					else if(card == formationComponent.soulCard3)
-					{
-						formationComponent.removeCard(3);
-						formationComponent.setCard(3, currentCard);
-					}
-					currentCard.addEventListener(MouseEvent.CLICK, onCardFormationChange, false, 100);
-					
-					if(card.isBack)
-					{
-						player.addCardHand(card);
-						component.panelComponent.addCard(card);
+						var currentCard: SoulCard = CardManager.instance.currentFightCard;
+						if((currentCard != null && currentCard.id != protocol.cardIn) || currentCard == null)
+						{
+							for(var i: int = 0; i<player.cardHandList.length; i++)
+							{
+								if(player.cardHandList[i].id == protocol.cardIn)
+								{
+									currentCard == player.cardHandList[i];
+									break;
+								}
+							}
+						}
+						if(currentCard != null)
+						{
+							var formationComponent: BattleGameCardFormationComponent = component.panelComponent.cardFormation;
+							var card: SoulCard;
+							
+							component.panelComponent.removeCard(currentCard);
+							player.removeHandCard(currentCard);
+							
+							if(formationComponent.soulCard0.id == protocol.cardOut)
+							{
+								card = formationComponent.soulCard0;
+								formationComponent.removeCard(0);
+								formationComponent.setCard(0, currentCard);
+							}
+							else if(formationComponent.soulCard1.id == protocol.cardOut)
+							{
+								card = formationComponent.soulCard1;
+								formationComponent.removeCard(1);
+								formationComponent.setCard(1, currentCard);
+							}
+							else if(formationComponent.soulCard2.id == protocol.cardOut)
+							{
+								card = formationComponent.soulCard2;
+								formationComponent.removeCard(2);
+								formationComponent.setCard(2, currentCard);
+							}
+							else if(formationComponent.soulCard3.id == protocol.cardOut)
+							{
+								card = formationComponent.soulCard3;
+								formationComponent.removeCard(3);
+								formationComponent.setCard(3, currentCard);
+							}
+							currentCard.addEventListener(MouseEvent.CLICK, onCardFormationChange, false, 100);
+							
+							if(card.isBack)
+							{
+								player.addCardHand(card);
+								component.panelComponent.addCard(card);
+							}
+							else
+							{
+								player.addCardGrave(card);
+							}
+							
+							currentCard.cancelSelect();
+						}
 					}
 					else
 					{
-						player.addCardGrave(card);
+						var componentIndex: Dictionary = component.componentIndex;
+						var otherRoleComponent: BattleGameOtherRoleComponent;
+						otherRoleComponent = componentIndex[protocol.guid];
+						if(otherRoleComponent != null)
+						{
+							
+						}
 					}
-					
-					currentCard.cancelSelect();
 				}
 			}
 		}

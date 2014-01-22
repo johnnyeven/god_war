@@ -1,6 +1,7 @@
 package com.xgame.godwar.core.room.proxy
 {
 	import com.xgame.godwar.common.commands.CommandList;
+	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_ChangeFormation;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_DeployComplete;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_FirstChouPai;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_InitRoomDataLogicServer;
@@ -11,6 +12,7 @@ package com.xgame.godwar.core.room.proxy
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_StartDice;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_StartGameTimer;
 	import com.xgame.godwar.common.commands.receiving.Receive_Hall_RequestEnterRoomLogicServer;
+	import com.xgame.godwar.common.commands.sending.Send_BattleRoom_ChangeFormation;
 	import com.xgame.godwar.common.commands.sending.Send_BattleRoom_DeployComplete;
 	import com.xgame.godwar.common.commands.sending.Send_BattleRoom_PhaseRoundStandbyConfirm;
 	import com.xgame.godwar.common.commands.sending.Send_Hall_RequestEnterRoomLogicServer;
@@ -71,6 +73,9 @@ package com.xgame.godwar.core.room.proxy
 			//摸牌阶段完成
 			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_ROUND_STANDBY_CONFIRM, Receive_BattleRoom_PhaseRoundStandbyConfirm);
 			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_ROUND_STANDBY_CONFIRM, onPhaseRoundStandbyConfirm);
+			//换牌上场
+			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_ROUND_STANDBY_CHANGE_FORMATION, Receive_BattleRoom_ChangeFormation);
+			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_ROUND_STANDBY_CHANGE_FORMATION, onChangeFormation);
 		}
 		
 		public function requestEnterRoom(): void
@@ -224,6 +229,22 @@ package com.xgame.godwar.core.room.proxy
 		private function onPhaseRoundStandbyConfirm(protocol: Receive_BattleRoom_PhaseRoundStandbyConfirm): void
 		{
 			facade.sendNotification(BattleGameMediator.PHASE_ROUND_STANDBY_COMPLETE_NOTE, protocol);
+		}
+		
+		public function changeFormation(cardIn: String, cardOut: String): void
+		{
+			if(CommandCenter.instance.connected)
+			{
+				var protocol: Send_BattleRoom_ChangeFormation = new Send_BattleRoom_ChangeFormation();
+				protocol.cardIn = cardIn;
+				protocol.cardOut = cardOut;
+				CommandCenter.instance.send(protocol);
+			}
+		}
+		
+		private function onChangeFormation(protocol: Receive_BattleRoom_ChangeFormation): void
+		{
+			facade.sendNotification(BattleGameMediator.PHASE_ROUND_STANDBY_CHANGE_FORMATION_NOTE, protocol);
 		}
 	}
 }
