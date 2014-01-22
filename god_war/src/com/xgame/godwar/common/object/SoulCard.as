@@ -78,6 +78,7 @@ package com.xgame.godwar.common.object
 			btnRest.y = (cardResourceBuffer.height - btnRest.height) / 2 + 35;
 			
 			btnFight.addEventListener(MouseEvent.CLICK, onBtnFightClick);
+			btnAttack.addEventListener(MouseEvent.CLICK, onBtnAttackClick);
 		}
 		
 		private function onBtnFightClick(evt: MouseEvent): void
@@ -126,6 +127,11 @@ package com.xgame.godwar.common.object
 			GameManager.container.removeEventListener(MouseEvent.CLICK, cancelSelect);
 			CardManager.instance.currentSelectedCard = null;
 			CardManager.instance.currentFightCard = null;
+		}
+		
+		private function onBtnAttackClick(evt: MouseEvent): void
+		{
+			
 		}
 
 		public function get isBack():Boolean
