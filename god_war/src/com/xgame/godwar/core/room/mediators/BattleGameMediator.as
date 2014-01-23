@@ -11,6 +11,7 @@ package com.xgame.godwar.core.room.mediators
 	import com.xgame.godwar.common.object.Card;
 	import com.xgame.godwar.common.object.CardManager;
 	import com.xgame.godwar.common.object.Player;
+	import com.xgame.godwar.common.object.Skill;
 	import com.xgame.godwar.common.object.SoulCard;
 	import com.xgame.godwar.common.parameters.PlayerParameter;
 	import com.xgame.godwar.common.parameters.card.CardContainerParameter;
@@ -29,6 +30,7 @@ package com.xgame.godwar.core.room.mediators
 	import com.xgame.godwar.core.room.views.BattleGameComponent;
 	import com.xgame.godwar.core.room.views.BattleGameOtherRoleComponent;
 	import com.xgame.godwar.core.room.views.GameDiceComponent;
+	import com.xgame.godwar.core.room.views.SoulCardSkillComponent;
 	import com.xgame.godwar.display.BitmapMovieDispaly;
 	import com.xgame.godwar.display.renders.Render;
 	import com.xgame.godwar.events.BattleGameEvent;
@@ -77,6 +79,8 @@ package com.xgame.godwar.core.room.mediators
 			component.addEventListener(BattleGameEvent.FIGHT_EVENT, onFight);
 			component.addEventListener(BattleGameEvent.ROUND_STANDBY_EVENT, onRoundStandby);
 			component.addEventListener(CardEvent.FIGHT_CLICK, onCardFightClick);
+			component.addEventListener(CardEvent.ATTACK_CLICK, onCardAttackClick);
+			component.addEventListener(CardEvent.SPELL_CLICK, onCardSpellClick);
 			
 			EffectCenter.instance.start();
 		}
@@ -252,6 +256,32 @@ package com.xgame.godwar.core.room.mediators
 			
 			var proxy: BattleGameProxy = facade.retrieveProxy(BattleGameProxy.NAME) as BattleGameProxy;
 			proxy.deployComplete(_cardDefenser, _cardAttacker1, _cardAttacker2, _cardAttacker3);
+			
+			if(component.panelComponent.cardFormation.soulCard0 != null)
+			{
+				component.panelComponent.cardFormation.soulCard0.inRound = false;
+				component.panelComponent.cardFormation.soulCard0.addEventListener(MouseEvent.CLICK, onCardFormationChange, false, 100);
+			}
+			if(component.panelComponent.cardFormation.soulCard1 != null)
+			{
+				component.panelComponent.cardFormation.soulCard1.inRound = false;
+				component.panelComponent.cardFormation.soulCard1.addEventListener(MouseEvent.CLICK, onCardFormationChange, false, 100);
+			}
+			if(component.panelComponent.cardFormation.soulCard2 != null)
+			{
+				component.panelComponent.cardFormation.soulCard2.inRound = false;
+				component.panelComponent.cardFormation.soulCard2.addEventListener(MouseEvent.CLICK, onCardFormationChange, false, 100);
+			}
+			if(component.panelComponent.cardFormation.soulCard3 != null)
+			{
+				component.panelComponent.cardFormation.soulCard3.inRound = false;
+				component.panelComponent.cardFormation.soulCard3.addEventListener(MouseEvent.CLICK, onCardFormationChange, false, 100);
+			}
+			var handList: Vector.<Card> = player.cardHandList;
+			for(var i: int = 0; i<handList.length; i++)
+			{
+				handList[i].inRound = false;
+			}
 		}
 		
 		private function deployComplete(guid: String): void
@@ -406,6 +436,49 @@ package com.xgame.godwar.core.room.mediators
 					}
 					component.paiduiComponent.showCards();
 				}
+			}
+		}
+		
+		private function onCardAttackClick(evt: CardEvent): void
+		{
+			
+		}
+		
+		private function onCardSpellClick(evt: CardEvent): void
+		{
+			var skillComponent: SoulCardSkillComponent = evt.value as SoulCardSkillComponent;
+			var formationComponent: BattleGameCardFormationComponent = component.panelComponent.cardFormation;
+			var skill: Skill = skillComponent.skill;
+			var proxy: BattleGameProxy = facade.retrieveProxy(BattleGameProxy.NAME) as BattleGameProxy;
+			if(skill.target == "me")
+			{
+//				skillComponent.card.addEventListener(MouseEvent.CLICK, onCardSkillUserClick);
+//				if(formationComponent.soulCard0 == null && skillComponent.card != formationComponent.soulCard0)
+//				{
+//					formationComponent.soulCard0.enabled = false;
+//				}
+//				if(formationComponent.soulCard1 == null && skillComponent.card != formationComponent.soulCard1)
+//				{
+//					formationComponent.soulCard1.enabled = false;
+//				}
+//				if(formationComponent.soulCard2 == null && skillComponent.card != formationComponent.soulCard2)
+//				{
+//					formationComponent.soulCard2.enabled = false;
+//				}
+//				if(formationComponent.soulCard3 == null && skillComponent.card != formationComponent.soulCard3)
+//				{
+//					formationComponent.soulCard3.enabled = false;
+//				}
+				proxy.spell(skillComponent.card, skill);
+			}
+		}
+		
+		private function onCardSkillUserClick(evt: MouseEvent): void
+		{
+			var card: SoulCard = evt.currentTarget as SoulCard;
+			if(card != null)
+			{
+				
 			}
 		}
 		

@@ -4,6 +4,7 @@ package com.xgame.godwar.core.login.controllers
 	import com.greensock.loading.core.LoaderCore;
 	import com.xgame.godwar.core.center.ResourceCenter;
 	import com.xgame.godwar.core.initialization.LoadCardCommand;
+	import com.xgame.godwar.core.initialization.LoadSkillCommand;
 	import com.xgame.godwar.core.loading.mediators.ProgressBarMediator;
 	import com.xgame.godwar.core.login.mediators.ChooseModeMediator;
 	
@@ -19,6 +20,8 @@ package com.xgame.godwar.core.login.controllers
 			super();
 			facade.registerCommand(LoadCardCommand.LOAD_NOTE, LoadCardCommand);
 			facade.sendNotification(LoadCardCommand.LOAD_NOTE);
+			facade.registerCommand(LoadSkillCommand.LOAD_NOTE, LoadSkillCommand);
+			facade.sendNotification(LoadSkillCommand.LOAD_NOTE);
 		}
 		
 		override public function execute(notification:INotification):void

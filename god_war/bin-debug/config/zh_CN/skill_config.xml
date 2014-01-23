@@ -1,0 +1,10 @@
+<skills>
+    <skill>
+        <id>jianyi1</id>
+        <level>1</level>
+        <name>坚毅</name>
+        <target>me</target>
+        <resource>assets/png/skill/jianyi1.png</resource>
+        <script>scripts/jianyi1.js</script>
+    </skill>
+</skills>

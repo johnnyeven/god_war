@@ -10,6 +10,9 @@
     <energy>2</energy>
     <level>1</level>
     <race>0</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>XunLuoBing</id>
@@ -22,6 +25,9 @@
     <energy>2</energy>
     <level>1</level>
     <race>0</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>ShiZhe</id>
@@ -34,6 +40,9 @@
     <energy>2</energy>
     <level>1</level>
     <race>0</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>XinTu</id>
@@ -46,6 +55,9 @@
     <energy>2</energy>
     <level>1</level>
     <race>0</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>ChiDunWeiShi</id>
@@ -58,6 +70,9 @@
     <energy>2</energy>
     <level>1</level>
     <race>0</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>ShengQiShi</id>
@@ -70,6 +85,9 @@
     <energy>3</energy>
     <level>2</level>
     <race>0</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>MuShi</id>
@@ -82,6 +100,9 @@
     <energy>3</energy>
     <level>2</level>
     <race>0</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>YuanSuJieJing</id>
@@ -94,6 +115,9 @@
     <energy>3</energy>
     <level>2</level>
     <race>0</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>ZhongJiaBing</id>
@@ -106,6 +130,9 @@
     <energy>3</energy>
     <level>2</level>
     <race>0</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>JuXiang</id>
@@ -118,6 +145,9 @@
     <energy>5</energy>
     <level>3</level>
     <race>0</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>ShengNv</id>
@@ -130,6 +160,9 @@
     <energy>5</energy>
     <level>3</level>
     <race>0</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>FengMoZhe</id>
@@ -142,6 +175,9 @@
     <energy>5</energy>
     <level>3</level>
     <race>0</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>LieHuoZhanShen</id>
@@ -154,6 +190,9 @@
     <energy>8</energy>
     <level>4</level>
     <race>0</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>ShengDiShouHuZhe</id>
@@ -166,6 +205,9 @@
     <energy>8</energy>
     <level>4</level>
     <race>0</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>ShenPanTianShi</id>
@@ -178,6 +220,9 @@
     <energy>10</energy>
     <level>5</level>
     <race>0</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>ShiShiGui</id>
@@ -190,6 +235,9 @@
     <energy>2</energy>
     <level>1</level>
     <race>1</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>DiYuQuan</id>
@@ -202,6 +250,9 @@
     <energy>2</energy>
     <level>1</level>
     <race>1</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>SangShi</id>
@@ -214,6 +265,9 @@
     <energy>2</energy>
     <level>1</level>
     <race>1</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>KuLouFaShi</id>
@@ -226,6 +280,9 @@
     <energy>2</energy>
     <level>1</level>
     <race>1</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>XiaoEMo</id>
@@ -238,6 +295,9 @@
     <energy>2</energy>
     <level>1</level>
     <race>1</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>ShiXiangGui</id>
@@ -250,6 +310,9 @@
     <energy>3</energy>
     <level>2</level>
     <race>1</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>XiXueGui</id>
@@ -262,6 +325,9 @@
     <energy>3</energy>
     <level>2</level>
     <race>1</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>HeiAnRuChong</id>
@@ -274,6 +340,9 @@
     <energy>3</energy>
     <level>2</level>
     <race>1</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>LiJianGuai</id>
@@ -286,6 +355,9 @@
     <energy>3</energy>
     <level>2</level>
     <race>1</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>KuLouJiangJun</id>
@@ -298,6 +370,9 @@
     <energy>5</energy>
     <level>3</level>
     <race>1</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>DiYuMoJun</id>
@@ -310,6 +385,9 @@
     <energy>5</energy>
     <level>3</level>
     <race>1</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>WuYao</id>
@@ -322,6 +400,9 @@
     <energy>5</energy>
     <level>3</level>
     <race>1</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>KuLouLingZhu</id>
@@ -334,6 +415,9 @@
     <energy>8</energy>
     <level>4</level>
     <race>1</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>DuoLuoZhiWang</id>
@@ -346,6 +430,9 @@
     <energy>8</energy>
     <level>4</level>
     <race>1</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>LongHun</id>
@@ -358,6 +445,9 @@
     <energy>10</energy>
     <level>5</level>
     <race>1</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>Lang</id>
@@ -370,6 +460,9 @@
     <energy>2</energy>
     <level>1</level>
     <race>2</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>DaLianHua</id>
@@ -382,6 +475,9 @@
     <energy>2</energy>
     <level>1</level>
     <race>2</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>HuaHuDie</id>
@@ -394,6 +490,9 @@
     <energy>2</energy>
     <level>1</level>
     <race>2</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>DuManTeng</id>
@@ -406,6 +505,9 @@
     <energy>2</energy>
     <level>1</level>
     <race>2</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>HuaXianZi</id>
@@ -418,6 +520,9 @@
     <energy>2</energy>
     <level>1</level>
     <race>2</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>BanRenMa</id>
@@ -430,6 +535,9 @@
     <energy>3</energy>
     <level>2</level>
     <race>2</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>XiaoAiRenQiangShou</id>
@@ -442,6 +550,9 @@
     <energy>3</energy>
     <level>2</level>
     <race>2</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>MoWenBao</id>
@@ -454,6 +565,9 @@
     <energy>3</energy>
     <level>2</level>
     <race>2</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>JiSi</id>
@@ -466,6 +580,9 @@
     <energy>3</energy>
     <level>2</level>
     <race>2</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>YueShenShiZhe</id>
@@ -478,6 +595,9 @@
     <energy>5</energy>
     <level>3</level>
     <race>2</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>ShuWang</id>
@@ -490,6 +610,9 @@
     <energy>5</energy>
     <level>3</level>
     <race>2</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>DuJiaoShou</id>
@@ -502,6 +625,9 @@
     <energy>5</energy>
     <level>3</level>
     <race>2</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>FeiCuiLingLong</id>
@@ -514,6 +640,9 @@
     <energy>8</energy>
     <level>4</level>
     <race>2</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>DaDiNvShen</id>
@@ -526,6 +655,9 @@
     <energy>8</energy>
     <level>4</level>
     <race>2</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>XianNvShengLong</id>
@@ -538,6 +670,9 @@
     <energy>10</energy>
     <level>5</level>
     <race>2</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>GeBuLin</id>
@@ -550,6 +685,9 @@
     <energy>2</energy>
     <level>1</level>
     <race>3</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>LangRen</id>
@@ -562,6 +700,9 @@
     <energy>2</energy>
     <level>1</level>
     <race>3</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>DuYeQinShiZhe</id>
@@ -574,6 +715,9 @@
     <energy>2</energy>
     <level>1</level>
     <race>3</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>YouLong</id>
@@ -586,6 +730,9 @@
     <energy>2</energy>
     <level>1</level>
     <race>3</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>JuDuZhiZhu</id>
@@ -598,6 +745,9 @@
     <energy>2</energy>
     <level>1</level>
     <race>3</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>BanShouRen</id>
@@ -610,6 +760,9 @@
     <energy>3</energy>
     <level>2</level>
     <race>3</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>YingShenNvYao</id>
@@ -622,6 +775,9 @@
     <energy>3</energy>
     <level>2</level>
     <race>3</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>NiuTouRen</id>
@@ -634,6 +790,9 @@
     <energy>3</energy>
     <level>2</level>
     <race>3</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>GouTouRenWuShi</id>
@@ -646,6 +805,9 @@
     <energy>3</energy>
     <level>2</level>
     <race>3</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>ShaQiuLiChiShou</id>
@@ -658,6 +820,9 @@
     <energy>5</energy>
     <level>3</level>
     <race>3</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>ShiRenMoWuShi</id>
@@ -670,6 +835,9 @@
     <energy>5</energy>
     <level>3</level>
     <race>3</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>DuYanJuRen</id>
@@ -682,6 +850,9 @@
     <energy>5</energy>
     <level>3</level>
     <race>3</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>BaoZouDiLong</id>
@@ -694,6 +865,9 @@
     <energy>8</energy>
     <level>4</level>
     <race>3</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>JiuTouShe</id>
@@ -706,6 +880,9 @@
     <energy>8</energy>
     <level>4</level>
     <race>3</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
   <card>
     <id>LeiTingJuShou</id>
@@ -718,5 +895,8 @@
     <energy>10</energy>
     <level>5</level>
     <race>3</race>
+    <skills>
+        <skill>jianyi1</skill>
+    </skills>
   </card>
 </root>

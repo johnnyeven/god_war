@@ -61,6 +61,10 @@ package com.xgame.godwar.core.general.proxy
 				parameter.energy = _config.card[i].energy;
 				parameter.level = _config.card[i].level;
 				parameter.race = _config.card[i].race;
+				for(var j: int = 0; j < _config.card[i].skills.skill.length(); j++)
+				{
+					parameter.skillList.push(_config.card[i].skills.skill[j]);
+				}
 				CardParameterPool.instance.add(parameter.id, parameter);
 			}
 			

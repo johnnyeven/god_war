@@ -38,8 +38,8 @@ package com.xgame.godwar.common.object
 		private var _baseLayer: Sprite;
 		private var _effectLayer: Sprite;
 		private var _infoLayer: Sprite;
-		private var _scrollRect: Rectangle;
 		
+		protected var _scrollRect: Rectangle;
 		protected var _bgGlowFilter: GlowFilter;
 		protected var _cardController: Sprite;
 		protected var _parameter: CardParameter;

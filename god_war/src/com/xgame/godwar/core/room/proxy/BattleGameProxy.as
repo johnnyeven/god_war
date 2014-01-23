@@ -9,15 +9,18 @@ package com.xgame.godwar.core.room.proxy
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PhaseRoundStandbyConfirm;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerEnterRoomLogicServer;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_RequestStartGame;
+	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_Spell;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_StartDice;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_StartGameTimer;
 	import com.xgame.godwar.common.commands.receiving.Receive_Hall_RequestEnterRoomLogicServer;
 	import com.xgame.godwar.common.commands.sending.Send_BattleRoom_ChangeFormation;
 	import com.xgame.godwar.common.commands.sending.Send_BattleRoom_DeployComplete;
 	import com.xgame.godwar.common.commands.sending.Send_BattleRoom_PhaseRoundStandbyConfirm;
+	import com.xgame.godwar.common.commands.sending.Send_BattleRoom_Spell;
 	import com.xgame.godwar.common.commands.sending.Send_Hall_RequestEnterRoomLogicServer;
 	import com.xgame.godwar.common.object.Card;
 	import com.xgame.godwar.common.object.Player;
+	import com.xgame.godwar.common.object.Skill;
 	import com.xgame.godwar.common.object.SoulCard;
 	import com.xgame.godwar.common.parameters.card.CardContainerParameter;
 	import com.xgame.godwar.configuration.SocketContextConfig;
@@ -27,6 +30,7 @@ package com.xgame.godwar.core.room.proxy
 	import com.xgame.godwar.core.loading.mediators.LoadingIconMediator;
 	import com.xgame.godwar.core.room.mediators.BattleGameMediator;
 	import com.xgame.godwar.core.room.mediators.BattlePhaseMediator;
+	import com.xgame.godwar.core.room.views.BattleGameOtherRoleComponent;
 	import com.xgame.godwar.core.room.views.GameDiceComponent;
 	
 	import flash.utils.Dictionary;
@@ -76,6 +80,9 @@ package com.xgame.godwar.core.room.proxy
 			//换牌上场
 			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_ROUND_STANDBY_CHANGE_FORMATION, Receive_BattleRoom_ChangeFormation);
 			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_ROUND_STANDBY_CHANGE_FORMATION, onChangeFormation);
+			//发动技能
+			CommandList.instance.bind(SocketContextConfig.BATTLEROOM_ROUND_ACTION_SPELL, Receive_BattleRoom_Spell);
+			CommandCenter.instance.add(SocketContextConfig.BATTLEROOM_ROUND_ACTION_SPELL, onSpell);
 		}
 		
 		public function requestEnterRoom(): void
@@ -245,6 +252,26 @@ package com.xgame.godwar.core.room.proxy
 		private function onChangeFormation(protocol: Receive_BattleRoom_ChangeFormation): void
 		{
 			facade.sendNotification(BattleGameMediator.PHASE_ROUND_STANDBY_CHANGE_FORMATION_NOTE, protocol);
+		}
+		
+		public function spell(card: Card, skill: Skill, target: BattleGameOtherRoleComponent = null): void
+		{
+			if(CommandCenter.instance.connected)
+			{
+				var protocol: Send_BattleRoom_Spell = new Send_BattleRoom_Spell();
+				protocol.attackerCard = card.id;
+				protocol.skillId = skill.id;
+				if(target != null)
+				{
+					protocol.defenderGuid = target.player.guid;
+				}
+				CommandCenter.instance.send(protocol);
+			}
+		}
+		
+		private function onSpell(protocol: Receive_BattleRoom_Spell): void
+		{
+			
 		}
 	}
 }
