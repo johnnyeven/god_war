@@ -37,6 +37,8 @@ package com.xgame.godwar.core.general.proxy
 				parameter.level = _config.skill[i].level;
 				parameter.target = _config.skill[i].target;
 				parameter.resource = _config.skill[i].resource;
+				parameter.skillId = _config.skill[i].skillId;
+				parameter.classId = _config.skill[i].classId;
 				SkillParameterPool.instance.add(parameter.id, parameter);
 			}
 		}
