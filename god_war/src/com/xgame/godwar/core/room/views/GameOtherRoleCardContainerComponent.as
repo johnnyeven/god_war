@@ -2,6 +2,7 @@ package com.xgame.godwar.core.room.views
 {
 	import com.greensock.TweenLite;
 	import com.xgame.godwar.common.object.Card;
+	import com.xgame.godwar.common.object.SoulCard;
 	import com.xgame.godwar.common.pool.ResourcePool;
 	import com.xgame.godwar.liteui.core.Component;
 	
@@ -48,6 +49,24 @@ package com.xgame.godwar.core.room.views
 			sp.alpha = 0;
 			
 			TweenLite.to(sp, .5, {y: 0, alpha: 1});
+		}
+		
+		public function getCard(cardId: String): SoulCard
+		{
+			if(_cardContainer.hasOwnProperty(cardId))
+			{
+				return _cardContainer[cardId] as SoulCard;
+			}
+			return null;
+		}
+		
+		public function getBack(position: int): Sprite
+		{
+			if(_backContainer.hasOwnProperty(position))
+			{
+				return _backContainer[position] as Sprite;
+			}
+			return null;
 		}
 	}
 }

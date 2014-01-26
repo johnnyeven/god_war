@@ -19,7 +19,9 @@ package com.xgame.godwar.enum
 	    public var defenderGuid: String = null;
 		
 	    public var attackerCard: String = null;
+		public var attackerCardPosition: int = int.MIN_VALUE;
 	    public var defenderCard: String = null;
+		public var defenderCardPosition: int = int.MIN_VALUE;
 		
 	    public var attackerAttackChange: int = int.MIN_VALUE;
 	    public var attackerAttack: int = int.MIN_VALUE;

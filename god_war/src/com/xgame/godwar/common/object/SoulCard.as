@@ -194,6 +194,13 @@ package com.xgame.godwar.common.object
 		public function cancelSelect(evt: MouseEvent = null): void
 		{
 			GameManager.container.removeEventListener(MouseEvent.CLICK, cancelSelect);
+			
+			var component: SoulCardSkillComponent;
+			for(var i: int = 0; i<_skillList.length; i++)
+			{
+				component = _skillList[i];
+				component.visible = false;
+			}
 			CardManager.instance.currentSelectedCard = null;
 			CardManager.instance.currentFightCard = null;
 		}
@@ -206,6 +213,11 @@ package com.xgame.godwar.common.object
 		public function get currentSkill():String
 		{
 			return _currentSkill;
+		}
+
+		public function get skillList():Vector.<SoulCardSkillComponent>
+		{
+			return _skillList;
 		}
 
 

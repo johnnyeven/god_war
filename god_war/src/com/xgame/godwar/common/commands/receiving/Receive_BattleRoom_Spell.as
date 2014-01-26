@@ -53,7 +53,15 @@ package com.xgame.godwar.common.commands.receiving
 							}
 							break;
 						case SocketContextConfig.TYPE_INT:
-							if (info.attackerAttackChange == int.MIN_VALUE)
+							if(info.attackerCardPosition == int.MIN_VALUE)
+							{
+								info.attackerCardPosition = data.readInt();
+							}
+							else if (info.defenderCardPosition == int.MIN_VALUE)
+							{
+								info.defenderCardPosition = data.readInt();
+							}
+							else if (info.attackerAttackChange == int.MIN_VALUE)
 							{
 								info.attackerAttackChange = data.readInt();
 							}
@@ -156,6 +164,7 @@ package com.xgame.godwar.common.commands.receiving
 							break;
 					}
 					if(info.attackerGuid != null && info.defenderGuid != null &&
+					info.attackerCardPosition != int.MIN_VALUE && info.defenderCardPosition != int.MIN_VALUE &&
 					info.attackerCard != null && info.defenderCard != null &&
 					info.attackerAttackChange != int.MIN_VALUE && info.attackerAttack != int.MIN_VALUE &&
 					info.attackerDefChange != int.MIN_VALUE && info.attackerDef != int.MIN_VALUE &&

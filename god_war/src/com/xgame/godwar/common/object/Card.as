@@ -357,6 +357,11 @@ package com.xgame.godwar.common.object
 			_action = value;
 		}
 
+		public function get cardController():Sprite
+		{
+			return _cardController;
+		}
+
 
 	}
 }

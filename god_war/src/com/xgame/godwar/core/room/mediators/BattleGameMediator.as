@@ -7,9 +7,11 @@ package com.xgame.godwar.core.room.mediators
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PhaseRoundStandby;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PhaseRoundStandbyConfirm;
 	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_PlayerEnterRoomLogicServer;
+	import com.xgame.godwar.common.commands.receiving.Receive_BattleRoom_Spell;
 	import com.xgame.godwar.common.commands.receiving.Receive_Info_AccountRole;
 	import com.xgame.godwar.common.object.Card;
 	import com.xgame.godwar.common.object.CardManager;
+	import com.xgame.godwar.common.object.HeroCard;
 	import com.xgame.godwar.common.object.Player;
 	import com.xgame.godwar.common.object.Skill;
 	import com.xgame.godwar.common.object.SoulCard;
@@ -33,6 +35,7 @@ package com.xgame.godwar.core.room.mediators
 	import com.xgame.godwar.core.room.views.SoulCardSkillComponent;
 	import com.xgame.godwar.display.BitmapMovieDispaly;
 	import com.xgame.godwar.display.renders.Render;
+	import com.xgame.godwar.enum.AttackInfo;
 	import com.xgame.godwar.events.BattleGameEvent;
 	import com.xgame.godwar.events.CardEvent;
 	import com.xgame.godwar.utils.StringUtils;
@@ -40,6 +43,7 @@ package com.xgame.godwar.core.room.mediators
 	import com.xgame.godwar.utils.manager.TimerManager;
 	
 	import flash.display.MovieClip;
+	import flash.display.Sprite;
 	import flash.events.MouseEvent;
 	import flash.utils.Dictionary;
 	
@@ -61,6 +65,7 @@ package com.xgame.godwar.core.room.mediators
 		public static const PHASE_ROUND_STANDBY_NOTE: String = NAME + ".PhaseRoundStandbyNote";
 		public static const PHASE_ROUND_STANDBY_COMPLETE_NOTE: String = NAME + ".PhaseRoundStandbyCompleteNote";
 		public static const PHASE_ROUND_STANDBY_CHANGE_FORMATION_NOTE: String = NAME + ".PhaseRoundStandbyChangeFormationNote";
+		public static const PHASE_ROUND_ACTION_SPELL_NOTE: String = NAME + ".PhaseRoundActionSpellNote";
 		
 		private var _cardDefenser: String;
 		private var _cardAttacker1: String;
@@ -94,7 +99,8 @@ package com.xgame.godwar.core.room.mediators
 		{
 			return [SHOW_NOTE, HIDE_NOTE, DISPOSE_NOTE, DEFINE_PLAYER_NOTE, SHOW_ROOM_DATA_NOTE, ADD_PLAYER_NOTE,
 				ADD_CARD_ANIMATE_NOTE, START_CARD_ANIMATE_NOTE, DEPLOY_COMPLETE_NOTE, START_DICE_NOTE,
-				PHASE_ROUND_STANDBY_NOTE, PHASE_ROUND_STANDBY_COMPLETE_NOTE,PHASE_ROUND_STANDBY_CHANGE_FORMATION_NOTE];
+				PHASE_ROUND_STANDBY_NOTE, PHASE_ROUND_STANDBY_COMPLETE_NOTE,PHASE_ROUND_STANDBY_CHANGE_FORMATION_NOTE,
+				PHASE_ROUND_ACTION_SPELL_NOTE];
 		}
 		
 		override public function handleNotification(notification:INotification):void
@@ -156,6 +162,9 @@ package com.xgame.godwar.core.room.mediators
 					break;
 				case PHASE_ROUND_STANDBY_CHANGE_FORMATION_NOTE:
 					changeFormation(notification.getBody() as Receive_BattleRoom_ChangeFormation);
+					break;
+				case PHASE_ROUND_ACTION_SPELL_NOTE:
+					spell(notification.getBody() as Receive_BattleRoom_Spell);
 					break;
 			}
 		}
@@ -450,6 +459,16 @@ package com.xgame.godwar.core.room.mediators
 			var formationComponent: BattleGameCardFormationComponent = component.panelComponent.cardFormation;
 			var skill: Skill = skillComponent.skill;
 			var proxy: BattleGameProxy = facade.retrieveProxy(BattleGameProxy.NAME) as BattleGameProxy;
+			var card: SoulCard = skillComponent.card;
+			
+			for(var i: int = 0; i<card.skillList.length; i++)
+			{
+				card.skillList[i].visible = false;
+			}
+			UIUtils.setBrightness(card.cardResourceBuffer, 0);
+			card.cardController.x = -card.cardResourceBuffer.width;;
+			card.cardController.visible = false;
+			card.cancelSelect();
 			if(skill.target == "me")
 			{
 //				skillComponent.card.addEventListener(MouseEvent.CLICK, onCardSkillUserClick);
@@ -469,7 +488,7 @@ package com.xgame.godwar.core.room.mediators
 //				{
 //					formationComponent.soulCard3.enabled = false;
 //				}
-				proxy.spell(skillComponent.card, skill);
+				proxy.spell(card, skill);
 			}
 		}
 		
@@ -490,25 +509,25 @@ package com.xgame.godwar.core.room.mediators
 			var bitmapMovie: BitmapMovieDispaly;
 			if(formationComponent.soulCard0 == null)
 			{
-				bitmapMovie = EffectCenter.instance.getEffect("effect_highlight1", "assets.effect.highlight.Highlight1");
+				bitmapMovie = EffectCenter.instance.getEffect("highlight1");
 				formationComponent.card0.addChild(bitmapMovie);
 				EffectCenter.instance.addEffect(bitmapMovie);
 			}
 			if(formationComponent.soulCard1 == null)
 			{
-				bitmapMovie = EffectCenter.instance.getEffect("effect_highlight1", "assets.effect.highlight.Highlight1");
+				bitmapMovie = EffectCenter.instance.getEffect("highlight1");
 				formationComponent.card1.addChild(bitmapMovie);
 				EffectCenter.instance.addEffect(bitmapMovie);
 			}
 			if(formationComponent.soulCard2 == null)
 			{
-				bitmapMovie = EffectCenter.instance.getEffect("effect_highlight1", "assets.effect.highlight.Highlight1");
+				bitmapMovie = EffectCenter.instance.getEffect("highlight1");
 				formationComponent.card2.addChild(bitmapMovie);
 				EffectCenter.instance.addEffect(bitmapMovie);
 			}
 			if(formationComponent.soulCard3 == null)
 			{
-				bitmapMovie = EffectCenter.instance.getEffect("effect_highlight1", "assets.effect.highlight.Highlight1");
+				bitmapMovie = EffectCenter.instance.getEffect("highlight1");
 				formationComponent.card3.addChild(bitmapMovie);
 				EffectCenter.instance.addEffect(bitmapMovie);
 			}
@@ -675,6 +694,88 @@ package com.xgame.godwar.core.room.mediators
 						var otherRoleComponent: BattleGameOtherRoleComponent;
 						otherRoleComponent = componentIndex[protocol.guid];
 						if(otherRoleComponent != null)
+						{
+							
+						}
+					}
+				}
+			}
+		}
+		
+		private function spell(protocol: Receive_BattleRoom_Spell): void
+		{
+			if(protocol != null && protocol.attackInfo.length > 0)
+			{
+				var roleProxy: RequestRoleProxy = facade.retrieveProxy(RequestRoleProxy.NAME) as RequestRoleProxy;
+				if(roleProxy != null)
+				{
+					var protocolRole: Receive_Info_AccountRole = roleProxy.getData() as Receive_Info_AccountRole;
+					if(protocolRole == null)
+					{
+						return;
+					}
+				}
+				var info: AttackInfo;
+				var soulCard: SoulCard;
+				var heroCard: HeroCard;
+				var skillEffect: BitmapMovieDispaly;
+				var formationComponent: BattleGameCardFormationComponent = component.panelComponent.cardFormation;
+				var componentIndex: Dictionary;
+				var componentList: Vector.<BattleGameOtherRoleComponent>;
+				var otherComponent: BattleGameOtherRoleComponent;
+				var backCard: Sprite;
+				for(var i: int = 0; i<protocol.attackInfo.length; i++)
+				{
+					info = protocol.attackInfo[i];
+					if(!StringUtils.empty(info.skillId))
+					{
+						if(!StringUtils.empty(info.attackerGuid) && !StringUtils.empty(info.attackerCard))
+						{
+							if(protocolRole.guid == info.attackerGuid)
+							{
+								soulCard = formationComponent.getCard(info.attackerCard);
+								if(soulCard != null)
+								{
+									skillEffect = EffectCenter.instance.getEffect(info.skillId);
+									skillEffect.loop = false;
+									soulCard.addEffect(skillEffect);
+									EffectCenter.instance.addEffect(skillEffect);
+								}
+								else
+								{
+									//TODO 英雄卡牌
+								}
+							}
+							else
+							{
+								componentIndex = component.componentIndex;
+								if(componentIndex.hasOwnProperty(info.attackerGuid))
+								{
+									otherComponent = componentIndex[info.attackerGuid];
+									soulCard = otherComponent.cardContainer.getCard(info.attackerCard);
+									skillEffect = EffectCenter.instance.getEffect(info.skillId);
+									skillEffect.loop = false;
+									if(soulCard != null)
+									{
+										skillEffect.width = soulCard.cardResourceBuffer.width;
+										skillEffect.height = soulCard.cardResourceBuffer.height;
+										soulCard.addEffect(skillEffect);
+									}
+									else
+									{
+										backCard = otherComponent.cardContainer.getBack(info.attackerCardPosition);
+										if(backCard != null)
+										{
+											skillEffect.width = backCard.width;
+											skillEffect.height = backCard.height;
+											backCard.addChild(skillEffect);
+										}
+									}
+									EffectCenter.instance.addEffect(skillEffect);
+								}
+							}
+						}
+						if(!StringUtils.empty(info.defenderGuid))
 						{
 							
 						}

@@ -2,6 +2,7 @@ package com.xgame.godwar.common.pool
 {
 	import com.xgame.godwar.display.ResourceData;
 	import com.xgame.godwar.utils.Reflection;
+	import com.xgame.godwar.utils.debug.Debug;
 	
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
@@ -83,6 +84,13 @@ package com.xgame.godwar.common.pool
 				if(_cache != null)
 				{
 					add(name, _cache);
+				}
+				else
+				{
+					CONFIG::DebugMode
+					{
+						Debug.error(this, "资源不存在 ( " + name + " )");
+					}
 				}
 			}
 			return _cache;

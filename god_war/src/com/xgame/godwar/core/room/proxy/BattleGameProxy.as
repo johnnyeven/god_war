@@ -271,7 +271,7 @@ package com.xgame.godwar.core.room.proxy
 		
 		private function onSpell(protocol: Receive_BattleRoom_Spell): void
 		{
-			trace(protocol);
+			facade.sendNotification(BattleGameMediator.PHASE_ROUND_ACTION_SPELL_NOTE, protocol);
 		}
 	}
 }

@@ -120,6 +120,27 @@ package com.xgame.godwar.core.room.views
 			
 			return null;
 		}
+		
+		public function getCard(id: String): SoulCard
+		{
+			if(soulCard0 != null && soulCard0.id == id)
+			{
+				return soulCard0;
+			}
+			else if(soulCard1 != null && soulCard1.id == id)
+			{
+				return soulCard1;
+			}
+			else if(soulCard2 != null && soulCard2.id == id)
+			{
+				return soulCard2;
+			}
+			else if(soulCard3 != null && soulCard3.id == id)
+			{
+				return soulCard3;
+			}
+			return null;
+		}
 
 		public function get soulCard0():SoulCard
 		{
