@@ -757,6 +757,10 @@ package com.xgame.godwar.core.room.mediators
 									skillEffect.loop = false;
 									if(soulCard != null)
 									{
+										if(info.attackCardUp)
+										{
+											
+										}
 										skillEffect.width = soulCard.cardResourceBuffer.width;
 										skillEffect.height = soulCard.cardResourceBuffer.height;
 										soulCard.addEffect(skillEffect);
@@ -775,7 +779,7 @@ package com.xgame.godwar.core.room.mediators
 								}
 							}
 						}
-						if(!StringUtils.empty(info.defenderGuid))
+						if(!StringUtils.empty(info.defenderGuid) && !StringUtils.empty(info.defenderCard))
 						{
 							
 						}

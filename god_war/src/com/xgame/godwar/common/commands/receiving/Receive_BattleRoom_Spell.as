@@ -151,7 +151,17 @@ package com.xgame.godwar.common.commands.receiving
 							}
 							break;
 						case SocketContextConfig.TYPE_BOOL:
-							if(!info.isSetAttackerStatus)
+							if(!info.isSetAttackerCardUp)
+							{
+								info.attackCardUp = data.readBoolean();
+								info.isSetAttackerCardUp = true;
+							}
+							else if(!info.isSetDefenderCardUp)
+							{
+								info.defenderCardUp = data.readBoolean();
+								info.isSetDefenderCardUp = true;
+							}
+							else if(!info.isSetAttackerStatus)
 							{
 								info.attackerIsStatus = data.readBoolean();
 								info.isSetAttackerStatus = true;
@@ -165,6 +175,7 @@ package com.xgame.godwar.common.commands.receiving
 					}
 					if(info.attackerGuid != null && info.defenderGuid != null &&
 					info.attackerCardPosition != int.MIN_VALUE && info.defenderCardPosition != int.MIN_VALUE &&
+					info.isSetAttackerCardUp != false && info.isSetDefenderCardUp != false &&
 					info.attackerCard != null && info.defenderCard != null &&
 					info.attackerAttackChange != int.MIN_VALUE && info.attackerAttack != int.MIN_VALUE &&
 					info.attackerDefChange != int.MIN_VALUE && info.attackerDef != int.MIN_VALUE &&
