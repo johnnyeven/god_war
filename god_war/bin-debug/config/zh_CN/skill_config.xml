@@ -19,4 +19,14 @@
         <classId>assets.effect.status.Jianyi1</classId>
         <script>scripts/jianyi1.js</script>
     </skill>
+    <skill>
+        <id>cisha1</id>
+        <level>1</level>
+        <name>刺杀</name>
+        <target>enemy</target>
+        <resource>assets/png/skill/cisha1.png</resource>
+        <skillId>effect_jianyi1</skillId>
+        <classId>assets.effect.status.Jianyi1</classId>
+        <script>scripts/cisha1.js</script>
+    </skill>
 </skills>

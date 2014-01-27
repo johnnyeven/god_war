@@ -191,7 +191,7 @@ package com.xgame.godwar.common.object
 			evt.stopPropagation();
 		}
 		
-		public function cancelSelect(evt: MouseEvent = null): void
+		override public function cancelSelect(evt: MouseEvent = null): void
 		{
 			GameManager.container.removeEventListener(MouseEvent.CLICK, cancelSelect);
 			

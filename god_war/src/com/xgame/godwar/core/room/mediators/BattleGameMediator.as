@@ -458,47 +458,53 @@ package com.xgame.godwar.core.room.mediators
 			var skillComponent: SoulCardSkillComponent = evt.value as SoulCardSkillComponent;
 			var formationComponent: BattleGameCardFormationComponent = component.panelComponent.cardFormation;
 			var skill: Skill = skillComponent.skill;
-			var proxy: BattleGameProxy = facade.retrieveProxy(BattleGameProxy.NAME) as BattleGameProxy;
 			var card: SoulCard = skillComponent.card;
+			var proxy: BattleGameProxy = facade.retrieveProxy(BattleGameProxy.NAME) as BattleGameProxy;
+			CardManager.instance.currentSelectedSkill = skill;
 			
 			for(var i: int = 0; i<card.skillList.length; i++)
 			{
 				card.skillList[i].visible = false;
 			}
-			UIUtils.setBrightness(card.cardResourceBuffer, 0);
-			card.cardController.x = -card.cardResourceBuffer.width;;
-			card.cardController.visible = false;
-			card.cancelSelect();
 			if(skill.target == "me")
 			{
-//				skillComponent.card.addEventListener(MouseEvent.CLICK, onCardSkillUserClick);
-//				if(formationComponent.soulCard0 == null && skillComponent.card != formationComponent.soulCard0)
-//				{
-//					formationComponent.soulCard0.enabled = false;
-//				}
-//				if(formationComponent.soulCard1 == null && skillComponent.card != formationComponent.soulCard1)
-//				{
-//					formationComponent.soulCard1.enabled = false;
-//				}
-//				if(formationComponent.soulCard2 == null && skillComponent.card != formationComponent.soulCard2)
-//				{
-//					formationComponent.soulCard2.enabled = false;
-//				}
-//				if(formationComponent.soulCard3 == null && skillComponent.card != formationComponent.soulCard3)
-//				{
-//					formationComponent.soulCard3.enabled = false;
-//				}
 				proxy.spell(card, skill);
+			}
+			else if(skill.target == "enemy")
+			{
+				var list: Vector.<BattleGameOtherRoleComponent> = component.componentList;
+				var item: BattleGameOtherRoleComponent;
+				for(i = 0; i<list.length; i++)
+				{
+					item = list[i];
+					if(item.player.group != player.group)
+					{
+						item.addEventListener(MouseEvent.CLICK, onCardSkillTargetClick);
+					}
+				}
 			}
 		}
 		
-		private function onCardSkillUserClick(evt: MouseEvent): void
+		private function onCardSkillTargetClick(evt: MouseEvent): void
 		{
-			var card: SoulCard = evt.currentTarget as SoulCard;
-			if(card != null)
+			evt.stopImmediatePropagation();
+			var list: Vector.<BattleGameOtherRoleComponent> = component.componentList;
+			for(var i: int = 0; i<list.length; i++)
 			{
-				
+				list[i].removeEventListener(MouseEvent.CLICK, onCardSkillTargetClick);
 			}
+			
+			var target: BattleGameOtherRoleComponent = evt.currentTarget as BattleGameOtherRoleComponent;
+			if(target != null)
+			{
+				var proxy: BattleGameProxy = facade.retrieveProxy(BattleGameProxy.NAME) as BattleGameProxy;
+				proxy.spell(CardManager.instance.currentSelectedCard, CardManager.instance.currentSelectedSkill, target);
+			}
+			var card: Card = CardManager.instance.currentSelectedCard;
+			
+			card.cardController.x = -card.cardResourceBuffer.width;;
+			card.cardController.visible = false;
+			card.cancelSelect();
 		}
 		
 		private function onCardFightClick(evt: CardEvent): void
@@ -724,6 +730,8 @@ package com.xgame.godwar.core.room.mediators
 				var componentList: Vector.<BattleGameOtherRoleComponent>;
 				var otherComponent: BattleGameOtherRoleComponent;
 				var backCard: Sprite;
+				var cardProxy: CardProxy = facade.retrieveProxy(CardProxy.NAME) as CardProxy;
+				var soulCardIndex: Dictionary = cardProxy.soulCardIndex;
 				for(var i: int = 0; i<protocol.attackInfo.length; i++)
 				{
 					info = protocol.attackInfo[i];
@@ -757,10 +765,6 @@ package com.xgame.godwar.core.room.mediators
 									skillEffect.loop = false;
 									if(soulCard != null)
 									{
-										if(info.attackCardUp)
-										{
-											
-										}
 										skillEffect.width = soulCard.cardResourceBuffer.width;
 										skillEffect.height = soulCard.cardResourceBuffer.height;
 										soulCard.addEffect(skillEffect);
@@ -770,9 +774,30 @@ package com.xgame.godwar.core.room.mediators
 										backCard = otherComponent.cardContainer.getBack(info.attackerCardPosition);
 										if(backCard != null)
 										{
-											skillEffect.width = backCard.width;
-											skillEffect.height = backCard.height;
-											backCard.addChild(skillEffect);
+											if(info.attackCardUp)
+											{
+												backCard.visible = false;
+												if(soulCardIndex != null && soulCardIndex.hasOwnProperty(info.attackerCard))
+												{
+													soulCard = soulCardIndex[info.attackerCard] as SoulCard;
+													if(soulCard != null)
+													{
+														soulCard = soulCard.clone() as SoulCard;
+														otherComponent.cardContainer.addCard(info.attackerCardPosition, soulCard, function(): void
+														{
+															skillEffect.width = soulCard.cardResourceBuffer.width;
+															skillEffect.height = soulCard.cardResourceBuffer.height;
+															soulCard.addEffect(skillEffect);
+														});
+													}
+												}
+											}
+											else
+											{
+												skillEffect.width = backCard.width;
+												skillEffect.height = backCard.height;
+												backCard.addChild(skillEffect);
+											}
 										}
 									}
 									EffectCenter.instance.addEffect(skillEffect);

@@ -11,6 +11,7 @@ package com.xgame.godwar.common.object
 		
 		private var _currentSelectedCard: Card;
 		private var _currentFightCard: SoulCard;
+		private var _currentSelectedSkill: Skill;
 		
 		public function CardManager()
 		{
@@ -63,6 +64,16 @@ package com.xgame.godwar.common.object
 		public function set currentFightCard(value: SoulCard):void
 		{
 			_currentFightCard = value;
+		}
+
+		public function get currentSelectedSkill():Skill
+		{
+			return _currentSelectedSkill;
+		}
+
+		public function set currentSelectedSkill(value:Skill):void
+		{
+			_currentSelectedSkill = value;
 		}
 
 

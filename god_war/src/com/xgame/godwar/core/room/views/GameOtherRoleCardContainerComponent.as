@@ -51,6 +51,33 @@ package com.xgame.godwar.core.room.views
 			TweenLite.to(sp, .5, {y: 0, alpha: 1});
 		}
 		
+		public function addCard(position: int, card: SoulCard, callback: Function = null): void
+		{
+			if(card != null)
+			{
+				var sp: Sprite = getBack(position);
+				if(sp == null)
+				{
+					return;
+				}
+				_cardContainer[card.id] = card;
+				card.width = 38;
+				card.height = 57;
+				card.x = sp.x;
+				card.y = sp.y;
+				addChild(card);
+			}
+		}
+		
+		public function removeCard(cardId: String): void
+		{
+			if(_cardContainer.hasOwnProperty(cardId))
+			{
+				_cardContainer[cardId] = null;
+				delete _cardContainer[cardId];
+			}
+		}
+		
 		public function getCard(cardId: String): SoulCard
 		{
 			if(_cardContainer.hasOwnProperty(cardId))
