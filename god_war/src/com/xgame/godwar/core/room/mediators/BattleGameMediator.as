@@ -731,6 +731,7 @@ package com.xgame.godwar.core.room.mediators
 				var otherComponent: BattleGameOtherRoleComponent;
 				var backCard: Sprite;
 				var cardProxy: CardProxy = facade.retrieveProxy(CardProxy.NAME) as CardProxy;
+				var soulCardList: Array = cardProxy.container.soulCardList;
 				var soulCardIndex: Dictionary = cardProxy.soulCardIndex;
 				for(var i: int = 0; i<protocol.attackInfo.length; i++)
 				{
@@ -779,7 +780,7 @@ package com.xgame.godwar.core.room.mediators
 												backCard.visible = false;
 												if(soulCardIndex != null && soulCardIndex.hasOwnProperty(info.attackerCard))
 												{
-													soulCard = soulCardIndex[info.attackerCard] as SoulCard;
+													soulCard = soulCardList[soulCardIndex[info.attackerCard]] as SoulCard;
 													if(soulCard != null)
 													{
 														soulCard = soulCard.clone() as SoulCard;
@@ -806,7 +807,70 @@ package com.xgame.godwar.core.room.mediators
 						}
 						if(!StringUtils.empty(info.defenderGuid) && !StringUtils.empty(info.defenderCard))
 						{
-							
+							if(protocolRole.guid == info.defenderGuid)
+							{
+								soulCard = formationComponent.getCard(info.defenderCard);
+								if(soulCard != null)
+								{
+									skillEffect = EffectCenter.instance.getEffect(info.skillId + "_underattack");
+									skillEffect.loop = false;
+									soulCard.addEffect(skillEffect);
+									EffectCenter.instance.addEffect(skillEffect);
+								}
+								else
+								{
+									//TODO 英雄卡牌
+								}
+							}
+							else
+							{
+								componentIndex = component.componentIndex;
+								if(componentIndex.hasOwnProperty(info.defenderGuid))
+								{
+									otherComponent = componentIndex[info.defenderGuid];
+									soulCard = otherComponent.cardContainer.getCard(info.defenderCard);
+									skillEffect = EffectCenter.instance.getEffect(info.skillId + "_underattack");
+									skillEffect.loop = false;
+									if(soulCard != null)
+									{
+										skillEffect.width = soulCard.cardResourceBuffer.width;
+										skillEffect.height = soulCard.cardResourceBuffer.height;
+										soulCard.addEffect(skillEffect);
+									}
+									else
+									{
+										backCard = otherComponent.cardContainer.getBack(info.defenderCardPosition);
+										if(backCard != null)
+										{
+											if(info.defenderCardUp)
+											{
+												backCard.visible = false;
+												if(soulCardIndex != null && soulCardIndex.hasOwnProperty(info.defenderCard))
+												{
+													soulCard = soulCardList[soulCardIndex[info.defenderCard]] as SoulCard;
+													if(soulCard != null)
+													{
+														soulCard = soulCard.clone() as SoulCard;
+														otherComponent.cardContainer.addCard(info.defenderCardPosition, soulCard, function(): void
+														{
+															skillEffect.width = soulCard.cardResourceBuffer.width;
+															skillEffect.height = soulCard.cardResourceBuffer.height;
+															soulCard.addEffect(skillEffect);
+														});
+													}
+												}
+											}
+											else
+											{
+												skillEffect.width = backCard.width;
+												skillEffect.height = backCard.height;
+												backCard.addChild(skillEffect);
+											}
+										}
+									}
+									EffectCenter.instance.addEffect(skillEffect);
+								}
+							}
 						}
 					}
 				}
