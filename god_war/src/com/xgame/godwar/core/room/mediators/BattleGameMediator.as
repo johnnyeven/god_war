@@ -748,7 +748,7 @@ package com.xgame.godwar.core.room.mediators
 									skillEffect = EffectCenter.instance.getEffect(info.skillId);
 									skillEffect.loop = false;
 									soulCard.addEffect(skillEffect);
-									EffectCenter.instance.addEffect(skillEffect);
+									EffectCenter.instance.addEffect(skillEffect, spell2, [info]);
 								}
 								else
 								{
@@ -801,77 +801,167 @@ package com.xgame.godwar.core.room.mediators
 											}
 										}
 									}
-									EffectCenter.instance.addEffect(skillEffect);
+									EffectCenter.instance.addEffect(skillEffect, spell2, [info]);
 								}
 							}
 						}
-						if(!StringUtils.empty(info.defenderGuid) && !StringUtils.empty(info.defenderCard))
+//						if(!StringUtils.empty(info.defenderGuid) && !StringUtils.empty(info.defenderCard))
+//						{
+//							if(protocolRole.guid == info.defenderGuid)
+//							{
+//								soulCard = formationComponent.getCard(info.defenderCard);
+//								if(soulCard != null)
+//								{
+//									skillEffect = EffectCenter.instance.getEffect(info.skillId + "_underattack");
+//									skillEffect.loop = false;
+//									soulCard.addEffect(skillEffect);
+//									EffectCenter.instance.addEffect(skillEffect);
+//								}
+//								else
+//								{
+//									//TODO 英雄卡牌
+//								}
+//							}
+//							else
+//							{
+//								componentIndex = component.componentIndex;
+//								if(componentIndex.hasOwnProperty(info.defenderGuid))
+//								{
+//									otherComponent = componentIndex[info.defenderGuid];
+//									soulCard = otherComponent.cardContainer.getCard(info.defenderCard);
+//									skillEffect = EffectCenter.instance.getEffect(info.skillId + "_underattack");
+//									skillEffect.loop = false;
+//									if(soulCard != null)
+//									{
+//										skillEffect.width = soulCard.cardResourceBuffer.width;
+//										skillEffect.height = soulCard.cardResourceBuffer.height;
+//										soulCard.addEffect(skillEffect);
+//									}
+//									else
+//									{
+//										backCard = otherComponent.cardContainer.getBack(info.defenderCardPosition);
+//										if(backCard != null)
+//										{
+//											if(info.defenderCardUp)
+//											{
+//												backCard.visible = false;
+//												if(soulCardIndex != null && soulCardIndex.hasOwnProperty(info.defenderCard))
+//												{
+//													soulCard = soulCardList[soulCardIndex[info.defenderCard]] as SoulCard;
+//													if(soulCard != null)
+//													{
+//														soulCard = soulCard.clone() as SoulCard;
+//														otherComponent.cardContainer.addCard(info.defenderCardPosition, soulCard, function(): void
+//														{
+//															skillEffect.width = soulCard.cardResourceBuffer.width;
+//															skillEffect.height = soulCard.cardResourceBuffer.height;
+//															soulCard.addEffect(skillEffect);
+//														});
+//													}
+//												}
+//											}
+//											else
+//											{
+//												skillEffect.width = backCard.width;
+//												skillEffect.height = backCard.height;
+//												backCard.addChild(skillEffect);
+//											}
+//										}
+//									}
+//									EffectCenter.instance.addEffect(skillEffect);
+//								}
+//							}
+//						}
+					}
+				}
+			}
+		}
+		
+		private function spell2(info: AttackInfo): void
+		{
+			var roleProxy: RequestRoleProxy = facade.retrieveProxy(RequestRoleProxy.NAME) as RequestRoleProxy;
+			if(roleProxy != null)
+			{
+				var protocolRole: Receive_Info_AccountRole = roleProxy.getData() as Receive_Info_AccountRole;
+				if(protocolRole == null)
+				{
+					return;
+				}
+			}
+			var soulCard: SoulCard;
+			var skillEffect: BitmapMovieDispaly;
+			var formationComponent: BattleGameCardFormationComponent = component.panelComponent.cardFormation;
+			var componentIndex: Dictionary;
+			var otherComponent: BattleGameOtherRoleComponent;
+			var backCard: Sprite;
+			var cardProxy: CardProxy = facade.retrieveProxy(CardProxy.NAME) as CardProxy;
+			var soulCardList: Array = cardProxy.container.soulCardList;
+			var soulCardIndex: Dictionary = cardProxy.soulCardIndex;
+			
+			if(!StringUtils.empty(info.defenderGuid) && !StringUtils.empty(info.defenderCard))
+			{
+				if(protocolRole.guid == info.defenderGuid)
+				{
+					soulCard = formationComponent.getCard(info.defenderCard);
+					if(soulCard != null)
+					{
+						skillEffect = EffectCenter.instance.getEffect(info.skillId + "_underattack");
+						skillEffect.loop = false;
+						soulCard.addEffect(skillEffect);
+						EffectCenter.instance.addEffect(skillEffect);
+					}
+					else
+					{
+						//TODO 英雄卡牌
+					}
+				}
+				else
+				{
+					componentIndex = component.componentIndex;
+					if(componentIndex.hasOwnProperty(info.defenderGuid))
+					{
+						otherComponent = componentIndex[info.defenderGuid];
+						soulCard = otherComponent.cardContainer.getCard(info.defenderCard);
+						skillEffect = EffectCenter.instance.getEffect(info.skillId + "_underattack");
+						skillEffect.loop = false;
+						if(soulCard != null)
 						{
-							if(protocolRole.guid == info.defenderGuid)
+							skillEffect.width = soulCard.cardResourceBuffer.width;
+							skillEffect.height = soulCard.cardResourceBuffer.height;
+							soulCard.addEffect(skillEffect);
+						}
+						else
+						{
+							backCard = otherComponent.cardContainer.getBack(info.defenderCardPosition);
+							if(backCard != null)
 							{
-								soulCard = formationComponent.getCard(info.defenderCard);
-								if(soulCard != null)
+								if(info.defenderCardUp)
 								{
-									skillEffect = EffectCenter.instance.getEffect(info.skillId + "_underattack");
-									skillEffect.loop = false;
-									soulCard.addEffect(skillEffect);
-									EffectCenter.instance.addEffect(skillEffect);
+									backCard.visible = false;
+									if(soulCardIndex != null && soulCardIndex.hasOwnProperty(info.defenderCard))
+									{
+										soulCard = soulCardList[soulCardIndex[info.defenderCard]] as SoulCard;
+										if(soulCard != null)
+										{
+											soulCard = soulCard.clone() as SoulCard;
+											otherComponent.cardContainer.addCard(info.defenderCardPosition, soulCard, function(): void
+											{
+												skillEffect.width = soulCard.cardResourceBuffer.width;
+												skillEffect.height = soulCard.cardResourceBuffer.height;
+												soulCard.addEffect(skillEffect);
+											});
+										}
+									}
 								}
 								else
 								{
-									//TODO 英雄卡牌
-								}
-							}
-							else
-							{
-								componentIndex = component.componentIndex;
-								if(componentIndex.hasOwnProperty(info.defenderGuid))
-								{
-									otherComponent = componentIndex[info.defenderGuid];
-									soulCard = otherComponent.cardContainer.getCard(info.defenderCard);
-									skillEffect = EffectCenter.instance.getEffect(info.skillId + "_underattack");
-									skillEffect.loop = false;
-									if(soulCard != null)
-									{
-										skillEffect.width = soulCard.cardResourceBuffer.width;
-										skillEffect.height = soulCard.cardResourceBuffer.height;
-										soulCard.addEffect(skillEffect);
-									}
-									else
-									{
-										backCard = otherComponent.cardContainer.getBack(info.defenderCardPosition);
-										if(backCard != null)
-										{
-											if(info.defenderCardUp)
-											{
-												backCard.visible = false;
-												if(soulCardIndex != null && soulCardIndex.hasOwnProperty(info.defenderCard))
-												{
-													soulCard = soulCardList[soulCardIndex[info.defenderCard]] as SoulCard;
-													if(soulCard != null)
-													{
-														soulCard = soulCard.clone() as SoulCard;
-														otherComponent.cardContainer.addCard(info.defenderCardPosition, soulCard, function(): void
-														{
-															skillEffect.width = soulCard.cardResourceBuffer.width;
-															skillEffect.height = soulCard.cardResourceBuffer.height;
-															soulCard.addEffect(skillEffect);
-														});
-													}
-												}
-											}
-											else
-											{
-												skillEffect.width = backCard.width;
-												skillEffect.height = backCard.height;
-												backCard.addChild(skillEffect);
-											}
-										}
-									}
-									EffectCenter.instance.addEffect(skillEffect);
+									skillEffect.width = backCard.width;
+									skillEffect.height = backCard.height;
+									backCard.addChild(skillEffect);
 								}
 							}
 						}
+						EffectCenter.instance.addEffect(skillEffect);
 					}
 				}
 			}

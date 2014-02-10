@@ -3,6 +3,7 @@ package com.xgame.godwar.display
 	import com.xgame.godwar.common.behavior.Behavior;
 	import com.xgame.godwar.configuration.GlobalContextConfig;
 	import com.xgame.godwar.display.BitmapDisplay;
+	import com.xgame.godwar.events.DisplayEvent;
 	
 	import flash.geom.Rectangle;
 
@@ -12,6 +13,7 @@ package com.xgame.godwar.display
 		protected var _prevFrame: uint;
 		protected var _totalFrame: uint;
 		protected var _isLoop: Boolean;
+		protected var _isStop: Boolean;
 		protected var _isEnd: Boolean;
 		protected var _lastFrameTime: uint;
 		protected var _playTime: uint;
@@ -23,6 +25,7 @@ package com.xgame.godwar.display
 			_prevFrame = 0;
 			_totalFrame = 0;
 			_isLoop = true;
+			_isStop = false;
 			_isEnd = false;
 			_lastFrameTime = GlobalContextConfig.Timer;
 		}
@@ -45,7 +48,7 @@ package com.xgame.godwar.display
 			{
 				return false;
 			}
-			if(GlobalContextConfig.Timer - _lastFrameTime > _playTime && !_isEnd)
+			if(GlobalContextConfig.Timer - _lastFrameTime > _playTime && !_isEnd && !_isStop)
 			{
 				_lastFrameTime = GlobalContextConfig.Timer;
 				_prevFrame = _currentFrame;
@@ -65,6 +68,18 @@ package com.xgame.godwar.display
 		override protected function updateActionPre():void
 		{
 			step();
+		}
+		
+		override protected function updateActionAfter():void
+		{
+			super.updateActionAfter();
+			
+			if(_isEnd && !_isStop)
+			{
+				_isStop = true;
+				var evt: DisplayEvent = new DisplayEvent(DisplayEvent.MOVIE_PLAY_COMPLETE);
+				dispatchEvent(evt);
+			}
 		}
 
 		public function get currentFrame():uint

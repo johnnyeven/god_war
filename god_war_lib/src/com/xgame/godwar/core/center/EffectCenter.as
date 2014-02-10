@@ -11,15 +11,19 @@ package com.xgame.godwar.core.center
 	import com.xgame.godwar.display.BitmapMovieDispaly;
 	import com.xgame.godwar.display.ResourceData;
 	import com.xgame.godwar.display.renders.Render;
+	import com.xgame.godwar.events.DisplayEvent;
 	import com.xgame.godwar.utils.debug.Debug;
 	import com.xgame.godwar.utils.manager.TimerManager;
 	
 	import flash.errors.IllegalOperationError;
+	import flash.utils.Dictionary;
 	import flash.utils.getTimer;
 
 	public class EffectCenter
 	{
 		private var effectList: Vector.<BitmapDisplay>;
+		private var callbackIndex: Dictionary;
+		private var argsIndex: Dictionary;
 		
 		private static var _allowInstance: Boolean = false;
 		private static var _instance: EffectCenter;
@@ -29,6 +33,8 @@ package com.xgame.godwar.core.center
 			if(_allowInstance)
 			{
 				effectList = new Vector.<BitmapDisplay>();
+				callbackIndex = new Dictionary();
+				argsIndex = new Dictionary();
 			}
 			else
 			{
@@ -90,13 +96,23 @@ package com.xgame.godwar.core.center
 			}
 		}
 		
-		public function addEffect(effect: BitmapDisplay): void
+		public function addEffect(effect: BitmapDisplay, callback: Function = null, args: Array = null): void
 		{
 			if(effectList.indexOf(effect) >= 0)
 			{
 				return;
 			}
 			effectList.push(effect);
+			
+			if(callback != null)
+			{
+				callbackIndex[effect] = callback;
+			}
+			if(args != null)
+			{
+				argsIndex[effect] = args;
+			}
+			effect.addEventListener(DisplayEvent.MOVIE_PLAY_COMPLETE, onMoviePlayComplete);
 		}
 		
 		public function removeEffect(effect: BitmapDisplay, isDispose: Boolean = true): void
@@ -104,7 +120,18 @@ package com.xgame.godwar.core.center
 			var index: int = effectList.indexOf(effect);
 			if(index >= 0)
 			{
+				if(callbackIndex[effect] != null)
+				{
+					callbackIndex[effect] = null;
+					delete callbackIndex[effect];
+				}
+				if(argsIndex[effect] != null)
+				{
+					argsIndex[effect] = null;
+					delete argsIndex[effect];
+				}
 				effectList.splice(index, 1);
+				effect.removeEventListener(DisplayEvent.MOVIE_PLAY_COMPLETE, onMoviePlayComplete);
 				
 				if(isDispose)
 				{
@@ -141,6 +168,17 @@ package com.xgame.godwar.core.center
 		private function updateTimer(): void
 		{
 			GlobalContextConfig.Timer = getTimer();
+		}
+		
+		private function onMoviePlayComplete(evt: DisplayEvent): void
+		{
+			var effect: BitmapDisplay = evt.currentTarget as BitmapDisplay;
+			if(callbackIndex[effect] != null)
+			{
+				var func: Function = callbackIndex[effect] as Function;
+				var args: Array = argsIndex[effect] as Array;
+				func.apply(effect, args);
+			}
 		}
 	}
 }
