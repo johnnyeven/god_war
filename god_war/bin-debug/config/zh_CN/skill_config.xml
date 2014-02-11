@@ -7,6 +7,8 @@
         <resource></resource>
         <skillId>effect_highlight1</skillId>
         <classId>assets.effect.highlight.Highlight1</classId>
+        <skillId1></skillId1>
+        <classId1></classId1>
     </skill>
     <skill>
         <id>jianyi1</id>
@@ -16,6 +18,8 @@
         <resource>assets/png/skill/jianyi1.png</resource>
         <skillId>effect_jianyi1</skillId>
         <classId>assets.effect.status.Jianyi1</classId>
+        <skillId1></skillId1>
+        <classId1></classId1>
     </skill>
     <skill>
         <id>cisha1</id>
@@ -25,6 +29,8 @@
         <resource>assets/png/skill/cisha1.png</resource>
         <skillId>effect_positive1</skillId>
         <classId>assets.effect.status.Positive1</classId>
+        <skillId1>skill_cisha</skillId1>
+        <classId1>assets.ui.skill.CiSha</classId1>
     </skill>
     <skill>
         <id>cisha1_underattack</id>
@@ -34,5 +40,7 @@
         <resource>assets/png/skill/cisha1.png</resource>
         <skillId>effect_recover1</skillId>
         <classId>assets.effect.recover.Recover1</classId>
+        <skillId1></skillId1>
+        <classId1></classId1>
     </skill>
 </skills>

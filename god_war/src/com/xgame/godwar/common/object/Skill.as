@@ -13,6 +13,8 @@ package com.xgame.godwar.common.object
 		private var _resource: String;
 		private var _skillId: String;
 		private var _classId: String;
+		private var _skillId1: String;
+		private var _classId1: String;
 		
 		public function Skill(id: String)
 		{
@@ -33,6 +35,8 @@ package com.xgame.godwar.common.object
 					_resource = parameter.resource;
 					_skillId = parameter.skillId;
 					_classId = parameter.classId;
+					_skillId1 = parameter.skillId1;
+					_classId1 = parameter.classId1;
 				}
 			}
 		}
@@ -70,6 +74,16 @@ package com.xgame.godwar.common.object
 		public function get classId():String
 		{
 			return _classId;
+		}
+
+		public function get skillId1():String
+		{
+			return _skillId1;
+		}
+
+		public function get classId1():String
+		{
+			return _classId1;
 		}
 
 

@@ -786,8 +786,8 @@ package com.xgame.godwar.core.room.mediators
 														soulCard = soulCard.clone() as SoulCard;
 														otherComponent.cardContainer.addCard(info.attackerCardPosition, soulCard, function(): void
 														{
-															skillEffect.width = soulCard.cardResourceBuffer.width;
-															skillEffect.height = soulCard.cardResourceBuffer.height;
+//															skillEffect.width = soulCard.cardResourceBuffer.width;
+//															skillEffect.height = soulCard.cardResourceBuffer.height;
 															soulCard.addEffect(skillEffect);
 														});
 													}
